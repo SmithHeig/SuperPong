@@ -15,7 +15,7 @@ import model.Field;
 import view.Item;
 import view.Raquet;
 
-public class Game1v1 extends Application {
+public class Game1v1 {
 	
 	private Ball ball;
 	private Raquet playerRaquet;
@@ -29,8 +29,7 @@ public class Game1v1 extends Application {
 	Label player1Score;
 	Label player2Score;
 	
-	@Override
-	public void start(Stage primaryStage) throws Exception {
+	public void run(Stage primaryStage) throws Exception {
 		primaryStage.setTitle("Game1v1");
 		primaryStage.setScene(new Scene(createContent()));
 		
@@ -165,10 +164,5 @@ public class Game1v1 extends Application {
 			
 		}
 		
-	}
-	
-	
-	public static void main(String[] args) {
-		launch(args);
 	}
 }

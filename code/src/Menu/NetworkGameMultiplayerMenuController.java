@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Spinner;
 import javafx.scene.layout.AnchorPane;
+import main.Displayer;
 
 public class NetworkGameMultiplayerMenuController {
 
@@ -25,7 +26,7 @@ public class NetworkGameMultiplayerMenuController {
 
     @FXML
     void goBackToMainMenu(ActionEvent event) {
-
+        Displayer.getInstance().showNetworkGameMenu();
     }
 
     @FXML

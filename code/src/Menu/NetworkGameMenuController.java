@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
+import main.Displayer;
 
 public class NetworkGameMenuController {
 
@@ -19,18 +20,18 @@ public class NetworkGameMenuController {
     private Button IAGameWithItemsButton;
 
     @FXML
-    void goBackToMainMenu(ActionEvent event) {
-
+    void goBackToNetworkMenu(ActionEvent event) {
+        Displayer.getInstance().showNetworkMenu();
     }
 
     @FXML
     void goToMultiPlayerMenu(ActionEvent event) {
-
+        Displayer.getInstance().showNetworkGameMultiplayerMenu();
     }
 
     @FXML
     void goToOneVOneNetworkMenu(ActionEvent event) {
-
+        Displayer.getInstance().showNetworkMultiplayerOneVSOneMenu();
     }
 
 }

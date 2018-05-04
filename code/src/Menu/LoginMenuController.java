@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
+import main.Displayer;
 
 public class LoginMenuController {
 
@@ -18,12 +19,12 @@ public class LoginMenuController {
 
     @FXML
     void goBackToMainMenu(ActionEvent event) {
-
+        Displayer.getInstance().showMainMenu();
     }
 
     @FXML
     void login(ActionEvent event) {
-
+        Displayer.getInstance().showNetworkMenu(); // To change
     }
 
 }
