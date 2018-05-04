@@ -35,7 +35,7 @@ public class Game1v1 extends Application {
 		primaryStage.setScene(new Scene(createContent()));
 		
 		primaryStage.show();
-		primaryStage.getScene().setOnKeyTyped(event -> {
+		primaryStage.getScene().setOnKeyPressed(event -> {
 			if (event.getCode() == KeyCode.UP) {
 				if (playerRaquet.getPositionY() > 0) {
 					playerRaquet.setPositionY(playerRaquet.getPositionY() - 30);
