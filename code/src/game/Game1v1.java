@@ -16,7 +16,7 @@ public class Game1v1 extends Application {
 	private Ball ball;
 	private Raquet playerRaquet;
 	private Raquet bot;
-	private final int  PLAYER_RAQUET_SIZE = 100, BOT_RAQUET_SIZE = 100, VELOCITY = 7;
+	private final int  PLAYER_RAQUET_SIZE = 100, BOT_RAQUET_SIZE = 100, VELOCITY = 2;
 	private double speedX = -5, speedY = 0, dv = speedX, dy = speedY;
 	
 	private final int WIDTH = 1000, HEIGHT = 600;
@@ -49,9 +49,9 @@ public class Game1v1 extends Application {
 		playerRaquet = new Raquet(0, HEIGHT / 2 - PLAYER_RAQUET_SIZE/2, PLAYER_RAQUET_SIZE);
 		bot = new Raquet(WIDTH - 10, HEIGHT / 2 - BOT_RAQUET_SIZE, BOT_RAQUET_SIZE);
 		
-		ball = new Ball(WIDTH / 2, HEIGHT / 2);
+		//ball = new Ball(WIDTH / 2, HEIGHT / 2);
 		
-		root.getChildren().addAll(playerRaquet.createPlayer(), bot.createPlayer(), ball.getBall());
+		root.getChildren().addAll(playerRaquet.createPlayer(), bot.createPlayer()); //  ball.getBall()
 		
 		AnimationTimer timer = new AnimationTimer() {
 			@Override
@@ -66,7 +66,7 @@ public class Game1v1 extends Application {
 	}
 	
 	private void gameUptate() {
-		double x = ball.getPositionX();
+		/*double x = ball.getPositionX();
 		double y = ball.getPositionY();
 		
 		double ANGLE_MIN = -45;
@@ -137,7 +137,7 @@ public class Game1v1 extends Application {
 			}
 			
 		}
-		
+		*/
 	}
 	
 	
