@@ -5,16 +5,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 
-public class LocalMenuController {
+public class NetworkGameMenuController {
 
     @FXML
-    private AnchorPane localMenu;
-
+    private AnchorPane networkGameMenu;
     @FXML
     private Button BackButton;
 
     @FXML
-    private Button IAGameButton;
+    private Button OneVOneNetworkButton;
 
     @FXML
     private Button IAGameWithItemsButton;
@@ -25,12 +24,12 @@ public class LocalMenuController {
     }
 
     @FXML
-    void playIAGame(ActionEvent event) {
+    void goToMultiPlayerMenu(ActionEvent event) {
 
     }
 
     @FXML
-    void playIAGameWithItems(ActionEvent event) {
+    void goToOneVOneNetworkMenu(ActionEvent event) {
 
     }
 
