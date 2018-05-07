@@ -34,6 +34,19 @@ public class Game1v1 {
 		primaryStage.setScene(new Scene(createContent()));
 		
 		primaryStage.show();
+		primaryStage.getScene().setOnKeyTyped(event -> {
+			if (event.getCode() == KeyCode.UP) {
+				if (playerRaquet.getPositionY() > 0) {
+					playerRaquet.setPositionY(playerRaquet.getPositionY() - 30);
+				}
+				
+			}
+			if (event.getCode() == KeyCode.DOWN) {
+				if (playerRaquet.getPositionY() + playerRaquet.getHeight() < HEIGHT) {
+					playerRaquet.setPositionY(playerRaquet.getPositionY() + 30);
+				}
+			}
+		});
 		primaryStage.getScene().setOnKeyPressed(event -> {
 			if (event.getCode() == KeyCode.UP) {
 				if (playerRaquet.getPositionY() > 0) {
