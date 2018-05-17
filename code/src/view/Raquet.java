@@ -28,6 +28,11 @@ public class Raquet {
 		return height;
 	}
 	
+	public void setHeight(int height) {
+		this.height = height;
+		raquet.setHeight(height);
+	}
+	
 	public double getPositionX(){
 		return raquet.getLayoutX();
 	}
