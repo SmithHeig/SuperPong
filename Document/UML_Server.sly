@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="iso-8859-15" standalone="no"?>
+<classDiagram>
+  <diagramElements defaultViewEntities="ALL" defaultViewEnum="true" defaultViewMethods="TYPE_AND_NAME" defaultVisibleTypes="true" informations="" name="UML_Server_SuperPong">
+    <dependency id="23746" label="make">
+      <source>23258</source>
+      <target>23259</target>
+    </dependency>
+    <inheritance id="23668" innerClass="true">
+      <child>23279</child>
+      <parent>23362</parent>
+    </inheritance>
+    <dependency id="23634" label="use">
+      <source>23257</source>
+      <target>23258</target>
+    </dependency>
+    <entity entityType="CLASS" id="23362" isAbstract="false" name="Player" visibility="PUBLIC">
+      <attribute const="false" defaultValue="" isStatic="false" name="clientSocket" type="Socket" visibility="PRIVATE"/>
+      <attribute const="false" defaultValue="" isStatic="false" name="username" type="String" visibility="PRIVATE"/>
+      <attribute const="false" defaultValue="" isStatic="false" name="points" type="int" visibility="PRIVATE"/>
+      <attribute const="false" defaultValue="" isStatic="false" name="posY" type="int" visibility="PRIVATE"/>
+      <method isAbstract="false" isStatic="false" name="win" returnType="void" view="DEFAULT" visibility="PUBLIC"/>
+      <method isAbstract="false" isStatic="false" name="moveUp" returnType="void" view="DEFAULT" visibility="PUBLIC"/>
+      <method isAbstract="false" isStatic="false" name="moveDown" returnType="void" view="DEFAULT" visibility="PUBLIC"/>
+    </entity>
+    <association aggregation="NONE" direction="BIDIRECTIONAL" id="23289" name="">
+      <role componentId="23256" name="" visibility="PRIVATE">
+        <multiplicity>
+          <min>1</min>
+          <max>1</max>
+        </multiplicity>
+      </role>
+      <role componentId="23279" name="" visibility="PRIVATE">
+        <multiplicity>
+          <min>0</min>
+          <max>2147483647</max>
+        </multiplicity>
+      </role>
+    </association>
+    <dependency id="23288" label="use">
+      <source>23279</source>
+      <target>23257</target>
+    </dependency>
+    <entity entityType="CLASS" id="23279" isAbstract="false" name="ClientWorker" visibility="PUBLIC">
+      <method isAbstract="false" isStatic="false" name="run" returnType="void" view="DEFAULT" visibility="PUBLIC"/>
+    </entity>
+    <entity entityType="CLASS" id="23259" isAbstract="false" name="Game" visibility="PUBLIC">
+      <method isAbstract="false" isStatic="false" name="run" returnType="void" view="DEFAULT" visibility="PUBLIC"/>
+    </entity>
+    <entity entityType="CLASS" id="23258" isAbstract="false" name="MatchMaking" visibility="PUBLIC">
+      <method isAbstract="false" isStatic="false" name="addPlayer" returnType="void" view="DEFAULT" visibility="PUBLIC"/>
+      <method isAbstract="false" isStatic="false" name="getInstance" returnType="MatchMaking" view="DEFAULT" visibility="PUBLIC"/>
+      <method isAbstract="false" isStatic="false" name="createGame" returnType="void" view="DEFAULT" visibility="PRIVATE"/>
+    </entity>
+    <entity entityType="CLASS" id="23257" isAbstract="false" name="ClientHandler" visibility="PUBLIC">
+      <method isAbstract="false" isStatic="false" name="handleClientConnection" returnType="void" view="DEFAULT" visibility="PUBLIC"/>
+    </entity>
+    <entity entityType="CLASS" id="23256" isAbstract="false" name="Server" visibility="PUBLIC">
+      <method isAbstract="false" isStatic="false" name="initServer" returnType="void" view="DEFAULT" visibility="PACKAGE"/>
+      <method isAbstract="false" isStatic="false" name="start" returnType="void" view="DEFAULT" visibility="PUBLIC"/>
+    </entity>
+  </diagramElements>
+  <umlView grid="10" name="Main view" open="true">
+    <relationView color="-12566464" relationId="23288">
+      <line>
+        <point>
+          <x>321</x>
+          <y>221</y>
+        </point>
+        <point>
+          <x>251</x>
+          <y>221</y>
+        </point>
+      </line>
+      <labelAssociation>
+        <x>274</x>
+        <y>231</y>
+        <w>23</w>
+        <h>18</h>
+      </labelAssociation>
+    </relationView>
+    <relationView color="-12566464" relationId="23289">
+      <line>
+        <point>
+          <x>561</x>
+          <y>241</y>
+        </point>
+        <point>
+          <x>471</x>
+          <y>241</y>
+        </point>
+      </line>
+      <labelAssociation>
+        <x>520</x>
+        <y>245</y>
+        <w>0</w>
+        <h>18</h>
+      </labelAssociation>
+      <roleAssociation>
+        <x>525</x>
+        <y>245</y>
+        <w>0</w>
+        <h>18</h>
+      </roleAssociation>
+      <roleAssociation>
+        <x>475</x>
+        <y>219</y>
+        <w>0</w>
+        <h>18</h>
+      </roleAssociation>
+      <multipliciteAssociation>
+        <x>547</x>
+        <y>219</y>
+        <w>8</w>
+        <h>18</h>
+      </multipliciteAssociation>
+      <multipliciteAssociation>
+        <x>472</x>
+        <y>217</y>
+        <w>22</w>
+        <h>18</h>
+      </multipliciteAssociation>
+    </relationView>
+    <relationView color="-12566464" relationId="23634">
+      <line>
+        <point>
+          <x>141</x>
+          <y>279</y>
+        </point>
+        <point>
+          <x>141</x>
+          <y>341</y>
+        </point>
+      </line>
+      <labelAssociation>
+        <x>145</x>
+        <y>314</y>
+        <w>23</w>
+        <h>18</h>
+      </labelAssociation>
+    </relationView>
+    <relationView color="-12566464" relationId="23668">
+      <line>
+        <point>
+          <x>381</x>
+          <y>211</y>
+        </point>
+        <point>
+          <x>381</x>
+          <y>153</y>
+        </point>
+      </line>
+    </relationView>
+    <relationView color="-12566464" relationId="23746">
+      <line>
+        <point>
+          <x>201</x>
+          <y>411</y>
+        </point>
+        <point>
+          <x>341</x>
+          <y>411</y>
+        </point>
+      </line>
+      <labelAssociation>
+        <x>275</x>
+        <y>415</y>
+        <w>36</w>
+        <h>18</h>
+      </labelAssociation>
+    </relationView>
+    <componentView color="-2079" componentID="23256" displayAttributes="true" displayDefault="true" displayMethods="true">
+      <geometry>
+        <x>560</x>
+        <y>200</y>
+        <w>150</w>
+        <h>82</h>
+      </geometry>
+    </componentView>
+    <componentView color="-2079" componentID="23257" displayAttributes="true" displayDefault="true" displayMethods="true">
+      <geometry>
+        <x>20</x>
+        <y>210</y>
+        <w>230</w>
+        <h>68</h>
+      </geometry>
+    </componentView>
+    <componentView color="-2079" componentID="23258" displayAttributes="true" displayDefault="true" displayMethods="true">
+      <geometry>
+        <x>50</x>
+        <y>340</y>
+        <w>150</w>
+        <h>96</h>
+      </geometry>
+    </componentView>
+    <componentView color="-2079" componentID="23259" displayAttributes="true" displayDefault="true" displayMethods="true">
+      <geometry>
+        <x>340</x>
+        <y>370</y>
+        <w>150</w>
+        <h>68</h>
+      </geometry>
+    </componentView>
+    <componentView color="-2079" componentID="23279" displayAttributes="true" displayDefault="true" displayMethods="true">
+      <geometry>
+        <x>320</x>
+        <y>210</y>
+        <w>150</w>
+        <h>68</h>
+      </geometry>
+    </componentView>
+    <componentView color="-2079" componentID="23362" displayAttributes="true" displayDefault="true" displayMethods="true">
+      <geometry>
+        <x>320</x>
+        <y>0</y>
+        <w>150</w>
+        <h>152</h>
+      </geometry>
+    </componentView>
+  </umlView>
+</classDiagram>

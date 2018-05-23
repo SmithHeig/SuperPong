@@ -1,0 +1,102 @@
+package server;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.List;
+import java.util.Properties;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ * Classe gérant le serveur
+ */
+public class Server {
+    /** LOGGER **/
+    private final static Logger LOG = Logger.getLogger(Server.class.getName());
+
+    /** ATTRIBUTS **/
+    private String serverAddress;
+    private int serverPort;
+    private boolean shouldRun;
+
+    private ServerSocket serverSocket;
+
+    /*
+     * The server maintains a list of client workers, so that they can be notified
+     * when the server shuts down
+     */
+    List<ClientWorker> clientWorkers = new CopyOnWriteArrayList();
+
+    public Server() {
+        initServer();
+    }
+
+    private void initServer(){
+        try {
+            /** Récupération du fichier contenant les configuration server **/
+            FileInputStream in = new FileInputStream("/config/configGameServer.properties");
+            Properties properties = new Properties();
+            properties.load(in);
+
+            serverAddress = properties.getProperty("ServerGameAdress");
+            serverPort = Integer.parseInt(properties.getProperty("ServerGamePort"));
+            shouldRun = false;
+
+        } catch(IOException e){
+            LOG.log(Level.SEVERE, "Can not open configMainServer.properties with exception: " + e.getMessage());
+        }
+    }
+
+    public void start(){
+        try {
+            if (serverSocket == null) {
+                serverSocket = new ServerSocket();
+                serverSocket.bind(null);
+            }
+
+            Thread serverThread = new Thread(new Runnable() {
+
+                public void run() {
+                    shouldRun = true;
+                    while (shouldRun) {
+                        try {
+                            Socket clientSocket = serverSocket.accept();
+
+                            LOG.info("New client has arrived...");
+                            ClientWorker worker = new ClientWorker(clientSocket, getClientHandler(), Server.this);
+                            clientWorkers.add(worker);
+
+                            LOG.info("Delegating work to client worker...");
+                            Thread clientThread = new Thread(worker);
+                            clientThread.start();
+                        } catch (IOException ex) {
+                            LOG.log(Level.SEVERE, "IOException in main server thread, exit: {0}", ex.getMessage());
+                            shouldRun = false;
+                        }
+                    }
+                }
+            });
+
+        } catch(IOException e){
+            LOG.log(Level.SEVERE, "Can not create serverSocket with exception: " + e.getMessage());
+        }
+    }
+
+    private IClientHandler getClientHandler(){
+        return new ClientHandler();
+    }
+
+    /**
+     * This method is invoked by the client worker when it has completed its
+     * interaction with the server (e.g. the user has issued the BYE command, the
+     * connection has been closed, etc.)
+     *
+     * @param worker the worker which has completed its work
+     */
+    public void notifyClientWorkerDone(ClientWorker worker) {
+        clientWorkers.remove(worker);
+    }
+}
