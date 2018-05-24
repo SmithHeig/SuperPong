@@ -1,16 +1,16 @@
 package server;
 
-import jdk.nashorn.internal.parser.JSONParser;
-
-import java.io.*;
-import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import protocole.Protocole;
 import protocole.SuperPongProtocole;
-import protocole.data.*;
+import protocole.data.Connection;
+import protocole.data.IData;
+import protocole.data.Login;
+
+import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ClientHandler implements IClientHandler{
     /** LOGGER **/
