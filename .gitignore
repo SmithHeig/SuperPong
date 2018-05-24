@@ -8,3 +8,9 @@ SuperPong/Client/\.idea/
 SuperPong/Lib/\.idea/
 
 SuperPong/Server/\.idea/
+
+SuperPong/Client/target/
+
+SuperPong/Lib/target/
+
+SuperPong/Server/target/
