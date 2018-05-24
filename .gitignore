@@ -2,3 +2,9 @@
 code/\.idea/
 
 code/out/
+
+SuperPong/Client/\.idea/
+
+SuperPong/Lib/\.idea/
+
+SuperPong/Server/\.idea/
