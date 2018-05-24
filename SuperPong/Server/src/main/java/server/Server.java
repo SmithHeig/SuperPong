@@ -37,6 +37,8 @@ public class Server {
 
     private void initServer(){
         try {
+            LOG.log(Level.INFO, "Init server");
+
             /** Récupération du fichier contenant les configuration server **/
             InputStream inputStream = getClass().getClassLoader().getResourceAsStream("config/configServer.properties");
 
@@ -58,6 +60,7 @@ public class Server {
                 serverSocket = new ServerSocket();
                 serverSocket.bind(null);
             }
+            LOG.log(Level.INFO, "Starting Server");
 
             Thread serverThread = new Thread(new Runnable() {
 
@@ -81,6 +84,8 @@ public class Server {
                     }
                 }
             });
+
+            serverThread.start();
 
         } catch(IOException e){
             LOG.log(Level.SEVERE, "Can not create serverSocket with exception: " + e.getMessage());
