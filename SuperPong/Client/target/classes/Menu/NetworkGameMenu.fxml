@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="networkGameMenu" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Menu.NetworkGameMenuController">
+   <children>
+      <Button fx:id="BackButton" mnemonicParsing="false" onAction="#goBackToNetworkMenu" text="Retour" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <VBox spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="120.0">
+         <children>
+            <Button fx:id="OneVOneNetworkButton" mnemonicParsing="false" onAction="#goToOneVOneNetworkMenu" prefWidth="300.0" text="1 VS 1">
+               <font>
+                  <Font size="28.0" />
+               </font>
+            </Button>
+            <Button fx:id="IAGameWithItemsButton" mnemonicParsing="false" onAction="#goToMultiPlayerMenu" prefWidth="300.0" text="Multi-joueurs">
+               <font>
+                  <Font size="28.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
