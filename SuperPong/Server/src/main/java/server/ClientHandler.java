@@ -8,6 +8,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import protocole.Protocole;
+import protocole.SuperPongProtocole;
+import protocole.data.*;
 
 public class ClientHandler implements IClientHandler{
     /** LOGGER **/
