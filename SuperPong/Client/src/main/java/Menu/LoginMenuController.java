@@ -3,8 +3,12 @@ package Menu;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import main.Displayer;
+import network.ServerManager;
+
+import javax.xml.soap.Text;
 
 public class LoginMenuController {
 
@@ -18,13 +22,24 @@ public class LoginMenuController {
     private Button LoginButton;
 
     @FXML
+    private TextField usernameTextField;
+
+    @FXML
+    private TextField pwdTextField;
+
+    @FXML
     void goBackToMainMenu(ActionEvent event) {
         Displayer.getInstance().showMainMenu();
     }
 
     @FXML
     void login(ActionEvent event) {
-        Displayer.getInstance().showNetworkMenu(); // To change
+        String username = usernameTextField.getText();
+        String pwd = pwdTextField.getText();
+        if(username != null && pwd != null) {
+            ServerManager.getInstance().connect(username, pwd);
+            Displayer.getInstance().showNetworkMenu(); // To change
+        }
     }
 
 }

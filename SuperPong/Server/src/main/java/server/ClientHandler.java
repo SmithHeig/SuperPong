@@ -50,14 +50,12 @@ public class ClientHandler implements IClientHandler{
                     msg.setName(SuperPongProtocole.CMD_CONNECT);
 
                     /** DATA RESPONSE IF OK **/
-                    msg.setData(new IData() {
-                        boolean isConnected = true;
-                    });
+                    msg.setData(new Connection(true));
                     sendToServer(msg);
 
                     break;
                 default:
-                    writer.println("Huh? please use HELP if you don't know what commands are available.");
+                    writer.println("Huh? please use HELwP if you don't know what commands are available.");
                     writer.flush();
                     break;
             }

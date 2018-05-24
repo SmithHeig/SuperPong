@@ -2,6 +2,7 @@ package server;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
@@ -37,16 +38,17 @@ public class Server {
     private void initServer(){
         try {
             /** Récupération du fichier contenant les configuration server **/
-            FileInputStream in = new FileInputStream("/config/configGameServer.properties");
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream("config/configServer.properties");
+
             Properties properties = new Properties();
-            properties.load(in);
+            properties.load(inputStream);
 
             serverAddress = properties.getProperty("ServerGameAdress");
             serverPort = Integer.parseInt(properties.getProperty("ServerGamePort"));
             shouldRun = false;
 
         } catch(IOException e){
-            LOG.log(Level.SEVERE, "Can not open configMainServer.properties with exception: " + e.getMessage());
+            LOG.log(Level.SEVERE, "Can not open configServer.properties with exception: " + e.getMessage());
         }
     }
 

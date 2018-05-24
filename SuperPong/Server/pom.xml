@@ -24,9 +24,25 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
+
     <properties>
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
     </properties>
-
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>SuperPong</groupId>
+                <artifactId>Server</artifactId>
+                <version>1.0-SNAPSHOT</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>SuperPong.ServerSuperPong</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
