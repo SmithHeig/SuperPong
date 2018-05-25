@@ -26,4 +26,8 @@ public class Protocole {
     public IData getData() {
         return data;
     }
+
+    public String toString(){
+        return name + " " + data;
+    }
 }

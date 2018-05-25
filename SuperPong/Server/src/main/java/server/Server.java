@@ -3,6 +3,7 @@ package server;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
@@ -37,8 +38,6 @@ public class Server {
 
     private void initServer(){
         try {
-            LOG.log(Level.INFO, "Init server");
-
             /** Récupération du fichier contenant les configuration server **/
             InputStream inputStream = getClass().getClassLoader().getResourceAsStream("config/configServer.properties");
 
@@ -49,6 +48,7 @@ public class Server {
             serverPort = Integer.parseInt(properties.getProperty("ServerGamePort"));
             shouldRun = false;
 
+            LOG.log(Level.INFO, "Init server on Port");
         } catch(IOException e){
             LOG.log(Level.SEVERE, "Can not open configServer.properties with exception: " + e.getMessage());
         }
@@ -56,11 +56,14 @@ public class Server {
 
     public void start(){
         try {
-            if (serverSocket == null) {
+            if (serverSocket == null|| serverSocket.isBound() == false) {
                 serverSocket = new ServerSocket();
-                serverSocket.bind(null);
+                serverSocket.bind(new InetSocketAddress(serverPort));
+            } else {
+                LOG.log(Level.INFO, "Didnt create serverSocket");
             }
-            LOG.log(Level.INFO, "Starting Server");
+
+            LOG.log(Level.INFO, "Starting Server on port " + serverPort);
 
             Thread serverThread = new Thread(new Runnable() {
 

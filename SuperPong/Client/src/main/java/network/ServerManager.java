@@ -1,7 +1,10 @@
 package network;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleAbstractTypeResolver;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import protocole.Protocole;
 import protocole.SuperPongProtocole;
 import protocole.data.Connection;
@@ -58,10 +61,13 @@ public class ServerManager {
     public boolean connect(String username, String pwd){
         try {
             /** INITIALISATION CONNECTION **/
-            FileInputStream in = new FileInputStream("/config/configServer.properties");
+            InputStream in = getClass().getClassLoader().getResourceAsStream("config/configServer.properties");
             Properties properties = new Properties();
             properties.load(in);
-            clientSocket = new Socket(properties.getProperty("serverSuperPongAddress"), Integer.parseInt(properties.getProperty("serverSuperPongPort")));
+            String serverAddr = properties.getProperty("serverSuperPongAddress");
+            int serverPort = Integer.parseInt(properties.getProperty("serverSuperPongPort"));
+            LOG.log(Level.INFO, "Try to connect to server " + serverAddr + " by port " + serverPort);
+            clientSocket = new Socket(serverAddr, serverPort);
             reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             writer = new PrintWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
 
@@ -90,7 +96,7 @@ public class ServerManager {
                 LOG.log(Level.SEVERE, "wrong response from server");
             }
         } catch (IOException e){
-            LOG.log(Level.SEVERE, "Can open properties with exception : " + e.getMessage());
+            LOG.log(Level.SEVERE, e.getMessage());
         }
         return false; // Echec de la connection
     }
@@ -112,6 +118,7 @@ public class ServerManager {
      */
     private void sendMessageToServer(Protocole msg){
         try {
+            LOG.log(Level.INFO,"SERVER: Sending msg : " + msg.toString());
             writer.print(JSONobjectMapper.writeValueAsString(msg));
             writer.flush();
         } catch(JsonProcessingException e){
@@ -127,6 +134,7 @@ public class ServerManager {
         try {
             String msgJson = reader.readLine();
             Protocole msg = JSONobjectMapper.readValue(msgJson, Protocole.class);
+            LOG.log(Level.INFO, "SERVER: Received msg : " + msgJson);
             return msg;
         } catch(IOException e){
             LOG.log(Level.SEVERE, "Can not read server msg with excpetion : " + e.getMessage());

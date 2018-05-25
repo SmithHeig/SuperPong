@@ -1,7 +1,10 @@
 package server;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleAbstractTypeResolver;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import protocole.Protocole;
 import protocole.SuperPongProtocole;
 import protocole.data.Connection;
@@ -33,11 +36,22 @@ public class ClientHandler implements IClientHandler{
 
         String json;
         boolean done = false;
-        // TODO: Changer le reader.readline
+
+        LOG.log(Level.INFO, "Initialisation fo the handleClientConnection");
+
+        // TODO: A améliorer
         while (!done && ((json = reader.readLine()) != null)) {
             LOG.log(Level.INFO, "COMMAND: {0}", json);
+            SimpleModule module = new SimpleModule("CustomModel", Version.unknownVersion());
+
+            SimpleAbstractTypeResolver resolver = new SimpleAbstractTypeResolver();
+            resolver.addMapping(IData.class, Login.class); // TODO FOnctionne uniquement pour la connexion
+            module.setAbstractTypes(resolver);
+
+            JSONobjectMapper.registerModule(module);
 
             Protocole msgReveived = JSONobjectMapper.readValue(json, Protocole.class);
+
             String cmd = msgReveived.getName();
             switch (cmd.toUpperCase()) {
                 case SuperPongProtocole.CMD_CONNECT:
@@ -45,13 +59,12 @@ public class ClientHandler implements IClientHandler{
                     LOG.log(Level.INFO, "The user " + user.getUsername() + " try to connect to the server");
 
                     /** Respond to the client **/
-                    IData data = user;
                     Protocole msg = new Protocole();
                     msg.setName(SuperPongProtocole.CMD_CONNECT);
 
                     /** DATA RESPONSE IF OK **/
                     msg.setData(new Connection(true));
-                    sendToServer(msg);
+                    sendToClient(msg);
 
                     break;
                 default:
@@ -63,7 +76,7 @@ public class ClientHandler implements IClientHandler{
         }
     }
 
-    private void sendToServer(Protocole msg){
+    private void sendToClient(Protocole msg){
         try {
             writer.println(JSONobjectMapper.writeValueAsString(msg));
             writer.flush();
