@@ -15,3 +15,4 @@ SuperPong/Client/Client.iml
 SuperPong/Lib/lib.iml
 
 SuperPong/Server/Server.iml
+Docker/server-image/src/
