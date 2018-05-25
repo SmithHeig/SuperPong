@@ -12,6 +12,4 @@ public class ServerSuperPong {
         Server server = new Server();
         server.start();
     }
-
-
 }

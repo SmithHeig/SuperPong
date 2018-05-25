@@ -1,8 +1,3 @@
-
-code/\.idea/
-
-code/out/
-
 SuperPong/Client/\.idea/
 
 SuperPong/Lib/\.idea/
@@ -14,3 +9,9 @@ SuperPong/Client/target/
 SuperPong/Lib/target/
 
 SuperPong/Server/target/
+
+SuperPong/Client/Client.iml
+
+SuperPong/Lib/lib.iml
+
+SuperPong/Server/Server.iml
