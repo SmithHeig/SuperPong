@@ -7,6 +7,7 @@ mvn clean install -f SuperPong/Server/
 # Build jar Client
 mvn clean install -f SuperPong/Client/
 echo "copie du jar du server"
+mkdir Docker/server-image/src
 cp ./SuperPong/Server/target/Server-1.0-SNAPSHOT.jar ./Docker/server-image/src/Server-1.0-SNAPSHOT.jar
 
 echo "built de l'image server"

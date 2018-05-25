@@ -4,4 +4,4 @@ ADD src /opt/src
 
 WORKDIR /opt/src
 
-ENTRYPOINT ["java","-jar","Server-1.0-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar","Server-1.0-SNAPSHOT.jar"]
