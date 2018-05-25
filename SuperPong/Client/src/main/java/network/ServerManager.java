@@ -84,7 +84,8 @@ public class ServerManager {
             /** Attente de la réponse du serveur **/
             Protocole responseServer = readMsgFromServer();
 
-            if(responseServer.getName() == SuperPongProtocole.CMD_CONNECT){
+
+            if(responseServer.getName().equals(SuperPongProtocole.CMD_CONNECT)){
                 /** Test si la connexion à été accepté **/
                 Connection data = (Connection) responseServer.getData();
                 if(data.getConnected()){
