@@ -3,6 +3,7 @@ package server;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.jsontype.NamedType;
 import com.fasterxml.jackson.databind.module.SimpleAbstractTypeResolver;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import protocole.Protocole;
@@ -21,6 +22,10 @@ public class ClientHandler implements IClientHandler{
 
     /** OBJECT MAPPER **/
     private static final ObjectMapper JSONobjectMapper = new ObjectMapper();
+    static {
+        JSONobjectMapper.registerSubtypes(new NamedType(Connection.class, "Connection"));
+        JSONobjectMapper.registerSubtypes(new NamedType(Login.class, "Login"));
+    }
 
     /** ATTRIBUTS **/
     private BufferedReader reader;
@@ -40,15 +45,10 @@ public class ClientHandler implements IClientHandler{
         LOG.log(Level.INFO, "Initialisation fo the handleClientConnection");
 
         // TODO: A améliorer
-        while (!done && ((json = reader.readLine()) != null)) {
+        json = reader.readLine();
+        LOG.log(Level.INFO, json);
+        while (!done && (json != null)) {
             LOG.log(Level.INFO, "COMMAND: {0}", json);
-            SimpleModule module = new SimpleModule("CustomModel", Version.unknownVersion());
-
-            SimpleAbstractTypeResolver resolver = new SimpleAbstractTypeResolver();
-            resolver.addMapping(IData.class, Login.class); // TODO FOnctionne uniquement pour la connexion
-            module.setAbstractTypes(resolver);
-
-            JSONobjectMapper.registerModule(module);
 
             Protocole msgReveived = JSONobjectMapper.readValue(json, Protocole.class);
 
@@ -59,11 +59,8 @@ public class ClientHandler implements IClientHandler{
                     LOG.log(Level.INFO, "The user " + user.getUsername() + " try to connect to the server");
 
                     /** Respond to the client **/
-                    Protocole msg = new Protocole();
-                    msg.setName(SuperPongProtocole.CMD_CONNECT);
+                    Protocole msg = new Protocole(SuperPongProtocole.CMD_CONNECT, new Connection(true));
 
-                    /** DATA RESPONSE IF OK **/
-                    msg.setData(new Connection(true));
                     sendToClient(msg);
 
                     break;
@@ -73,6 +70,7 @@ public class ClientHandler implements IClientHandler{
                     break;
             }
             writer.flush();
+            json = reader.readLine();
         }
     }
 

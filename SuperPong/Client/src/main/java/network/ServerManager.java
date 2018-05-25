@@ -3,6 +3,7 @@ package network;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.jsontype.NamedType;
 import com.fasterxml.jackson.databind.module.SimpleAbstractTypeResolver;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import protocole.Protocole;
@@ -26,7 +27,10 @@ public class ServerManager {
 
     /** OBJECT MAPPER **/
     private static final ObjectMapper JSONobjectMapper = new ObjectMapper();
-
+    static {
+        JSONobjectMapper.registerSubtypes(new NamedType(Connection.class, "Connection"));
+        JSONobjectMapper.registerSubtypes(new NamedType(Login.class, "Login"));
+    }
     /** INSTANCE **/
     private static ServerManager instance;
 
@@ -72,10 +76,7 @@ public class ServerManager {
             writer = new PrintWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
 
             /** LOGIN **/
-            Login login = new Login(username, pwd);
-            Protocole msg = new Protocole();
-            msg.setName(SuperPongProtocole.CMD_CONNECT);
-            msg.setData(login);
+            Protocole msg = new Protocole(SuperPongProtocole.CMD_CONNECT, new Login(username, pwd));
 
             /** SENDING **/
             sendMessageToServer(msg);
@@ -118,8 +119,9 @@ public class ServerManager {
      */
     private void sendMessageToServer(Protocole msg){
         try {
-            LOG.log(Level.INFO,"SERVER: Sending msg : " + msg.toString());
-            writer.print(JSONobjectMapper.writeValueAsString(msg));
+            String jsonMsg = JSONobjectMapper.writeValueAsString(msg);
+            LOG.log(Level.INFO,"SERVER: Sending msg : " + jsonMsg);
+            writer.print(jsonMsg + "\r\n");
             writer.flush();
         } catch(JsonProcessingException e){
             LOG.log(Level.SEVERE, "Can not serialize msg with exception : " + e.getMessage());
@@ -132,6 +134,7 @@ public class ServerManager {
      */
     private Protocole readMsgFromServer(){
         try {
+
             String msgJson = reader.readLine();
             Protocole msg = JSONobjectMapper.readValue(msgJson, Protocole.class);
             LOG.log(Level.INFO, "SERVER: Received msg : " + msgJson);
