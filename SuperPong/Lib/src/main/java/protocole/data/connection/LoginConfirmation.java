@@ -1,15 +1,15 @@
-package protocole.data;
+package protocole.data.connection;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import protocole.data.IData;
 
 
-public class Connection implements IData{
+public class LoginConfirmation implements IData {
     private boolean isConnected;
 
     @JsonCreator
-    public Connection(@JsonProperty("isConnected") boolean isConnected){
+    public LoginConfirmation(@JsonProperty("isConnected") boolean isConnected){
         this.isConnected = isConnected;
     }
 

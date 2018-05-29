@@ -1,10 +1,11 @@
-package protocole.data;
+package protocole.data.connection;
 
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import protocole.data.IData;
 
-public class Login implements IData{
+public class Login implements IData {
     private String username;
     private String password;
 

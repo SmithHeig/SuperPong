@@ -1,33 +1,31 @@
 package server;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.NamedType;
-import com.fasterxml.jackson.databind.module.SimpleAbstractTypeResolver;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import protocole.Protocole;
 import protocole.SuperPongProtocole;
-import protocole.data.Connection;
-import protocole.data.IData;
-import protocole.data.Login;
+import protocole.data.Disconnection.Disconnection;
+import protocole.data.Disconnection.DisconnectionConfirmation;
+import protocole.data.connection.LoginConfirmation;
+import protocole.data.connection.Login;
 
 import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ClientHandler implements IClientHandler{
-    /** LOGGER **/
+    /* LOGGER */
     private final static Logger LOG = Logger.getLogger(ClientHandler.class.getName());
 
-    /** OBJECT MAPPER **/
+    /* OBJECT MAPPER */
     private static final ObjectMapper JSONobjectMapper = new ObjectMapper();
     static {
-        JSONobjectMapper.registerSubtypes(new NamedType(Connection.class, "Connection"));
+        JSONobjectMapper.registerSubtypes(new NamedType(LoginConfirmation.class, "LoginConfirmation"));
         JSONobjectMapper.registerSubtypes(new NamedType(Login.class, "Login"));
     }
 
-    /** ATTRIBUTS **/
+    /* ATTRIBUTS */
     private BufferedReader reader;
     private PrintWriter writer;
     private boolean isConnected;
@@ -41,6 +39,7 @@ public class ClientHandler implements IClientHandler{
 
         String json;
         boolean done = false;
+        boolean isConnected = false;
 
         LOG.log(Level.INFO, "Initialisation fo the handleClientConnection");
 
@@ -52,25 +51,50 @@ public class ClientHandler implements IClientHandler{
 
             Protocole msgReveived = JSONobjectMapper.readValue(json, Protocole.class);
 
+
             String cmd = msgReveived.getName();
-            switch (cmd.toUpperCase()) {
-                case SuperPongProtocole.CMD_CONNECT:
-                    Login user = (Login)msgReveived.getData();
-                    LOG.log(Level.INFO, "The user " + user.getUsername() + " try to connect to the server");
 
-                    /** Respond to the client **/
-                    Protocole msg = new Protocole(SuperPongProtocole.CMD_CONNECT, new Connection(true));
+            /* Look for connection */
+            if (!isConnected) {
+                Login user = (Login) msgReveived.getData();
+                LOG.log(Level.INFO, "The user " + user.getUsername() + " try to connect to the server");
 
-                    sendToClient(msg);
+                Protocole ConnectionMsg;
 
-                    break;
-                default:
-                    writer.println("Huh? please use HELwP if you don't know what commands are available.");
-                    writer.flush();
-                    break;
+                if (SuperPongProtocole.CMD_CONNECT.equals(cmd.toUpperCase())) {
+                    /* Logging accepted */
+                    ConnectionMsg = new Protocole(SuperPongProtocole.CMD_CONNECT, new LoginConfirmation(true));
+                } else {
+                    /* Logging refused */
+                    ConnectionMsg = new Protocole(SuperPongProtocole.CMD_CONNECT, new LoginConfirmation(false));
+                }
+                sendToClient(ConnectionMsg);
             }
-            writer.flush();
-            json = reader.readLine();
+            /* User Connected */
+            else {
+                switch (cmd.toUpperCase()) {
+                    case SuperPongProtocole.CMD_DISCONNECT:
+                        Disconnection userDisconnected = (Disconnection) msgReveived.getData();
+
+                        LOG.log(Level.INFO, "The user " + userDisconnected.getUsername() + " disconnected from the server");
+
+                        /* Respond to the client */
+                        Protocole disconnectMsg = new Protocole(SuperPongProtocole.CMD_DISCONNECT, new DisconnectionConfirmation(true));
+
+                        sendToClient(disconnectMsg);
+
+                        done = true; // Will stopped the clientHandler
+
+                        break;
+                    default:
+                        writer.println("Huh? please use HELwP if you don't know what commands are available.");
+                        writer.flush();
+
+                        break;
+                }
+                writer.flush();
+                json = reader.readLine();
+            }
         }
     }
 

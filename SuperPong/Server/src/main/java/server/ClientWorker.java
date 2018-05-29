@@ -8,10 +8,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ClientWorker implements Runnable {
-    /** LOGGER **/
+    /* LOGGER */
     private final static Logger LOG = Logger.getLogger(ClientWorker.class.getName());
 
-    /** ATTRIBUTS **/
+    /* ATTRIBUTS */
     private Socket clientSocket = null;
     private IClientHandler handler = null;
     private Server server = null;

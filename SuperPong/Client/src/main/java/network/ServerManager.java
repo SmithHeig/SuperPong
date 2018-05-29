@@ -1,19 +1,14 @@
 package network;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.NamedType;
-import com.fasterxml.jackson.databind.module.SimpleAbstractTypeResolver;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import protocole.Protocole;
 import protocole.SuperPongProtocole;
-import protocole.data.Connection;
-import protocole.data.IData;
-import protocole.data.Login;
+import protocole.data.connection.LoginConfirmation;
+import protocole.data.connection.Login;
 
 import java.io.*;
-import java.net.ProtocolException;
 import java.net.Socket;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -28,7 +23,7 @@ public class ServerManager {
     /** OBJECT MAPPER **/
     private static final ObjectMapper JSONobjectMapper = new ObjectMapper();
     static {
-        JSONobjectMapper.registerSubtypes(new NamedType(Connection.class, "Connection"));
+        JSONobjectMapper.registerSubtypes(new NamedType(LoginConfirmation.class, "connection"));
         JSONobjectMapper.registerSubtypes(new NamedType(Login.class, "Login"));
     }
     /** INSTANCE **/
@@ -87,10 +82,10 @@ public class ServerManager {
 
             if(responseServer.getName().equals(SuperPongProtocole.CMD_CONNECT)){
                 /** Test si la connexion à été accepté **/
-                Connection data = (Connection) responseServer.getData();
+                LoginConfirmation data = (LoginConfirmation) responseServer.getData();
                 if(data.getConnected()){
                     LOG.log(Level.INFO, "User is connected to server");
-                    return true; // Connection possible
+                    return true; // connection possible
                 } else {
                     LOG.log(Level.INFO, "User have been refused connection");
                 }
