@@ -1,15 +1,12 @@
 package server;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.jsontype.NamedType;
 import protocole.Protocole;
 import protocole.SuperPongProtocole;
 import protocole.data.Disconnection.Disconnection;
 import protocole.data.Disconnection.DisconnectionConfirmation;
 import protocole.data.connection.LoginConfirmation;
 import protocole.data.connection.Login;
-import mapper.JsonMapper;
+import protocole.mapper.JsonMapper;
 
 import java.io.*;
 import java.util.logging.Level;

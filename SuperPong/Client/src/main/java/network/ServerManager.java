@@ -1,6 +1,6 @@
 package network;
 
-import mapper.JsonMapper;
+import protocole.mapper.JsonMapper;
 import protocole.Protocole;
 import protocole.SuperPongProtocole;
 import protocole.data.Disconnection.Disconnection;
