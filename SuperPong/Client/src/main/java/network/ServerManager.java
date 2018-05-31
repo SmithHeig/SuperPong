@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.NamedType;
 import protocole.Protocole;
 import protocole.SuperPongProtocole;
+import protocole.data.Disconnection.Disconnection;
+import protocole.data.Disconnection.DisconnectionConfirmation;
 import protocole.data.connection.LoginConfirmation;
 import protocole.data.connection.Login;
 
@@ -17,22 +19,25 @@ import java.util.logging.Logger;
 /** Classe gérant la conenction avec le serveur et la communication **/
 public class ServerManager {
 
-    /** LOGGER **/
+    /* LOGGER */
     private final static Logger LOG = Logger.getLogger(ServerManager.class.getName());
 
-    /** OBJECT MAPPER **/
+    /* OBJECT MAPPER */
     private static final ObjectMapper JSONobjectMapper = new ObjectMapper();
     static {
         JSONobjectMapper.registerSubtypes(new NamedType(LoginConfirmation.class, "connection"));
         JSONobjectMapper.registerSubtypes(new NamedType(Login.class, "Login"));
     }
-    /** INSTANCE **/
+    /* INSTANCE */
     private static ServerManager instance;
 
-    /** ATTRIBUTS **/
+    /* ATTRIBUTS */
     Socket clientSocket;
     BufferedReader reader;
     PrintWriter writer;
+    String username;
+
+    boolean isConnected;
 
     /**
      * Constructeur privé (Singleton)
@@ -53,13 +58,15 @@ public class ServerManager {
 
     /**
      * Fonction pour se connecter et logger au serveur
-     * @param username - Username du client
+     * @param _username - Username du client
      * @param pwd - password du client
      * @return true if have been connected
      */
-    public boolean connect(String username, String pwd){
+    public boolean connect(String _username, String pwd){
         try {
-            /** INITIALISATION CONNECTION **/
+            this.username = _username;
+
+            /* INITIALISATION CONNECTION */
             InputStream in = getClass().getClassLoader().getResourceAsStream("config/configServer.properties");
             Properties properties = new Properties();
             properties.load(in);
@@ -70,43 +77,70 @@ public class ServerManager {
             reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             writer = new PrintWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
 
-            /** LOGIN **/
+            /* LOGIN */
             Protocole msg = new Protocole(SuperPongProtocole.CMD_CONNECT, new Login(username, pwd));
 
-            /** SENDING **/
+            /* SENDING */
             sendMessageToServer(msg);
 
-            /** Attente de la réponse du serveur **/
+            /* Attente de la réponse du serveur */
             Protocole responseServer = readMsgFromServer();
 
 
             if(responseServer.getName().equals(SuperPongProtocole.CMD_CONNECT)){
-                /** Test si la connexion à été accepté **/
+                /* Test si la connexion à été accepté */
                 LoginConfirmation data = (LoginConfirmation) responseServer.getData();
                 if(data.getConnected()){
                     LOG.log(Level.INFO, "User is connected to server");
+                    isConnected = true;
                     return true; // connection possible
                 } else {
                     LOG.log(Level.INFO, "User have been refused connection");
                 }
             } else {
-                LOG.log(Level.SEVERE, "wrong response from server");
+                LOG.log(Level.SEVERE, "Wrong response from server");
             }
         } catch (IOException e){
-            LOG.log(Level.SEVERE, e.getMessage());
+            LOG.log(Level.SEVERE, "Impossible to join the server with exception : " + e.getMessage());
         }
         return false; // Echec de la connection
     }
 
-    /**
+    /*
      * Permet de ce déconnecter du serveur
      */
-    public void disconnect(){
-        // TODO
+    public boolean disconnect(){
+        /* DECONNECTION */
+        Protocole msg = new Protocole(SuperPongProtocole.CMD_DISCONNECT, new Disconnection(username));
+
+        sendMessageToServer(msg);
+
+        /* Reponse du serveur */
+        Protocole responseServer = readMsgFromServer();
+
+        if(responseServer.getName().equals(SuperPongProtocole.CMD_DISCONNECT)) {
+            DisconnectionConfirmation data = (DisconnectionConfirmation) responseServer.getData();
+            if(data.isDisconnected()){
+                LOG.log(Level.INFO, "User have been disconnected");
+                isConnected = false;
+                return true;
+            }
+        } else {
+            LOG.log(Level.SEVERE, "Wrong response from server");
+        }
+        return false;
     }
 
     public void play(){
         // TODO
+    }
+
+    /**
+     * Retourne si le client est connecté ou non
+     * @return
+     */
+    public boolean isConnected(){
+        return isConnected;
     }
 
     /**
@@ -140,5 +174,4 @@ public class ServerManager {
         }
         return null;
     }
-
 }

@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import main.Displayer;
+import network.ServerManager;
 
 public class NetworkMenuController {
 
@@ -25,7 +26,10 @@ public class NetworkMenuController {
 
     @FXML
     void disconnect(ActionEvent event) {
-        Displayer.getInstance().showMainMenu(); // to do log out
+        /* Essaie de ce déconnecter */
+        if(ServerManager.getInstance().disconnect()) {
+            Displayer.getInstance().showMainMenu(); // to do log out
+        }
     }
 
     @FXML

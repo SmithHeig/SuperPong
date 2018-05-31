@@ -5,22 +5,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import protocole.data.IData;
 
 public class DisconnectionConfirmation implements IData{
-    boolean haveBeenDisconnected;
+    boolean isDisconnected;
 
     @JsonCreator
     public DisconnectionConfirmation(@JsonProperty boolean haveBeenDisconnected){
-        this.haveBeenDisconnected = haveBeenDisconnected;
+        this.isDisconnected = isDisconnected;
     }
 
-    public void setHaveBeenDisconnected(boolean haveBeenDisconnected){
-        this.haveBeenDisconnected = haveBeenDisconnected;
+    public void setDisconnected(boolean haveBeenDisconnected){
+        this.isDisconnected = isDisconnected;
     }
 
-    public boolean getHaveBeenDisconnected(){
-        return haveBeenDisconnected;
+    public boolean isDisconnected(){
+        return isDisconnected;
     }
 
     public String toString(){
-        return haveBeenDisconnected ? "true" : "false";
+        return isDisconnected ? "true" : "false";
     }
 }

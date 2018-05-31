@@ -54,7 +54,7 @@ public class ClientHandler implements IClientHandler{
 
             String cmd = msgReveived.getName();
 
-            /* Look for connection */
+            /* Regarde pour la connection */
             if (!isConnected) {
                 Login user = (Login) msgReveived.getData();
                 LOG.log(Level.INFO, "The user " + user.getUsername() + " try to connect to the server");
@@ -62,10 +62,10 @@ public class ClientHandler implements IClientHandler{
                 Protocole ConnectionMsg;
 
                 if (SuperPongProtocole.CMD_CONNECT.equals(cmd.toUpperCase())) {
-                    /* Logging accepted */
+                    /* Connection accepté */
                     ConnectionMsg = new Protocole(SuperPongProtocole.CMD_CONNECT, new LoginConfirmation(true));
                 } else {
-                    /* Logging refused */
+                    /* Connection refusé */
                     ConnectionMsg = new Protocole(SuperPongProtocole.CMD_CONNECT, new LoginConfirmation(false));
                 }
                 sendToClient(ConnectionMsg);
@@ -73,6 +73,7 @@ public class ClientHandler implements IClientHandler{
             /* User Connected */
             else {
                 switch (cmd.toUpperCase()) {
+                    /* DECONNECTION */
                     case SuperPongProtocole.CMD_DISCONNECT:
                         Disconnection userDisconnected = (Disconnection) msgReveived.getData();
 
