@@ -37,8 +37,9 @@ public class LoginMenuController {
         String username = usernameTextField.getText();
         String pwd = pwdTextField.getText();
         if(username != null && pwd != null) {
-            ServerManager.getInstance().connect(username, pwd);
-            Displayer.getInstance().showNetworkMenu(); // To change
+            if(ServerManager.getInstance().connect(username, pwd)) {
+                Displayer.getInstance().showNetworkMenu(); // To change
+            }
         }
     }
 

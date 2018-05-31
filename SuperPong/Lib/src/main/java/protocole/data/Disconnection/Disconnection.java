@@ -8,7 +8,7 @@ public class Disconnection implements IData{
     String username;
 
     @JsonCreator
-    public Disconnection(@JsonProperty String username){
+    public Disconnection(@JsonProperty(value = "username") String username){
         this.username = username;
     }
 
@@ -18,5 +18,9 @@ public class Disconnection implements IData{
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String toString(){
+        return username;
     }
 }

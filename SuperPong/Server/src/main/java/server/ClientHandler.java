@@ -9,6 +9,7 @@ import protocole.data.Disconnection.Disconnection;
 import protocole.data.Disconnection.DisconnectionConfirmation;
 import protocole.data.connection.LoginConfirmation;
 import protocole.data.connection.Login;
+import mapper.JsonMapper;
 
 import java.io.*;
 import java.util.logging.Level;
@@ -17,13 +18,6 @@ import java.util.logging.Logger;
 public class ClientHandler implements IClientHandler{
     /* LOGGER */
     private final static Logger LOG = Logger.getLogger(ClientHandler.class.getName());
-
-    /* OBJECT MAPPER */
-    private static final ObjectMapper JSONobjectMapper = new ObjectMapper();
-    static {
-        JSONobjectMapper.registerSubtypes(new NamedType(LoginConfirmation.class, "LoginConfirmation"));
-        JSONobjectMapper.registerSubtypes(new NamedType(Login.class, "Login"));
-    }
 
     /* ATTRIBUTS */
     private BufferedReader reader;
@@ -43,39 +37,34 @@ public class ClientHandler implements IClientHandler{
 
         LOG.log(Level.INFO, "Initialisation fo the handleClientConnection");
 
-        // TODO: A améliorer
-        json = reader.readLine();
-        LOG.log(Level.INFO, json);
-        while (!done && (json != null)) {
-            LOG.log(Level.INFO, "COMMAND: {0}", json);
+        Protocole msgReceived;
 
-            Protocole msgReveived = JSONobjectMapper.readValue(json, Protocole.class);
+        while (!done && ((msgReceived = readMsgFromClient()) != null)) {
 
-
-            String cmd = msgReveived.getName();
+            String cmd = msgReceived.getName();
 
             /* Regarde pour la connection */
             if (!isConnected) {
-                Login user = (Login) msgReveived.getData();
-                LOG.log(Level.INFO, "The user " + user.getUsername() + " try to connect to the server");
+                if(msgReceived.getName().equals(SuperPongProtocole.CMD_CONNECT)) {
+                    Login user = (Login) msgReceived.getData();
+                    LOG.log(Level.INFO, "The user " + user.getUsername() + " try to connect to the server");
 
-                Protocole ConnectionMsg;
-
-                if (SuperPongProtocole.CMD_CONNECT.equals(cmd.toUpperCase())) {
-                    /* Connection accepté */
+                    // TODO: verification si utilisateur et mdp correct
+                    Protocole ConnectionMsg;
                     ConnectionMsg = new Protocole(SuperPongProtocole.CMD_CONNECT, new LoginConfirmation(true));
+                    sendToClient(ConnectionMsg);
+                    isConnected = true;
                 } else {
-                    /* Connection refusé */
-                    ConnectionMsg = new Protocole(SuperPongProtocole.CMD_CONNECT, new LoginConfirmation(false));
+                    LOG.log(Level.SEVERE, "User not connected");
+                    // TODO: A gérer et renvoyé une réponse à l'utilisateur
                 }
-                sendToClient(ConnectionMsg);
             }
             /* User Connected */
             else {
                 switch (cmd.toUpperCase()) {
                     /* DECONNECTION */
                     case SuperPongProtocole.CMD_DISCONNECT:
-                        Disconnection userDisconnected = (Disconnection) msgReveived.getData();
+                        Disconnection userDisconnected = (Disconnection) msgReceived.getData();
 
                         LOG.log(Level.INFO, "The user " + userDisconnected.getUsername() + " disconnected from the server");
 
@@ -85,26 +74,33 @@ public class ClientHandler implements IClientHandler{
                         sendToClient(disconnectMsg);
 
                         done = true; // Will stopped the clientHandler
-
+                        LOG.log(Level.INFO, "user disconnected");
                         break;
                     default:
-                        writer.println("Huh? please use HELwP if you don't know what commands are available.");
-                        writer.flush();
-
+                        LOG.log(Level.SEVERE, "Wrong Protocole");
                         break;
                 }
-                writer.flush();
-                json = reader.readLine();
             }
         }
+        LOG.log(Level.INFO, "ClientHandler closing...");
     }
 
     private void sendToClient(Protocole msg){
+        String msgJson = JsonMapper.getInstance().convertToString(msg);
+        LOG.log(Level.INFO, "SERVER: Send msg : " + msgJson);
+        writer.println(msgJson + "\n");
+        writer.flush();
+    }
+
+    private Protocole readMsgFromClient(){
         try {
-            writer.println(JSONobjectMapper.writeValueAsString(msg));
-            writer.flush();
-        } catch(JsonProcessingException e){
-            LOG.log(Level.SEVERE, "Can not serialize the msg with exception :" + e.getMessage());
+            String msgJson = reader.readLine();
+            LOG.log(Level.INFO, "SERVER: Received msg : " + msgJson);
+            Protocole msg = JsonMapper.getInstance().convertToProtocole(msgJson);
+            return msg;
+        } catch(IOException e){
+            LOG.log(Level.SEVERE, "Can not read client msg with excpetion: " + e.getMessage());
         }
+        return null;
     }
 }

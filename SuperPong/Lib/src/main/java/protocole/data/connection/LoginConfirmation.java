@@ -6,18 +6,23 @@ import protocole.data.IData;
 
 
 public class LoginConfirmation implements IData {
-    private boolean isConnected;
+    private boolean connected;
 
     @JsonCreator
-    public LoginConfirmation(@JsonProperty("isConnected") boolean isConnected){
-        this.isConnected = isConnected;
+    public LoginConfirmation(@JsonProperty(value="isConnected") boolean connected){
+        this.connected = connected;
     }
 
     public void setConnected(boolean connected) {
-        isConnected = connected;
+        this.connected = connected;
     }
 
-    public boolean getConnected(){
-        return isConnected;
+    @JsonProperty(value="isConnected")
+    public boolean isConnected() {
+        return connected;
+    }
+
+    public String toString(){
+        return connected ? "true": "false";
     }
 }

@@ -1,8 +1,6 @@
 package network;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.jsontype.NamedType;
+import mapper.JsonMapper;
 import protocole.Protocole;
 import protocole.SuperPongProtocole;
 import protocole.data.Disconnection.Disconnection;
@@ -22,12 +20,6 @@ public class ServerManager {
     /* LOGGER */
     private final static Logger LOG = Logger.getLogger(ServerManager.class.getName());
 
-    /* OBJECT MAPPER */
-    private static final ObjectMapper JSONobjectMapper = new ObjectMapper();
-    static {
-        JSONobjectMapper.registerSubtypes(new NamedType(LoginConfirmation.class, "connection"));
-        JSONobjectMapper.registerSubtypes(new NamedType(Login.class, "Login"));
-    }
     /* INSTANCE */
     private static ServerManager instance;
 
@@ -86,11 +78,10 @@ public class ServerManager {
             /* Attente de la réponse du serveur */
             Protocole responseServer = readMsgFromServer();
 
-
             if(responseServer.getName().equals(SuperPongProtocole.CMD_CONNECT)){
                 /* Test si la connexion à été accepté */
                 LoginConfirmation data = (LoginConfirmation) responseServer.getData();
-                if(data.getConnected()){
+                if(data.isConnected()){
                     LOG.log(Level.INFO, "User is connected to server");
                     isConnected = true;
                     return true; // connection possible
@@ -118,7 +109,7 @@ public class ServerManager {
         /* Reponse du serveur */
         Protocole responseServer = readMsgFromServer();
 
-        if(responseServer.getName().equals(SuperPongProtocole.CMD_DISCONNECT)) {
+        if(responseServer != null && responseServer.getName().equals(SuperPongProtocole.CMD_DISCONNECT)) {
             DisconnectionConfirmation data = (DisconnectionConfirmation) responseServer.getData();
             if(data.isDisconnected()){
                 LOG.log(Level.INFO, "User have been disconnected");
@@ -148,14 +139,10 @@ public class ServerManager {
      * @param msg - msg à envoyé sous forme de protocole
      */
     private void sendMessageToServer(Protocole msg){
-        try {
-            String jsonMsg = JSONobjectMapper.writeValueAsString(msg);
-            LOG.log(Level.INFO,"SERVER: Sending msg : " + jsonMsg);
-            writer.print(jsonMsg + "\r\n");
-            writer.flush();
-        } catch(JsonProcessingException e){
-            LOG.log(Level.SEVERE, "Can not serialize msg with exception : " + e.getMessage());
-        }
+        String jsonMsg = JsonMapper.getInstance().convertToString(msg);
+        LOG.log(Level.INFO,"CLIENT: Sending msg : " + jsonMsg);
+        writer.print(jsonMsg + "\n");
+        writer.flush();
     }
 
     /**
@@ -164,10 +151,10 @@ public class ServerManager {
      */
     private Protocole readMsgFromServer(){
         try {
-
-            String msgJson = reader.readLine();
-            Protocole msg = JSONobjectMapper.readValue(msgJson, Protocole.class);
-            LOG.log(Level.INFO, "SERVER: Received msg : " + msgJson);
+            String msgJson;
+            while((msgJson = reader.readLine()).equals("")); // TODO: Comprendre pourquoi le serveur envoie des "" de temps en temps
+            LOG.log(Level.INFO, "CLIENT: Received msg : " + msgJson);
+            Protocole msg = JsonMapper.getInstance().convertToProtocole(msgJson);
             return msg;
         } catch(IOException e){
             LOG.log(Level.SEVERE, "Can not read server msg with excpetion : " + e.getMessage());
