@@ -56,7 +56,7 @@ public class ServerManager {
      */
     public boolean connect(String _username, String pwd){
         try {
-            this.username = _username;
+            this.username = _username; // TODO: Stoquer cette info dans la classe Player
 
             /* INITIALISATION CONNECTION */
             InputStream in = getClass().getClassLoader().getResourceAsStream("config/configServer.properties");

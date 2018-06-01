@@ -39,6 +39,8 @@ public class LoginMenuController {
         if(username != null && pwd != null) {
             if(ServerManager.getInstance().connect(username, pwd)) {
                 Displayer.getInstance().showNetworkMenu(); // To change
+            } else {
+                // TODO Mettre message que l'on peut pas se connecter
             }
         }
     }
