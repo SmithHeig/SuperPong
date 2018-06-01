@@ -22,6 +22,6 @@ public class DisconnectionConfirmation implements IData{
     }
 
     public String toString(){
-        return isDisconnected ? "true" : "false";
+        return isDisconnected ? "User have been disconnected" : "User didnt disconnected";
     }
 }

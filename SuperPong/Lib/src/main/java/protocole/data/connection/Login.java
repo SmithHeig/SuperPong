@@ -24,6 +24,6 @@ public class Login implements IData {
     }
 
     public String toString(){
-        return username;
+        return "User " + username + " try to connect";
     }
 }

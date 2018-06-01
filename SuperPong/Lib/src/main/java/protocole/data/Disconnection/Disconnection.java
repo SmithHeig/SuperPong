@@ -21,6 +21,6 @@ public class Disconnection implements IData{
     }
 
     public String toString(){
-        return username;
+        return username + " try to disconnect";
     }
 }

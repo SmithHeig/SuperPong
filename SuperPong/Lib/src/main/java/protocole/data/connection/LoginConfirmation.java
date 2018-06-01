@@ -23,6 +23,6 @@ public class LoginConfirmation implements IData {
     }
 
     public String toString(){
-        return connected ? "true": "false";
+        return connected ? "User connected": "User connection refused";
     }
 }
