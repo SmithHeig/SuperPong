@@ -17,10 +17,10 @@ public class Fireball extends Item {
 	}
 	
 	public void execute(Game1v1 game){
-	game.VELOCITY += 4;
+	
 	}
 	
 	public void desexecute(Game1v1 game){
-	game.VELOCITY -= 4;
+	
 	}
 }
