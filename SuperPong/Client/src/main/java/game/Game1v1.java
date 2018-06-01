@@ -9,20 +9,18 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import model.Ball;
 import model.Field;
+import view.BallView;
 import view.Item;
 import view.RandomItem;
 import view.Raquet;
 
 public class Game1v1 {
 	
-	private Ball ball;
+	private BallView ball;
 	public Raquet playerRaquet;
 	public Raquet bot;
 	private final int PLAYER_RAQUET_SIZE = 100, BOT_RAQUET_SIZE = 100;
-	public int VELOCITY = 7;
-	private double  dv = -7, dy = 0;
 	Pane root;
 	private Item item = null;
 	private final int WIDTH = 1000, HEIGHT = 600;
@@ -76,7 +74,7 @@ public class Game1v1 {
 		playerRaquet = new Raquet(0, HEIGHT / 2 - PLAYER_RAQUET_SIZE / 2, PLAYER_RAQUET_SIZE);
 		bot = new Raquet(WIDTH - 10, HEIGHT / 2 - BOT_RAQUET_SIZE, BOT_RAQUET_SIZE);
 		
-		ball = new Ball(WIDTH / 2, HEIGHT / 2);
+		ball = new BallView(7, -1, 0, WIDTH / 2, HEIGHT / 2);
 		
 		player1Score = new Label("0");
 		player1Score.setTextFill(Color.WHITE);
@@ -117,7 +115,7 @@ public class Game1v1 {
 			item.getBox().setRotate(item.getBox().getRotate() + 1);
 			
 			// un joueur touche l'objet
-			if (!estTouche && x >= item.getBox().getLayoutX()-25 && x <= item.getBox().getLayoutX() + 50 && y >= item.getBox().getLayoutY()-25 && y <= item.getBox().getLayoutY() + 50) {
+			if (!estTouche && x >= item.getBox().getLayoutX() - 25 && x <= item.getBox().getLayoutX() + 50 && y >= item.getBox().getLayoutY() - 25 && y <= item.getBox().getLayoutY() + 50) {
 				root.getChildren().remove(item.getBox());
 				item.execute(this);
 				estTouche = true;
@@ -151,8 +149,8 @@ public class Game1v1 {
 			
 			double rad = Math.toRadians(alpha);
 			
-			dv =  Math.cos(rad);
-			dy =  Math.sin(rad);
+			ball.setVelocityX(Math.cos(rad));
+			ball.setVelocityY(Math.sin(rad));
 		}
 		
 		ANGLE_MIN = -135;
@@ -166,8 +164,8 @@ public class Game1v1 {
 			
 			double rad = Math.toRadians(alpha);
 			
-			dv = Math.cos(rad);
-			dy = Math.sin(rad);
+			ball.setVelocityX(Math.cos(rad));
+			ball.setVelocityY(Math.sin(rad));
 		}
 		
 		// le player 1 prend un goal
@@ -185,12 +183,12 @@ public class Game1v1 {
 		}
 		
 		
-		if (y <= 0) dy *= -1;
-		if (y >= HEIGHT - 5) dy *= -1;
+		if (y <= 0 || y >= HEIGHT - 5) ball.setVelocityY(ball.getVelocityY()*(-1));
 		
 		
-		ball.setPositionX(ball.getPositionX() + VELOCITY * dv);
-		ball.setPositionY(ball.getPositionY() + VELOCITY * dy);
+		
+		ball.setPositionX(ball.getPositionX() + ball.getVelocity() * ball.getVelocityX());
+		ball.setPositionY(ball.getPositionY() + ball.getVelocity() * ball.getVelocityY());
 		
 		
 		// l'ia du bot, suit la hauteur de la balle quand elle est dans sa moitié de terrain
@@ -203,8 +201,6 @@ public class Game1v1 {
 			if (bot.getPositionY() + bot.getHeight() < HEIGHT) {
 				bot.setPositionY(bot.getPositionY() + 5);
 			}
-			
 		}
-		
 	}
 }
