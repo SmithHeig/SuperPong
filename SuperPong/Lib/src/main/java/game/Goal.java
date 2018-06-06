@@ -14,5 +14,4 @@ public class Goal {
     /*boolean isGoal(Ball ball){
 
     }*/
-    }*/
 }
