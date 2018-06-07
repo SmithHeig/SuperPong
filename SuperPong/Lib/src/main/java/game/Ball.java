@@ -8,6 +8,7 @@ public class Ball {
 	private double positionX;
 	private double positionY;
 	
+	/* CONSTRUCTEUR */
 	public Ball(int velocity, int velocityX, int velocityY, int positionX, int positionY) {
 		this.velocity = velocity;
 		this.velocityX = velocityX;
@@ -16,6 +17,7 @@ public class Ball {
 		this.positionY = positionY;
 	}
 	
+	/* GETTER */
 	public double getVelocity() {
 		return velocity;
 	}
@@ -36,6 +38,7 @@ public class Ball {
 		return positionY;
 	}
 	
+	/* SETTER */
 	public void setVelocity(double velocity) {
 		this.velocity = velocity;
 	}

@@ -6,6 +6,7 @@ package game;
 public class Raquet {
     private double size; // Taille de la raquette
     private double position; // Position de la raquette (Vertical)
+    
 
     /** CONSTANTE **/
     private static final double INIT_SIZE = 100; // TODO Voir si ca pose pas de problème avec serialization

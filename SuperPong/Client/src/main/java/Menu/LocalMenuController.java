@@ -31,7 +31,7 @@ public class LocalMenuController {
     @FXML
     void playIAGame(ActionEvent event) {
         try {
-            Game1v1 game = new Game1v1();
+            Game1v1 game = new Game1v1(0);
             game.run(Displayer.getInstance().getStage());
         } catch (Exception e){
             e.printStackTrace();

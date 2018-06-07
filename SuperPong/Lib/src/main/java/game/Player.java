@@ -15,10 +15,10 @@ public class Player {
      * @param points - nombre de point du joueur
      * @param position - position de la raquette du joueur
      */
-    public Player(String username, int points, double position){
+    public Player(String username, int points, double position, Raquet raquet){
         this.username = username;
         this.points = points;
-        raquet = new Raquet(position);
+        this.raquet = raquet;
     }
 
     /**
@@ -26,8 +26,8 @@ public class Player {
      * @param username - pseudo du joueur
      * @param position - position de la raquette du joueur
      */
-    public Player(String username, double position){
-        this(username, 0, position);
+    public Player(String username, double position, Raquet raquet){
+        this(username, 0, position, raquet);
     }
 
     /* GETTER */
@@ -38,7 +38,11 @@ public class Player {
     public int getPoints() {
         return points;
     }
-
+    
+    public Raquet getRaquet() {
+        return raquet;
+    }
+    
     /* SETTER */
     public void setUsername(String username) {
         this.username = username;
