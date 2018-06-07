@@ -8,6 +8,10 @@ import protocole.data.Disconnection.Disconnection;
 import protocole.data.Disconnection.DisconnectionConfirmation;
 import protocole.data.connection.Login;
 import protocole.data.connection.LoginConfirmation;
+import protocole.data.matchmaking.GameJoin;
+import protocole.data.matchmaking.InscriptionMatchmaking;
+import protocole.game.ClientInfoMove;
+import protocole.game.ServerInfo;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -33,6 +37,10 @@ public class JsonMapper {
         JSONobjectMapper.registerSubtypes(new NamedType(Login.class, "Login"));
         JSONobjectMapper.registerSubtypes(new NamedType(Disconnection.class, "Disconnection"));
         JSONobjectMapper.registerSubtypes(new NamedType(DisconnectionConfirmation.class, "DisconnectionConfirmation"));
+        JSONobjectMapper.registerSubtypes(new NamedType(GameJoin.class, "GameJoin"));
+        JSONobjectMapper.registerSubtypes(new NamedType(InscriptionMatchmaking.class, "InscriptionMatchmaking"));
+        JSONobjectMapper.registerSubtypes(new NamedType(ClientInfoMove.class,"ClientInfoMove"));
+        JSONobjectMapper.registerSubtypes(new NamedType(ServerInfo.class, "ServerInfo"));
     }
 
     public static String convertToString(Protocole protocole){
