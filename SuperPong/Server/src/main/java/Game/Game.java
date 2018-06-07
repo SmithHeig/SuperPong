@@ -37,6 +37,7 @@ public class Game implements Runnable {
 	 * 		liste de joueur participant à cette partie.
 	 */
 	public Game(LinkedList<PlayerServer> players) {
+		// TODO : change id player
 		this.players = players;
 		notifyPlayerGameJoin();
 		field = new Field(players.size(), 1000, 600);

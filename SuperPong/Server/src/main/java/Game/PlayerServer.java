@@ -1,9 +1,10 @@
 package Game;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import game.Player;
 
 import java.io.PrintWriter;
-
+@JsonIgnoreProperties({"writer"})
 public class PlayerServer extends Player {
     private PrintWriter writer;
 

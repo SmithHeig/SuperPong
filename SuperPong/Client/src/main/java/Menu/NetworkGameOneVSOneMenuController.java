@@ -1,5 +1,6 @@
 package Menu;
 
+import game.Game1v1;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -34,7 +35,16 @@ public class NetworkGameOneVSOneMenuController {
 
     @FXML
     void playOneVOneClassique(ActionEvent event) {
-        ServerManager.getInstance().inscriptionGame(2);
+        if(ServerManager.getInstance().inscriptionGame(2)){
+	        try {
+	        	int idPlayer = ServerManager.getInstance().getIdUser();
+	        	
+		        Game1v1 game = new Game1v1(0);
+		        game.run(Displayer.getInstance().getStage());
+	        } catch (Exception e) {
+		        e.printStackTrace();
+	        }
+        }
     }
 
     @FXML

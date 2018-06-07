@@ -28,10 +28,11 @@ public class ServerManager {
     private static ServerManager instance;
 
     /* ATTRIBUTS */
-    Socket clientSocket;
-    BufferedReader reader;
-    PrintWriter writer;
-    String username;
+    private Socket clientSocket;
+    private BufferedReader reader;
+    private PrintWriter writer;
+    private String username;
+    private int idUser;
 
     boolean isConnected;
 
@@ -39,6 +40,7 @@ public class ServerManager {
      * Constructeur privé (Singleton)
      */
     private ServerManager(){
+    	idUser =0;
     }
 
     /**
@@ -131,7 +133,7 @@ public class ServerManager {
      * Inscrit le joueur à une partie (matchmaking)
      * @param nbPlayer - nombre de joueur dans la partie à rejoindre
      */
-    public void inscriptionGame(int nbPlayer){
+    public boolean inscriptionGame(int nbPlayer){
         LOG.log(Level.INFO, "User inscrit in a matchmaking");
         /* INSCRIPTION */
         Protocole msg = new Protocole(SuperPongProtocole.CMD_INSCRIPTION_GAME, new InscriptionMatchmaking(username,nbPlayer));
@@ -144,7 +146,10 @@ public class ServerManager {
         if(responseServer != null & responseServer.getName().equals(SuperPongProtocole.CMD_INSCRIPTION_GAME)){
             GameJoin data = (GameJoin) responseServer.getData();
             LOG.log(Level.INFO, "User ");
+            idUser = data.getId();
+            return data.isHaveJoin();
         }
+        return false;
     }
 
     public void sendPlayerInfo(Player player){
@@ -162,6 +167,8 @@ public class ServerManager {
     public boolean isConnected(){
         return isConnected;
     }
+    
+    public int getIdUser(){return idUser;}
 
     /**
      * Fonction permettant d'envoyé un msg au server
