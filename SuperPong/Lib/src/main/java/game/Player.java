@@ -4,6 +4,7 @@ package game;
  * Classe représentant un joueur et sa raquette.
  */
 public class Player {
+    private int id;
     private String username; // nom du joueur
     private int points; // Nombre de point que le joueur à
     private Raquet raquet; // Raquette de l'utilisateur
@@ -15,10 +16,21 @@ public class Player {
      * @param points - nombre de point du joueur
      * @param position - position de la raquette du joueur
      */
-    public Player(String username, int points, double position){
+    public Player(String username, int points, double position, int id){
         this.username = username;
         this.points = points;
+        this.id = id;
         raquet = new Raquet(position);
+    }
+
+    /**
+     * Constructeur par copie
+     * @param player - player à copier
+     */
+    public Player(Player player){
+        this.username = player.username;
+        this.raquet = player.raquet;
+        this.points = player.points;
     }
 
     /**
@@ -27,7 +39,7 @@ public class Player {
      * @param position - position de la raquette du joueur
      */
     public Player(String username, double position){
-        this(username, 0, position);
+        this(username, 0, position,0);
     }
 
     /* GETTER */
@@ -39,6 +51,10 @@ public class Player {
         return points;
     }
 
+    public int getId() {
+        return id;
+    }
+
     /* SETTER */
     public void setUsername(String username) {
         this.username = username;
@@ -46,5 +62,9 @@ public class Player {
 
     public void setPoints(int points) {
         this.points = points;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

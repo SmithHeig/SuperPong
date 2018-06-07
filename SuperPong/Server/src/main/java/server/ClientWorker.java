@@ -29,7 +29,7 @@ public class ClientWorker implements Runnable {
 
     public void run() {
         try {
-            handler.handleClientConnection(is,os);
+            handler.handleClientConnection(is,os,clientSocket);
         } catch (IOException e){
             LOG.log(Level.SEVERE, "Error with matching the handler with exception : " + e.getMessage());
         } finally {

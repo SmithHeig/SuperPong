@@ -1,5 +1,7 @@
 package network;
 
+import protocole.data.matchmaking.GameJoin;
+import protocole.data.matchmaking.InscriptionMatchmaking;
 import protocole.mapper.JsonMapper;
 import protocole.Protocole;
 import protocole.SuperPongProtocole;
@@ -97,8 +99,9 @@ public class ServerManager {
         return false; // Echec de la connection
     }
 
-    /*
+    /**
      * Permet de ce déconnecter du serveur
+     * @return true si la déconnection c'est bien passé
      */
     public boolean disconnect(){
         /* DECONNECTION */
@@ -122,8 +125,24 @@ public class ServerManager {
         return false;
     }
 
-    public void play(){
-        // TODO
+    /**
+     * Inscrit le joueur à une partie (matchmaking)
+     * @param nbPlayer - nombre de joueur dans la partie à rejoindre
+     */
+    public void inscriptionGame(int nbPlayer){
+        LOG.log(Level.INFO, "User inscrit in a matchmaking");
+        /* INSCRIPTION */
+        Protocole msg = new Protocole(SuperPongProtocole.CMD_INSCRIPTION_GAME, new InscriptionMatchmaking(username,nbPlayer));
+
+        sendMessageToServer(msg);
+
+        /* Reponse du server */
+        Protocole responseServer = readMsgFromServer();
+
+        if(responseServer != null & responseServer.getName().equals(SuperPongProtocole.CMD_INSCRIPTION_GAME)){
+            GameJoin data = (GameJoin) responseServer.getData();
+            LOG.log(Level.INFO, "User ");
+        }
     }
 
     /**

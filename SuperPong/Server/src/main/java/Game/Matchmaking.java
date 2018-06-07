@@ -1,7 +1,6 @@
 package Game;
 
 import game.Player;
-import server.ClientHandler;
 
 import java.util.LinkedList;
 import java.util.logging.Logger;
@@ -13,6 +12,9 @@ import java.util.logging.Logger;
 public class Matchmaking {
     /* LOGGER */
     private final static Logger LOG = Logger.getLogger(Matchmaking.class.getName());
+
+    /* INSTANCE */
+    private final static Matchmaking instance = new Matchmaking();
 
     /* ATTRIBUTS */
     private LinkedList<Player> game2players; // liste d'attente pour les partie 1v1
@@ -29,7 +31,7 @@ public class Matchmaking {
     /**
      * Constructeur de la classe gérant le matchmaking
      */
-    public Matchmaking(){
+    private Matchmaking(){
         game2players = new LinkedList<>();
         game3players = new LinkedList<>();
         game4players = new LinkedList<>();
@@ -41,11 +43,15 @@ public class Matchmaking {
         currentGames = new LinkedList<>();
     }
 
+    public static Matchmaking getInstance(){
+        return instance;
+    }
+
     /**
      * Inscrit un jouer à la liste d'attente et tente de créer une partie si assez de joueur
      * @param player - joueur à rajouter
      */
-    public synchronized void inscriptionGame2players(Player player){
+    public synchronized void inscriptionGame2players(Game.PlayerServer player){
         game2players.push(player);
         tryCreateGame2players();
     }
@@ -70,8 +76,9 @@ public class Matchmaking {
         for(int i = 0; i < nbPlayers; ++i){
             players.add(listPlayer.pop());
         }
-
-        currentGames.add(new Game(players));
+        Game game = new Game(players);
+        currentGames.add(game);
+        game.run();
     }
 
     /**

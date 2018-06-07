@@ -1,12 +1,13 @@
 package server;
 
+import Game.Matchmaking;
+import game.Player;
 import protocole.Protocole;
 import protocole.SuperPongProtocole;
 import protocole.data.Disconnection.Disconnection;
 import protocole.data.Disconnection.DisconnectionConfirmation;
 import protocole.data.connection.LoginConfirmation;
 import protocole.data.connection.Login;
-import protocole.data.matchmaking.GameJoin;
 import protocole.data.matchmaking.InscriptionMatchmaking;
 import protocole.mapper.JsonMapper;
 
@@ -75,16 +76,25 @@ public class ClientHandler implements IClientHandler{
                         done = true; // Will stopped the clientHandler
                         LOG.log(Level.INFO, "user disconnected");
                         break;
+                    /* MATCHMAKING */
                     case SuperPongProtocole.CMD_INSCRIPTION_GAME:
                         InscriptionMatchmaking inscriptionMatchmaking = (InscriptionMatchmaking) msgReceived.getData();
 
                         LOG.log(Level.INFO, inscriptionMatchmaking.toString());
 
-                        // TODO: Join MatchMaking
+                        Player playerReceived = inscriptionMatchmaking.getPlayer();
+                        Game.PlayerServer playerServer = new Game.PlayerServer(playerReceived, writer);
 
-                        Protocole joinGame = new Protocole(SuperPongProtocole.CMD_INSCRIPTION_GAME, new GameJoin(true));
+                        /* Donne la communication (écriture) au matchmaking puis au jeu */
+                        Matchmaking.getInstance().inscriptionGame2players(playerServer);
+
+                        // Protocole joinGame = new Protocole(SuperPongProtocole.CMD_INSCRIPTION_GAME, new GameJoin(true));
 
                         // TODO: Repondre faux si timeout
+                        break;
+                    /* Play */
+                    case SuperPongProtocole.CMD_PLAY:
+                        // TODO: Update the game
                         break;
                     default:
                         LOG.log(Level.SEVERE, "Wrong Protocole");
