@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import main.Displayer;
+import network.ServerManager;
 
 public class NetworkGameOneVSOneMenuController {
 
@@ -33,7 +34,7 @@ public class NetworkGameOneVSOneMenuController {
 
     @FXML
     void playOneVOneClassique(ActionEvent event) {
-
+        ServerManager.getInstance().inscriptionGame(2);
     }
 
     @FXML

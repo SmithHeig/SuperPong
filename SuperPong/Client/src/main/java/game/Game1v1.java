@@ -16,6 +16,9 @@ import view.Item;
 import view.RandomItem;
 import view.RaquetView;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class Game1v1 {
 	
 	private BallView ball;
@@ -80,14 +83,14 @@ public class Game1v1 {
 		
 		root.getChildren().addAll(((RaquetView) player1.getRaquet()).getRaquet(), ((RaquetView) player2.getRaquet()).getRaquet(), ball.getBall(), player1Score, player2Score);
 		
-		AnimationTimer timer = new AnimationTimer() {
+		Timer time = new Timer();
+		TimerTask timerTask1 = new TimerTask() {
 			@Override
-			public void handle(long now) {
+			public void run() {
 				gameUptate();
 			}
 		};
-		
-		timer.start();
+		time.scheduleAtFixedRate(timerTask1, 20, 20);
 		
 		return root;
 	}
@@ -101,6 +104,7 @@ public class Game1v1 {
 		boolean PlayerlastTouchTheBall = true;
 		
 		// items
+		/*
 		if (item != null) {
 			item.getBox().setRotate(item.getBox().getRotate() + 1);
 			
@@ -127,6 +131,7 @@ public class Game1v1 {
 				}
 			}
 		}
+		*/
 		
 		timerTime++;
 		
