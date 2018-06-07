@@ -10,6 +10,7 @@ import protocole.data.Disconnection.Disconnection;
 import protocole.data.Disconnection.DisconnectionConfirmation;
 import protocole.data.connection.LoginConfirmation;
 import protocole.data.connection.Login;
+import protocole.data.matchmaking.GameJoin;
 import protocole.data.matchmaking.InscriptionMatchmaking;
 import protocole.game.ClientInfoMove;
 import protocole.mapper.JsonMapper;
@@ -87,12 +88,11 @@ public class ClientHandler implements IClientHandler{
                         LOG.log(Level.INFO, inscriptionMatchmaking.toString());
 
                         String username = inscriptionMatchmaking.getUsername();
-                        Game.PlayerServer playerServer = new Game.PlayerServer(new Player(username), writer);
+                        PlayerServer playerServer = new Game.PlayerServer(new Player(username), writer);
 
                         /* Donne la communication (écriture) au matchmaking puis au jeu */
                         Matchmaking.getInstance().inscriptionGame2players(playerServer);
 
-                        // TODO: Repondre faux si timeout
                         break;
                     /* Play */
                     case SuperPongProtocole.CMD_PLAY:

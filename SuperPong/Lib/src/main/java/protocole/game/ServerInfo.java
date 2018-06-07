@@ -1,5 +1,6 @@
 package protocole.game;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import game.Ball;
 import game.Player;
@@ -11,6 +12,7 @@ public class ServerInfo implements IData {
     private LinkedList<Player> players;
     private Ball ball;
 
+    @JsonCreator
     public ServerInfo(@JsonProperty("players") LinkedList<Player> players, @JsonProperty("ball") Ball ball){
         this.players = players;
         this.ball = ball;
