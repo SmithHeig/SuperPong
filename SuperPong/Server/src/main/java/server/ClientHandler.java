@@ -1,5 +1,6 @@
 package server;
 
+import Game.Game;
 import Game.Matchmaking;
 import Game.PlayerServer;
 import game.Player;
@@ -10,6 +11,7 @@ import protocole.data.Disconnection.DisconnectionConfirmation;
 import protocole.data.connection.LoginConfirmation;
 import protocole.data.connection.Login;
 import protocole.data.matchmaking.InscriptionMatchmaking;
+import protocole.game.ClientInfoMove;
 import protocole.mapper.JsonMapper;
 
 import java.io.*;
@@ -24,6 +26,7 @@ public class ClientHandler implements IClientHandler{
     private BufferedReader reader;
     private PrintWriter writer;
     private boolean isConnected;
+    private Game game;
 
     public void handleClientConnection(InputStream is, OutputStream os) throws IOException {
 
@@ -89,13 +92,18 @@ public class ClientHandler implements IClientHandler{
                         /* Donne la communication (écriture) au matchmaking puis au jeu */
                         Matchmaking.getInstance().inscriptionGame2players(playerServer);
 
-                        // Protocole joinGame = new Protocole(SuperPongProtocole.CMD_INSCRIPTION_GAME, new GameJoin(true));
-
                         // TODO: Repondre faux si timeout
                         break;
                     /* Play */
                     case SuperPongProtocole.CMD_PLAY:
-                        // TODO: Update the game
+                        ClientInfoMove clientInfoMove = (ClientInfoMove) msgReceived.getData();
+
+                        LOG.log(Level.INFO, clientInfoMove.toString());
+
+                        if(game != null){
+                            game.updateFromClient(clientInfoMove.getPlayer());
+                        }
+
                         break;
                     default:
                         LOG.log(Level.SEVERE, "Wrong Protocole");
@@ -104,6 +112,14 @@ public class ClientHandler implements IClientHandler{
             }
         }
         LOG.log(Level.INFO, "ClientHandler closing...");
+    }
+
+    public PrintWriter getWriter() {
+        return writer;
+    }
+
+    public void setGame(Game game){
+        this.game = game;
     }
 
     private void sendToClient(Protocole msg){

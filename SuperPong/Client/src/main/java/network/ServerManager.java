@@ -3,6 +3,7 @@ package network;
 import game.Player;
 import protocole.data.matchmaking.GameJoin;
 import protocole.data.matchmaking.InscriptionMatchmaking;
+import protocole.game.ClientInfoMove;
 import protocole.mapper.JsonMapper;
 import protocole.Protocole;
 import protocole.SuperPongProtocole;
@@ -144,6 +145,14 @@ public class ServerManager {
             GameJoin data = (GameJoin) responseServer.getData();
             LOG.log(Level.INFO, "User ");
         }
+    }
+
+    public void sendPlayerInfo(Player player){
+        LOG.log(Level.INFO, "User send movement to server");
+
+        Protocole msg = new Protocole(SuperPongProtocole.CMD_PLAY, new ClientInfoMove(player));
+
+        sendMessageToServer(msg);
     }
 
     /**
