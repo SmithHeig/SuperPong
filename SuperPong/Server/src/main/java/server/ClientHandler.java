@@ -1,6 +1,7 @@
 package server;
 
 import Game.Matchmaking;
+import Game.PlayerServer;
 import game.Player;
 import protocole.Protocole;
 import protocole.SuperPongProtocole;
@@ -82,8 +83,8 @@ public class ClientHandler implements IClientHandler{
 
                         LOG.log(Level.INFO, inscriptionMatchmaking.toString());
 
-                        Player playerReceived = inscriptionMatchmaking.getPlayer();
-                        Game.PlayerServer playerServer = new Game.PlayerServer(playerReceived, writer);
+                        String username = inscriptionMatchmaking.getUsername();
+                        Game.PlayerServer playerServer = new Game.PlayerServer(new Player(username), writer);
 
                         /* Donne la communication (écriture) au matchmaking puis au jeu */
                         Matchmaking.getInstance().inscriptionGame2players(playerServer);

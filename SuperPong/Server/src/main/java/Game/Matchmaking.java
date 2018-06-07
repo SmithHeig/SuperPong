@@ -1,7 +1,5 @@
 package Game;
 
-import game.Player;
-
 import java.util.LinkedList;
 import java.util.logging.Logger;
 
@@ -17,13 +15,13 @@ public class Matchmaking {
     private final static Matchmaking instance = new Matchmaking();
 
     /* ATTRIBUTS */
-    private LinkedList<Player> game2players; // liste d'attente pour les partie 1v1
-    private LinkedList<Player> game3players; // liste d'attente pour les partie 1v1v1
-    private LinkedList<Player> game4players; // liste d'attente pour les partie 1v1v1
-    private LinkedList<Player> game5players; // liste d'attente pour les parties 1v1v1v1
-    private LinkedList<Player> game6players; // liste d'attente pour les parties 1v1v1v1v1
-    private LinkedList<Player> game7players; // liste d'attente pour les parties 1v1v1v1v1v1
-    private LinkedList<Player> game8players; // liste d'attetne pour les parties 1v1v1v1v1v1v1
+    private LinkedList<PlayerServer> game2players; // liste d'attente pour les partie 1v1
+    private LinkedList<PlayerServer> game3players; // liste d'attente pour les partie 1v1v1
+    private LinkedList<PlayerServer> game4players; // liste d'attente pour les partie 1v1v1
+    private LinkedList<PlayerServer> game5players; // liste d'attente pour les parties 1v1v1v1
+    private LinkedList<PlayerServer> game6players; // liste d'attente pour les parties 1v1v1v1v1
+    private LinkedList<PlayerServer> game7players; // liste d'attente pour les parties 1v1v1v1v1v1
+    private LinkedList<PlayerServer> game8players; // liste d'attetne pour les parties 1v1v1v1v1v1v1
 
     private LinkedList<Game> currentGames;
 
@@ -51,7 +49,7 @@ public class Matchmaking {
      * Inscrit un jouer à la liste d'attente et tente de créer une partie si assez de joueur
      * @param player - joueur à rajouter
      */
-    public synchronized void inscriptionGame2players(Game.PlayerServer player){
+    public synchronized void inscriptionGame2players(PlayerServer player){
         game2players.push(player);
         tryCreateGame2players();
     }
@@ -71,8 +69,8 @@ public class Matchmaking {
      * @param nbPlayers nombre de joueur dans la partie
      * @param listPlayer référence vers la liste des joueurs en attentes.
      */
-    private synchronized void createGame(int nbPlayers, LinkedList<Player> listPlayer){
-        LinkedList<Player> players = new LinkedList<>();
+    private synchronized void createGame(int nbPlayers, LinkedList<PlayerServer> listPlayer){
+        LinkedList<PlayerServer> players = new LinkedList<>();
         for(int i = 0; i < nbPlayers; ++i){
             players.add(listPlayer.pop());
         }

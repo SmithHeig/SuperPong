@@ -1,5 +1,6 @@
 package network;
 
+import game.Player;
 import protocole.data.matchmaking.GameJoin;
 import protocole.data.matchmaking.InscriptionMatchmaking;
 import protocole.mapper.JsonMapper;

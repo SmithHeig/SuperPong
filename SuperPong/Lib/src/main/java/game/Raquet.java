@@ -21,6 +21,10 @@ public class Raquet {
         this.position = position;
     }
 
+    public Raquet(){
+        this(100,0);
+    }
+
     /**
      * Constructeur avec la position de la raquette et la taille par défaut
      * @param position - position de la raquette

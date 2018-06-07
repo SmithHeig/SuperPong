@@ -55,11 +55,13 @@ public class Game implements Runnable{
     /**
      * Méthode qui notifie aux joueurs: l'état de la balle et des autres joueurs
      */
-    private void notifyPlayers(){
+    private synchronized void notifyPlayers(){
 
     }
 
-    private void sendMessage(Protocole msg, PrintWriter writer){
+    public synchronized void updateFromClient(){}
+
+    private synchronized void sendMessage(Protocole msg, PrintWriter writer){
         String msgJson = JsonMapper.getInstance().convertToString(msg);
         LOG.log(Level.INFO, "SERVER: Send msg : " + msgJson);
         writer.println(msgJson + "\n");

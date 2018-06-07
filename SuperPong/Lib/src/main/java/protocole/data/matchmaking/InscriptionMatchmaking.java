@@ -6,25 +6,25 @@ import game.Player;
 import protocole.data.IData;
 
 public class InscriptionMatchmaking implements IData {
-    private Player player;
+    private String username;
     private int nbPlayer;
 
     @JsonCreator
-    public InscriptionMatchmaking(@JsonProperty(value="player") Player player, @JsonProperty(value="nbPlayer") int nbPlayer){
-        this.player = player;
+    public InscriptionMatchmaking(@JsonProperty(value="username") String username, @JsonProperty(value="nbPlayer") int nbPlayer){
+        this.username = username;
         this.nbPlayer = nbPlayer;
     }
 
-    public void setPlayer(Player player) {
-        this.player = player;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setNbPlayer(int nbPlayer) {
         this.nbPlayer = nbPlayer;
     }
 
-    public Player getPlayer() {
-        return player;
+    public String getUsername() {
+        return username;
     }
 
     public int getNbPlayer() {
@@ -32,6 +32,6 @@ public class InscriptionMatchmaking implements IData {
     }
 
     public String toString(){
-        return "Inscription by " + player + " to a game with " + nbPlayer;
+        return "Inscription by " + username + " to a game with " + nbPlayer;
     }
 }

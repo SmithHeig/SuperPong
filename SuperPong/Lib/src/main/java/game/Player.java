@@ -33,6 +33,10 @@ public class Player {
         this.points = player.points;
     }
 
+    public Player(String username){
+        this(username,0,0,0,new Raquet());
+    }
+
     /**
      * Constructeur avec paramètres parcielle
      * @param username - pseudo du joueur
