@@ -16,11 +16,11 @@ public class Player {
      * @param points - nombre de point du joueur
      * @param position - position de la raquette du joueur
      */
-    public Player(String username, int points, double position, int id){
+    public Player(String username, int points, double position, int id, Raquet raquet){
         this.username = username;
         this.points = points;
         this.id = id;
-        raquet = new Raquet(position);
+        this.raquet = raquet;
     }
 
     /**
@@ -38,8 +38,8 @@ public class Player {
      * @param username - pseudo du joueur
      * @param position - position de la raquette du joueur
      */
-    public Player(String username, double position){
-        this(username, 0, position,0);
+    public Player(String username, double position, Raquet raquet){
+        this(username, 0, position,0, raquet);
     }
 
     /* GETTER */
@@ -50,6 +50,11 @@ public class Player {
     public int getPoints() {
         return points;
     }
+    
+    public Raquet getRaquet() {
+        return raquet;
+    }
+    
 
     public int getId() {
         return id;

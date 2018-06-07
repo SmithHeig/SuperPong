@@ -1,10 +1,12 @@
 package game;
 
 import javafx.animation.AnimationTimer;
+import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -13,56 +15,49 @@ import model.Field;
 import view.BallView;
 import view.Item;
 import view.RandomItem;
-import view.Raquet;
+import view.RaquetView;
 
 public class Game1v1 {
 	
 	private BallView ball;
-	public Raquet playerRaquet;
-	public Raquet bot;
-	private final int PLAYER_RAQUET_SIZE = 100, BOT_RAQUET_SIZE = 100;
+	private Player player1;
+	private Player player2;
+	private Label player1Score;
+	private Label player2Score;
+	private Player myself;
+	private double yplayer;
+	
+	private final int PLAYER_RAQUET_SIZE = 100;
 	Pane root;
 	private Item item = null;
 	private final int WIDTH = 1000, HEIGHT = 600;
 	AnimationTimer timer;
-	Label player1Score;
-	Label player2Score;
+	
 	RandomItem randomItem = new RandomItem();
 	static boolean appui;
 	long timerTime = 1;
 	public boolean PlayerlastTouchTheBall = true;
 	private boolean estTouche = false;
-	private int compteurEstTouche = 1;
+	
+	public Game1v1(int myselfID) {
+		player1 = new Player("player1", 0, new RaquetView(PLAYER_RAQUET_SIZE, HEIGHT / 2 - PLAYER_RAQUET_SIZE / 2, 0));
+		player2 = new Player("player2", 0, new RaquetView(PLAYER_RAQUET_SIZE, HEIGHT / 2 - PLAYER_RAQUET_SIZE / 2, WIDTH - 10));
+		
+		if (myselfID == 0) {
+			myself = player1;
+		} else{
+			myself = player2;
+		}
+	}
 	
 	public void run(Stage primaryStage) throws Exception {
 		primaryStage.setTitle("Game1v1");
 		primaryStage.setScene(new Scene(createContent()));
 		
 		primaryStage.show();
-		primaryStage.getScene().setOnKeyTyped(event -> {
-			if (event.getCode() == KeyCode.UP) {
-				if (playerRaquet.getPositionY() > 0) {
-					playerRaquet.setPositionY(playerRaquet.getPositionY() - 30);
-				}
-				
-			}
-			if (event.getCode() == KeyCode.DOWN) {
-				if (playerRaquet.getPositionY() + playerRaquet.getHeight() < HEIGHT) {
-					playerRaquet.setPositionY(playerRaquet.getPositionY() + 30);
-				}
-			}
-		});
-		primaryStage.getScene().setOnKeyPressed(event -> {
-			appui = true;
-			if (event.getCode() == KeyCode.UP) {
-				if (playerRaquet.getPositionY() > 0) {
-					playerRaquet.setPositionY(playerRaquet.getPositionY() - 30);
-				}
-			}
-			if (event.getCode() == KeyCode.DOWN) {
-				if (playerRaquet.getPositionY() + playerRaquet.getHeight() < HEIGHT) {
-					playerRaquet.setPositionY(playerRaquet.getPositionY() + 30);
-				}
+		root.setOnMouseMoved(new EventHandler<MouseEvent>() {
+			public void handle(MouseEvent me) {
+				yplayer = me.getY();
 			}
 		});
 	}
@@ -71,8 +66,6 @@ public class Game1v1 {
 	private Parent createContent() {
 		Field field = new Field(WIDTH, HEIGHT);
 		root = field.printField();
-		playerRaquet = new Raquet(0, HEIGHT / 2 - PLAYER_RAQUET_SIZE / 2, PLAYER_RAQUET_SIZE);
-		bot = new Raquet(WIDTH - 10, HEIGHT / 2 - BOT_RAQUET_SIZE, BOT_RAQUET_SIZE);
 		
 		ball = new BallView(7, -1, 0, WIDTH / 2, HEIGHT / 2);
 		
@@ -89,7 +82,7 @@ public class Game1v1 {
 		player2Score.setLayoutY(50);
 		
 		
-		root.getChildren().addAll(playerRaquet.createPlayer(), bot.createPlayer(), ball.getBall(), player1Score, player2Score);
+		root.getChildren().addAll(((RaquetView) player1.getRaquet()).getRaquet(), ((RaquetView) player2.getRaquet()).getRaquet(), ball.getBall(), player1Score, player2Score);
 		
 		timer = new AnimationTimer() {
 			@Override
@@ -141,9 +134,9 @@ public class Game1v1 {
 		timerTime++;
 		
 		// si le joueur touche la balle
-		if (x <= 15 && y > playerRaquet.getPositionY() && y < playerRaquet.getPositionY() + playerRaquet.getHeight()) {
+		if (x <= 15 && y > player1.getRaquet().getPosition() && y < player1.getRaquet().getPosition() + player1.getRaquet().getSize()) {
 			PlayerlastTouchTheBall = true;
-			double perCent = (y - playerRaquet.getPositionY()) / playerRaquet.getHeight();
+			double perCent = (y - player1.getRaquet().getPosition()) / player1.getRaquet().getSize();
 			
 			double alpha = ANGLE_DELTA * perCent + ANGLE_MIN;
 			
@@ -155,10 +148,10 @@ public class Game1v1 {
 		
 		ANGLE_MIN = -135;
 		ANGLE_DELTA = 90;
-		if (x >= WIDTH - 10 && y > bot.getPositionY() && y < bot.getPositionY() + bot.getHeight()) {
+		if (x >= WIDTH - 10 && y > player2.getRaquet().getPosition() && y < player2.getRaquet().getPosition() + player2.getRaquet().getSize()) {
 			
 			PlayerlastTouchTheBall = false;
-			double perCent = (y - bot.getPositionY()) / bot.getHeight();
+			double perCent = (y - player2.getRaquet().getPosition()) / player2.getRaquet().getSize();
 			
 			double alpha = -ANGLE_DELTA * perCent + ANGLE_MIN;
 			
@@ -170,21 +163,22 @@ public class Game1v1 {
 		
 		// le player 1 prend un goal
 		if (x < 0) {
-			player2Score.setText(Integer.toString(Integer.parseInt(player2Score.getText()) + 1));
+			player2.setPoints(player2.getPoints() + 1);
+			player2Score.setText(Integer.toString(player2.getPoints()));
 			ball.setPositionY(HEIGHT / 2);
 			ball.setPositionX(WIDTH / 2);
 		}
 		
 		// le player 2 prend un goal
 		if (x > WIDTH) {
-			player1Score.setText(Integer.toString(Integer.parseInt(player1Score.getText()) + 1));
+			player1.setPoints(player1.getPoints() + 1);
+			player1Score.setText(Integer.toString(player1.getPoints()));
 			ball.setPositionY(HEIGHT / 2);
 			ball.setPositionX(WIDTH / 2);
 		}
 		
 		
-		if (y <= 0 || y >= HEIGHT - 5) ball.setVelocityY(ball.getVelocityY()*(-1));
-		
+		if (y <= 0 || y >= HEIGHT - 5) ball.setVelocityY(ball.getVelocityY() * (-1));
 		
 		
 		ball.setPositionX(ball.getPositionX() + ball.getVelocity() * ball.getVelocityX());
@@ -192,15 +186,28 @@ public class Game1v1 {
 		
 		
 		// l'ia du bot, suit la hauteur de la balle quand elle est dans sa moitié de terrain
-		if (x > WIDTH / 2 && bot.getPositionY() + 30 > y) {
-			if (bot.getPositionY() > 0) {
-				bot.setPositionY(bot.getPositionY() - 5);
+		if (x > WIDTH / 2 && player2.getRaquet().getPosition() + 30 > y) {
+			if (player2.getRaquet().getPosition() > 0) {
+				player2.getRaquet().setPosition(player2.getRaquet().getPosition() - 5);
 			}
 		}
-		if (x > WIDTH / 2 && bot.getPositionY() - 30 + bot.getHeight() / 2 < y) {
-			if (bot.getPositionY() + bot.getHeight() < HEIGHT) {
-				bot.setPositionY(bot.getPositionY() + 5);
+		if (x > WIDTH / 2 && player2.getRaquet().getPosition() - 30 + player2.getRaquet().getSize() / 2 < y) {
+			if (player2.getRaquet().getPosition() + player2.getRaquet().getSize() < HEIGHT) {
+				player2.getRaquet().setPosition(player2.getRaquet().getPosition() + 5);
 			}
+		}
+		
+		// l'ia du bot, suit la hauteur de la balle quand elle est dans sa moitié de terrain
+		if (myself.getRaquet().getPosition() + 30 > yplayer) {
+			if (myself.getRaquet().getPosition() > 0) {
+				myself.getRaquet().setPosition(myself.getRaquet().getPosition() - 5);
+			}
+		}
+		if (myself.getRaquet().getPosition() - 30 + myself.getRaquet().getSize() / 2 < yplayer) {
+			if (myself.getRaquet().getPosition() + myself.getRaquet().getSize() < HEIGHT) {
+				myself.getRaquet().setPosition(myself.getRaquet().getPosition() + 5);
+			}
+			
 		}
 	}
 }

@@ -6,7 +6,6 @@ import javafx.scene.paint.PhongMaterial;
 
 public class ReduceOtherRaquet extends Item {
 	
-	Raquet toReduce;
 	
 	public ReduceOtherRaquet(int width, int height) {
 		super(width, height);
@@ -19,11 +18,10 @@ public class ReduceOtherRaquet extends Item {
 	}
 	
 	public void execute(Game1v1 game) {
-		toReduce = game.PlayerlastTouchTheBall ? game.bot : game.playerRaquet;
-		toReduce.setHeight(toReduce.getHeight() / 2);
+	
 	}
 	
 	public void desexecute(Game1v1 game) {
-		toReduce.setHeight(toReduce.getHeight() * 2);
+	
 	}
 }
