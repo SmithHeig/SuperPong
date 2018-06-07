@@ -4,6 +4,7 @@ import game.Player;
 import protocole.data.matchmaking.GameJoin;
 import protocole.data.matchmaking.InscriptionMatchmaking;
 import protocole.game.ClientInfoMove;
+import protocole.game.ServerInfo;
 import protocole.mapper.JsonMapper;
 import protocole.Protocole;
 import protocole.SuperPongProtocole;
@@ -152,12 +153,21 @@ public class ServerManager {
         return false;
     }
 
-    public void sendPlayerInfo(Player player){
+    public synchronized void sendPlayerInfo(Player player){
         LOG.log(Level.INFO, "User send movement to server");
 
         Protocole msg = new Protocole(SuperPongProtocole.CMD_PLAY, new ClientInfoMove(player));
 
         sendMessageToServer(msg);
+    }
+
+    /**
+     * Methode pour récupéré les infos des autres joueurs et de la balle
+     * @return
+     */
+    public synchronized ServerInfo receivedGameInfos(){
+        Protocole responseServer = readMsgFromServer();
+        return (ServerInfo)responseServer.getData();
     }
 
     /**

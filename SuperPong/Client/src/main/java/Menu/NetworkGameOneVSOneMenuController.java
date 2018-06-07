@@ -40,6 +40,7 @@ public class NetworkGameOneVSOneMenuController {
 	        	int idPlayer = ServerManager.getInstance().getIdUser();
 	        	
 		        Game1v1 game = new Game1v1(0);
+		        // TODO utilise NetworkManager.getInstance().receivedGameInfos() dans un thrad de Game1v1 pour mettre à jour des données (ball + joueurs)
 		        game.run(Displayer.getInstance().getStage());
 	        } catch (Exception e) {
 		        e.printStackTrace();
