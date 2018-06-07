@@ -7,8 +7,9 @@ import java.io.PrintWriter;
 public class PlayerServer extends Player {
     private PrintWriter writer;
 
+    // TODO a changé Po Bo
     public PlayerServer(String username, int points, double position, PrintWriter socket) {
-        super(username, points, position);
+        super(username);
         this.writer = socket;
     }
 
@@ -19,5 +20,9 @@ public class PlayerServer extends Player {
 
     public PrintWriter getWriter(){
         return writer;
+    }
+
+    public void update(Player player){
+        this.raquet = player.getRaquet();
     }
 }

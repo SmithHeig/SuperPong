@@ -7,7 +7,7 @@ public class Player {
     private int id;
     private String username; // nom du joueur
     private int points; // Nombre de point que le joueur à
-    private Raquet raquet; // Raquette de l'utilisateur
+    protected Raquet raquet; // Raquette de l'utilisateur
 
 
     /**

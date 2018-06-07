@@ -28,12 +28,10 @@ public class Game implements Runnable{
 
     /**
      * Contructeur
-     * @param _players liste de joueur participant à cette partie.
+     * @param players liste de joueur participant à cette partie.
      */
-    public Game(LinkedList<PlayerServer> _players){
-        for(PlayerServer player : _players){
-            players.add(player);
-        }
+    public Game(LinkedList<PlayerServer> players){
+        this.players = players;
         notifyPlayerGameJoin();
     }
 
@@ -59,12 +57,14 @@ public class Game implements Runnable{
 
     }
 
-    public synchronized void updateFromClient(){}
-
     private synchronized void sendMessage(Protocole msg, PrintWriter writer){
         String msgJson = JsonMapper.getInstance().convertToString(msg);
         LOG.log(Level.INFO, "SERVER: Send msg : " + msgJson);
         writer.println(msgJson + "\n");
         writer.flush();
+    }
+
+    public synchronized void updateFromClient(Player updatePlayer){
+        players.get(updatePlayer.getId()).update(updatePlayer); // TODO: Verifier que les joueurs sont trié par ID dans la linkedlist
     }
 }
