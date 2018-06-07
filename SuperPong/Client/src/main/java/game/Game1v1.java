@@ -5,7 +5,6 @@ import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -28,15 +27,12 @@ public class Game1v1 {
 	private double yplayer;
 	
 	private final int PLAYER_RAQUET_SIZE = 100;
-	Pane root;
+	private Pane root;
 	private Item item = null;
 	private final int WIDTH = 1000, HEIGHT = 600;
-	AnimationTimer timer;
 	
-	RandomItem randomItem = new RandomItem();
-	static boolean appui;
-	long timerTime = 1;
-	public boolean PlayerlastTouchTheBall = true;
+	private RandomItem randomItem = new RandomItem();
+	private long timerTime = 1;
 	private boolean estTouche = false;
 	
 	public Game1v1(int myselfID) {
@@ -84,7 +80,7 @@ public class Game1v1 {
 		
 		root.getChildren().addAll(((RaquetView) player1.getRaquet()).getRaquet(), ((RaquetView) player2.getRaquet()).getRaquet(), ball.getBall(), player1Score, player2Score);
 		
-		timer = new AnimationTimer() {
+		AnimationTimer timer = new AnimationTimer() {
 			@Override
 			public void handle(long now) {
 				gameUptate();
@@ -100,10 +96,11 @@ public class Game1v1 {
 		double x = ball.getPositionX();
 		double y = ball.getPositionY();
 		
-		double ANGLE_MIN = -45;
-		double ANGLE_MAX = 45;
-		double ANGLE_DELTA = ANGLE_MAX - ANGLE_MIN;
 		
+		
+		boolean PlayerlastTouchTheBall = true;
+		
+		// items
 		if (item != null) {
 			item.getBox().setRotate(item.getBox().getRotate() + 1);
 			
@@ -132,6 +129,10 @@ public class Game1v1 {
 		}
 		
 		timerTime++;
+		
+		double ANGLE_MIN = -45;
+		double ANGLE_MAX = 45;
+		double ANGLE_DELTA = ANGLE_MAX - ANGLE_MIN;
 		
 		// si le joueur touche la balle
 		if (x <= 15 && y > player1.getRaquet().getPosition() && y < player1.getRaquet().getPosition() + player1.getRaquet().getSize()) {
@@ -177,15 +178,15 @@ public class Game1v1 {
 			ball.setPositionX(WIDTH / 2);
 		}
 		
-		
+		// rebonds contre les murs haut et bas
 		if (y <= 0 || y >= HEIGHT - 5) ball.setVelocityY(ball.getVelocityY() * (-1));
 		
-		
+		// mise à jour de la position de la balle
 		ball.setPositionX(ball.getPositionX() + ball.getVelocity() * ball.getVelocityX());
 		ball.setPositionY(ball.getPositionY() + ball.getVelocity() * ball.getVelocityY());
 		
 		
-		// l'ia du bot, suit la hauteur de la balle quand elle est dans sa moitié de terrain
+		// joueur
 		if (x > WIDTH / 2 && player2.getRaquet().getPosition() + 30 > y) {
 			if (player2.getRaquet().getPosition() > 0) {
 				player2.getRaquet().setPosition(player2.getRaquet().getPosition() - 5);
@@ -207,7 +208,6 @@ public class Game1v1 {
 			if (myself.getRaquet().getPosition() + myself.getRaquet().getSize() < HEIGHT) {
 				myself.getRaquet().setPosition(myself.getRaquet().getPosition() + 5);
 			}
-			
 		}
 	}
 }
