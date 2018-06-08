@@ -58,8 +58,31 @@ public class Game implements Runnable {
 				ball.setPositionX(ball.getPositionX() + ball.getVelocity() * ball.getVelocityX());
 				ball.setPositionY(ball.getPositionY() + ball.getVelocity() * ball.getVelocityY());
 				
+				double ANGLE_MIN = -45;
+				double ANGLE_MAX = 45;
+				double ANGLE_DELTA = ANGLE_MAX - ANGLE_MIN;
+				
+				if (ball.getPositionX() <= 0) {
+					if (ball.getPositionY() > players.get(0).getRaquet().getPosition()
+							&& ball.getPositionY() < players.get(0).getRaquet().getPosition() + players.get(0).getRaquet().getSize()) {
+						double perCent = (ball.getPositionY() - players.get(0).getRaquet().getPosition()) / players.get(0).getRaquet().getSize();
+						
+						double alpha = ANGLE_DELTA * perCent + ANGLE_MIN;
+						
+						double rad = Math.toRadians(alpha);
+						
+						ball.setVelocityX(Math.cos(rad));
+						ball.setVelocityY(Math.sin(rad));
+					} else {
+						players.get(1).setPoints(players.get(1).getPoints() + 1);
+						ball.setPositionY(field.getHeight() / 2);
+						ball.setPositionX(field.getWidth() / 2);
+					}
+				}
+				
+				
 				// rebonds contre les murs haut et bas
-				if (ball.getPositionY() <= 0 || ball.getPositionX() >= field.getHeight()) ball.setVelocityY(ball.getVelocityY() * (-1));
+				if (ball.getPositionX() >= field.getHeight()) ball.setVelocityY(ball.getVelocityY() * (-1));
 				if (ball.getPositionX() <= 0 || ball.getPositionX() >= field.getWidth()) ball.setVelocityX(ball.getVelocityX() * (-1));
 				
 			}
@@ -92,10 +115,10 @@ public class Game implements Runnable {
 	 */
 	private synchronized void notifyPlayers() {
 		LinkedList<Player> lol = new LinkedList<>();
-		for (Player p : players){
+		for (Player p : players) {
 			lol.add(p);
 		}
-		for(PlayerServer player : players) {
+		for (PlayerServer player : players) {
 			ServerInfo playerInfos = new ServerInfo(lol, ball);
 			Protocole msg = new Protocole(SuperPongProtocole.CMD_PLAY, playerInfos);
 			sendMessage(msg, player.getClientHandler().getWriter());
@@ -110,6 +133,7 @@ public class Game implements Runnable {
 	}
 	
 	public synchronized void updateFromClient(Player updatePlayer) {
+		System.out.println(updatePlayer.getRaquet().getPosition());
 		players.get(updatePlayer.getId()).update(updatePlayer); // TODO: Verifier que les joueurs sont trié par ID dans la linkedlist
 	}
 }

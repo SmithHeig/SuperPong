@@ -20,7 +20,7 @@ public class Player {
      * @param position - position de la raquette du joueur
      */
     @JsonCreator
-    public Player(@JsonProperty("username") String username, @JsonProperty("points")int points, @JsonProperty("position")double position, @JsonProperty("id")int id, @JsonProperty("raquet")Raquet raquet){
+    public Player(@JsonProperty("username") String username, @JsonProperty("points")int points, @JsonProperty("id")int id, @JsonProperty("raquet")Raquet raquet){
         this.username = username;
         this.points = points;
         this.id = id;
@@ -38,18 +38,10 @@ public class Player {
     }
 
     public Player(String username){
-        this(username,0,0,0,new Raquet());
+        this(username,0,0,new Raquet());
     }
 
-    /**
-     * Constructeur avec paramètres parcielle
-     * @param username - pseudo du joueur
-     * @param position - position de la raquette du joueur
-     */
-    public Player(String username, double position, Raquet raquet){
-        this(username, 0, position,0, raquet);
-    }
-
+   
     /**
      * Met à jour la position
      * @param player

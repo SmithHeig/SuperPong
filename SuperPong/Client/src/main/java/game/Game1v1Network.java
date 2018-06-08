@@ -47,8 +47,8 @@ public class Game1v1Network {
 	public Game1v1Network(LinkedList<Player> players, int myselfID) {
 		this.myselfID = myselfID;
 		
-		player1 = new Player("player1", 0, new RaquetView(PLAYER_RAQUET_SIZE, HEIGHT / 2 - PLAYER_RAQUET_SIZE / 2, 0));
-		player2 = new Player("player2", 0, new RaquetView(PLAYER_RAQUET_SIZE, HEIGHT / 2 - PLAYER_RAQUET_SIZE / 2, WIDTH - 10));
+		player1 = new Player("player1", 0, 0, new RaquetView(PLAYER_RAQUET_SIZE, HEIGHT / 2 - PLAYER_RAQUET_SIZE / 2, 0));
+		player2 = new Player("player2", 0, 1, new RaquetView(PLAYER_RAQUET_SIZE, HEIGHT / 2 - PLAYER_RAQUET_SIZE / 2, WIDTH - 10));
 		
 		if (myselfID == 0) {
 			myself = player1;
@@ -120,6 +120,7 @@ public class Game1v1Network {
 			@Override
 			public void run() {
 				
+				System.out.println(myself.getRaquet().getPosition());
 				ServerManager.getInstance().sendPlayerInfo(myself);
 			}
 		};
@@ -129,7 +130,7 @@ public class Game1v1Network {
 			@Override
 			public void run() {
 				
-
+				//other.getRaquet().setPosition(ServerManager.getInstance().receivedGameInfos().getPlayers().get(1 - myselfID).getRaquet().getPosition());
 			}
 		};
 		time.scheduleAtFixedRate(timerTask4, 200, 200);

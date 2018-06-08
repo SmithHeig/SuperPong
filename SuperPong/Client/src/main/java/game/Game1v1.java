@@ -41,8 +41,8 @@ public class Game1v1 {
 	private boolean estTouche = false;
 	
 	public Game1v1(int myselfID) {
-		player1 = new Player("player1", 0, new RaquetView(PLAYER_RAQUET_SIZE, HEIGHT / 2 - PLAYER_RAQUET_SIZE / 2, 0));
-		player2 = new Player("player2", 0, new RaquetView(PLAYER_RAQUET_SIZE, HEIGHT / 2 - PLAYER_RAQUET_SIZE / 2, WIDTH - 10));
+		player1 = new Player("player1", 0, 0, new RaquetView(PLAYER_RAQUET_SIZE, HEIGHT / 2 - PLAYER_RAQUET_SIZE / 2, 0));
+		player2 = new Player("player2", 0, 1, new RaquetView(PLAYER_RAQUET_SIZE, HEIGHT / 2 - PLAYER_RAQUET_SIZE / 2, WIDTH - 10));
 		
 		if (myselfID == 0) {
 			myself = player1;

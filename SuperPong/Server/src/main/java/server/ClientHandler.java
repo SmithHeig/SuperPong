@@ -102,6 +102,8 @@ public class ClientHandler implements IClientHandler{
 
                         if(game != null){
                             game.updateFromClient(clientInfoMove.getPlayer());
+                        } else {
+                            System.out.println("lol");
                         }
 
                         break;
