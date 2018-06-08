@@ -142,6 +142,7 @@ public class Game1v1Network {
 	private void gameUptate() {
 		
 		// mise à jour de la position de la balle
+		
 		ball.setPositionX(ball.getPositionX() + ball.getVelocity() * ball.getVelocityX());
 		ball.setPositionY(ball.getPositionY() + ball.getVelocity() * ball.getVelocityY());
 		

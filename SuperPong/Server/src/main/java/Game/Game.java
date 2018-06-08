@@ -80,10 +80,28 @@ public class Game implements Runnable {
 					}
 				}
 				
+				ANGLE_MIN = -135;
+				ANGLE_DELTA = 90;
+				if (ball.getPositionX() >= field.getWidth()) {
+					if (ball.getPositionY() > players.get(1).getRaquet().getPosition()
+							&& ball.getPositionY() < players.get(1).getRaquet().getPosition() + players.get(1).getRaquet().getSize()) {
+						double perCent = (ball.getPositionY() - players.get(1).getRaquet().getPosition()) / players.get(1).getRaquet().getSize();
+						
+						double alpha = -ANGLE_DELTA * perCent + ANGLE_MIN;
+						
+						double rad = Math.toRadians(alpha);
+						
+						ball.setVelocityX(Math.cos(rad));
+						ball.setVelocityY(Math.sin(rad));
+					} else {
+						players.get(0).setPoints(players.get(0).getPoints() + 1);
+						ball.setPositionY(field.getHeight() / 2);
+						ball.setPositionX(field.getWidth() / 2);
+					}
+				}
 				
 				// rebonds contre les murs haut et bas
-				if (ball.getPositionX() >= field.getHeight()) ball.setVelocityY(ball.getVelocityY() * (-1));
-				if (ball.getPositionX() <= 0 || ball.getPositionX() >= field.getWidth()) ball.setVelocityX(ball.getVelocityX() * (-1));
+				if (ball.getPositionY() <= 0 || ball.getPositionY() >= field.getHeight()) ball.setVelocityY(ball.getVelocityY() * (-1));
 				
 			}
 		};
