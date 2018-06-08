@@ -1,9 +1,11 @@
 package view;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import game.Raquet;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+@JsonIgnoreProperties({"raquet"})
 public class RaquetView extends Raquet {
 	
 	private Rectangle raquet;

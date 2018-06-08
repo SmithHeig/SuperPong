@@ -57,9 +57,14 @@ public class Game implements Runnable {
 				// mise à jour de la position de la balle
 				ball.setPositionX(ball.getPositionX() + ball.getVelocity() * ball.getVelocityX());
 				ball.setPositionY(ball.getPositionY() + ball.getVelocity() * ball.getVelocityY());
+				
+				// rebonds contre les murs haut et bas
+				if (ball.getPositionY() <= 0 || ball.getPositionX() >= field.getHeight()) ball.setVelocityY(ball.getVelocityY() * (-1));
+				if (ball.getPositionX() <= 0 || ball.getPositionX() >= field.getWidth()) ball.setVelocityX(ball.getVelocityX() * (-1));
+				
 			}
 		};
-		time.scheduleAtFixedRate(timerTask1, 10, 10);
+		time.scheduleAtFixedRate(timerTask1, 20, 20);
 		
 		
 		TimerTask timerTask = new TimerTask() {
@@ -75,6 +80,7 @@ public class Game implements Runnable {
 	
 	private void notifyPlayerGameJoin() {
 		for (int i = 0; i < players.size(); ++i) {
+			players.get(i).setId(i);
 			Protocole msg = new Protocole(SuperPongProtocole.CMD_INSCRIPTION_GAME, new GameJoin(true, i));
 			sendMessage(msg, players.get(i).getWriter());
 		}

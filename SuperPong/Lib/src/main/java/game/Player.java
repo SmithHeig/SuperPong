@@ -1,5 +1,8 @@
 package game;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Classe représentant un joueur et sa raquette.
  */
@@ -16,7 +19,8 @@ public class Player {
      * @param points - nombre de point du joueur
      * @param position - position de la raquette du joueur
      */
-    public Player(String username, int points, double position, int id, Raquet raquet){
+    @JsonCreator
+    public Player(@JsonProperty("username") String username, @JsonProperty("points")int points, @JsonProperty("position")double position, @JsonProperty("id")int id, @JsonProperty("raquet")Raquet raquet){
         this.username = username;
         this.points = points;
         this.id = id;

@@ -198,7 +198,7 @@ public class ServerManager {
     private Protocole readMsgFromServer(){
         try {
             String msgJson;
-            while((msgJson = reader.readLine()).equals("")); // TODO: Comprendre pourquoi le serveur envoie des "" de temps en temps
+            while((msgJson = reader.readLine()) == null || msgJson.equals("")); // TODO: Comprendre pourquoi le serveur envoie des "" de temps en temps
             LOG.log(Level.INFO, "CLIENT: Received msg : " + msgJson);
             Protocole msg = JsonMapper.getInstance().convertToProtocole(msgJson);
             return msg;

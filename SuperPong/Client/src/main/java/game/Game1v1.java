@@ -11,6 +11,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import model.Field;
+import network.ServerManager;
+import sun.net.NetworkServer;
 import view.BallView;
 import view.Item;
 import view.RandomItem;
@@ -187,11 +189,11 @@ public class Game1v1 {
 		if (y <= 0 || y >= HEIGHT - 5) ball.setVelocityY(ball.getVelocityY() * (-1));
 		
 		// mise à jour de la position de la balle
-		ball.setPositionX(ball.getPositionX() + ball.getVelocity() * ball.getVelocityX());
-		ball.setPositionY(ball.getPositionY() + ball.getVelocity() * ball.getVelocityY());
+	//	ball.setPositionX(ball.getPositionX() + ball.getVelocity() * ball.getVelocityX());
+	//	ball.setPositionY(ball.getPositionY() + ball.getVelocity() * ball.getVelocityY());
+	
 		
-		
-		// joueur
+		// ia du bot
 		if (x > WIDTH / 2 && player2.getRaquet().getPosition() + 30 > y) {
 			if (player2.getRaquet().getPosition() > 0) {
 				player2.getRaquet().setPosition(player2.getRaquet().getPosition() - 5);
@@ -203,7 +205,7 @@ public class Game1v1 {
 			}
 		}
 		
-		// l'ia du bot, suit la hauteur de la balle quand elle est dans sa moitié de terrain
+//player
 		if (myself.getRaquet().getPosition() + 30 > yplayer) {
 			if (myself.getRaquet().getPosition() > 0) {
 				myself.getRaquet().setPosition(myself.getRaquet().getPosition() - 5);

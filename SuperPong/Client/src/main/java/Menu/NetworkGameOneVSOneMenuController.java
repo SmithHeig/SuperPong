@@ -1,6 +1,7 @@
 package Menu;
 
 import game.Game1v1;
+import game.Game1v1Network;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -37,9 +38,8 @@ public class NetworkGameOneVSOneMenuController {
     void playOneVOneClassique(ActionEvent event) {
         if(ServerManager.getInstance().inscriptionGame(2)){
 	        try {
-	        	int idPlayer = ServerManager.getInstance().getIdUser();
-	        	
-		        Game1v1 game = new Game1v1(0);
+		        Game1v1Network game = new Game1v1Network(ServerManager.getInstance().receivedGameInfos().getPlayers(), ServerManager.getInstance().getIdUser());
+		        
 		        // TODO utilise NetworkManager.getInstance().receivedGameInfos() dans un thrad de Game1v1 pour mettre à jour des données (ball + joueurs)
 		        game.run(Displayer.getInstance().getStage());
 	        } catch (Exception e) {

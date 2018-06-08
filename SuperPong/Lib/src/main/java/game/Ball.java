@@ -1,5 +1,8 @@
 package game;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Ball {
 	
 	private double velocity;
@@ -9,7 +12,8 @@ public class Ball {
 	private double positionY;
 	
 	/* CONSTRUCTEUR */
-	public Ball(int velocity, int velocityX, int velocityY, int positionX, int positionY) {
+	@JsonCreator
+	public Ball(@JsonProperty("velocity")int velocity, @JsonProperty("velocityX")int velocityX,@JsonProperty("velocityY") int velocityY, @JsonProperty("positionX")int positionX, @JsonProperty("positionY")int positionY) {
 		this.velocity = velocity;
 		this.velocityX = velocityX;
 		this.velocityY = velocityY;
@@ -66,7 +70,7 @@ public class Ball {
 	public void update(Ball ball){
 		setVelocity(ball.getVelocity());
 		setVelocityX(ball.getVelocityX());
-		setVelocity(ball.getVelocityY());
+		setVelocityY(ball.getVelocityY());
 		setPositionX(ball.getPositionX());
 		setPositionY(ball.getPositionY());
 	}

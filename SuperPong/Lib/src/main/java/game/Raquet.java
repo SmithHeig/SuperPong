@@ -16,6 +16,7 @@ public class Raquet {
      * @param size - taille de la raquette
      * @param position - position de la raquette
      */
+    
     public Raquet(double size, double position){
         this.size = size;
         this.position = position;
