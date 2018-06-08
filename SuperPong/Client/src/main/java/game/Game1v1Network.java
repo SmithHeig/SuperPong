@@ -12,6 +12,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import model.Field;
 import network.ServerManager;
+import protocole.game.ServerInfo;
 import sun.net.NetworkServer;
 import view.BallView;
 import view.Item;
@@ -103,10 +104,12 @@ public class Game1v1Network {
 		TimerTask timerTask = new TimerTask() {
 			@Override
 			public void run() {
-				ball.update(ServerManager.getInstance().receivedGameInfos().getBall());
-				player2Score.setText(Integer.toString(player2.getPoints()));
-				player1Score.setText(Integer.toString(player1.getPoints()));
-			
+				ServerInfo serverInfo = ServerManager.getInstance().receivedGameInfos();
+				ball.update(serverInfo.getBall());
+
+				other.update(serverInfo.getPlayers().get(1 - myselfID));
+				//player2Score.setText(Integer.toString(player2.getPoints()));
+				//player1Score.setText(Integer.toString(player1.getPoints()));
 				//ServerManager.getInstance().sendPlayerInfo(myself);
 				//other.getRaquet().setPosition(ServerManager.getInstance().receivedGameInfos().getPlayers().get(1 - myselfID).raquet.getPosition());
 			}
@@ -126,7 +129,7 @@ public class Game1v1Network {
 			@Override
 			public void run() {
 				
-				other.getRaquet().setPosition(ServerManager.getInstance().receivedGameInfos().getPlayers().get(1 - myselfID).getRaquet().getPosition());
+
 			}
 		};
 		time.scheduleAtFixedRate(timerTask4, 200, 200);

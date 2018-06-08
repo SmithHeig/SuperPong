@@ -88,7 +88,7 @@ public class ClientHandler implements IClientHandler{
                         LOG.log(Level.INFO, inscriptionMatchmaking.toString());
 
                         String username = inscriptionMatchmaking.getUsername();
-                        PlayerServer playerServer = new PlayerServer(new Player(username), writer);
+                        PlayerServer playerServer = new PlayerServer(new Player(username), this);
 
                         /* Donne la communication (écriture) au matchmaking puis au jeu */
                         Matchmaking.getInstance().inscriptionGame2players(playerServer);
