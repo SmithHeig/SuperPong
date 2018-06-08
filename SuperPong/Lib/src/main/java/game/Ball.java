@@ -13,7 +13,7 @@ public class Ball {
 	
 	/* CONSTRUCTEUR */
 	@JsonCreator
-	public Ball(@JsonProperty("velocity")int velocity, @JsonProperty("velocityX")int velocityX,@JsonProperty("velocityY") int velocityY, @JsonProperty("positionX")int positionX, @JsonProperty("positionY")int positionY) {
+	public Ball(@JsonProperty("velocity")double velocity, @JsonProperty("velocityX")double velocityX,@JsonProperty("velocityY") double velocityY, @JsonProperty("positionX")double positionX, @JsonProperty("positionY")double positionY) {
 		this.velocity = velocity;
 		this.velocityX = velocityX;
 		this.velocityY = velocityY;
@@ -68,6 +68,7 @@ public class Ball {
 	 * @param ball la balle sur laquelle se mettre à jour
 	 */
 	public void update(Ball ball){
+		System.out.println("Velocity " + ball.velocityX);
 		setVelocity(ball.getVelocity());
 		setVelocityX(ball.getVelocityX());
 		setVelocityY(ball.getVelocityY());

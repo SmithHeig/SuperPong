@@ -106,7 +106,9 @@ public class Game1v1Network {
 			public void run() {
 				ServerInfo serverInfo = ServerManager.getInstance().receivedGameInfos();
 				ball.update(serverInfo.getBall());
-
+				
+				
+				
 				other.update(serverInfo.getPlayers().get(1 - myselfID));
 				//player2Score.setText(Integer.toString(player2.getPoints()));
 				//player1Score.setText(Integer.toString(player1.getPoints()));
@@ -120,20 +122,10 @@ public class Game1v1Network {
 			@Override
 			public void run() {
 				
-				System.out.println(myself.getRaquet().getPosition());
 				ServerManager.getInstance().sendPlayerInfo(myself);
 			}
 		};
 		time.scheduleAtFixedRate(timerTask3, 100, 100);
-		
-		TimerTask timerTask4 = new TimerTask() {
-			@Override
-			public void run() {
-				
-				//other.getRaquet().setPosition(ServerManager.getInstance().receivedGameInfos().getPlayers().get(1 - myselfID).getRaquet().getPosition());
-			}
-		};
-		time.scheduleAtFixedRate(timerTask4, 200, 200);
 		
 		
 		return root;
@@ -142,9 +134,9 @@ public class Game1v1Network {
 	private void gameUptate() {
 		
 		// mise à jour de la position de la balle
-		
 		ball.setPositionX(ball.getPositionX() + ball.getVelocity() * ball.getVelocityX());
 		ball.setPositionY(ball.getPositionY() + ball.getVelocity() * ball.getVelocityY());
+		
 		
 		// l'ia du bot, suit la hauteur de la balle quand elle est dans sa moitié de terrain
 		if (myself.getRaquet().getPosition() + 30 > yplayer) {
