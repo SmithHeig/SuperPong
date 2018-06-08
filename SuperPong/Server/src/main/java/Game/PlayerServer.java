@@ -2,25 +2,27 @@ package Game;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import game.Player;
+import protocole.game.ClientInfoMove;
+import server.ClientHandler;
 
 import java.io.PrintWriter;
-@JsonIgnoreProperties({"writer"})
+@JsonIgnoreProperties({"clientHandler"})
 public class PlayerServer extends Player {
-    private PrintWriter writer;
+    private ClientHandler clientHandler;
 
     // TODO a changé Po Bo
-    public PlayerServer(String username, int points, double position, PrintWriter socket) {
+    public PlayerServer(String username, int points, double position, ClientHandler clientHandler) {
         super(username);
-        this.writer = socket;
+        this.clientHandler = clientHandler;
     }
 
-    public PlayerServer(Player player, PrintWriter writer){
+    public PlayerServer(Player player, ClientHandler clientHandler){
         super(player);
-        this.writer = writer;
+        this.clientHandler = clientHandler;
     }
 
-    public PrintWriter getWriter(){
-        return writer;
+    public ClientHandler getClientHandler(){
+        return clientHandler;
     }
 
     public void update(Player player){

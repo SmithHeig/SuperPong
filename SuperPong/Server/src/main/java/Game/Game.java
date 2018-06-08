@@ -82,7 +82,8 @@ public class Game implements Runnable {
 		for (int i = 0; i < players.size(); ++i) {
 			players.get(i).setId(i);
 			Protocole msg = new Protocole(SuperPongProtocole.CMD_INSCRIPTION_GAME, new GameJoin(true, i));
-			sendMessage(msg, players.get(i).getWriter());
+			sendMessage(msg, players.get(i).getClientHandler().getWriter());
+			players.get(i).getClientHandler().setGame(this);
 		}
 	}
 	
@@ -97,7 +98,7 @@ public class Game implements Runnable {
 		for(PlayerServer player : players) {
 			ServerInfo playerInfos = new ServerInfo(lol, ball);
 			Protocole msg = new Protocole(SuperPongProtocole.CMD_PLAY, playerInfos);
-			sendMessage(msg, player.getWriter());
+			sendMessage(msg, player.getClientHandler().getWriter());
 		}
 	}
 	
