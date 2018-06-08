@@ -50,6 +50,14 @@ public class Player {
         this(username, 0, position,0, raquet);
     }
 
+    /**
+     * Met à jour la position
+     * @param player
+     */
+    public void update(Player player){
+        raquet.setPosition(player.getRaquet().getPosition());
+    }
+
     /* GETTER */
     public String getUsername() {
         return username;
