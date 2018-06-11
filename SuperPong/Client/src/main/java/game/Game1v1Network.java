@@ -119,6 +119,7 @@ public class Game1v1Network {
 				/* Le jeu est fini */
 				else {
 					time.cancel();
+					Displayer.getInstance().showNetworkMultiplayerOneVSOneMenu();
 				}
 			}
 		};

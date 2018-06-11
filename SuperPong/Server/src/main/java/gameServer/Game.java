@@ -74,9 +74,16 @@ public class Game implements Runnable {
 						ball.setVelocityX(Math.cos(rad));
 						ball.setVelocityY(Math.sin(rad));
 					} else {
-						players.get(1).setPoints(players.get(1).getPoints() + 1);
-						ball.setPositionY(field.getHeight() / 2);
-						ball.setPositionX(field.getWidth() / 2);
+						/* GOAL */
+						if(players.get(1).getPoints() >= 5){
+							LOG.log(Level.INFO, "Player 2 win!");
+							time.cancel(); // Arrêt de la partie
+							notifyPlayersGameFinished();
+						} else {
+							players.get(1).setPoints(players.get(1).getPoints() + 1);
+							ball.setPositionY(field.getHeight() / 2);
+							ball.setPositionX(field.getWidth() / 2);
+						}
 					}
 				}
 				
@@ -94,9 +101,16 @@ public class Game implements Runnable {
 						ball.setVelocityX(Math.cos(rad));
 						ball.setVelocityY(Math.sin(rad));
 					} else {
-						players.get(0).setPoints(players.get(0).getPoints() + 1);
-						ball.setPositionY(field.getHeight() / 2);
-						ball.setPositionX(field.getWidth() / 2);
+						/* GOAL */
+						if(players.get(1).getPoints() >= 5){
+							LOG.log(Level.INFO, "Player 2 win!");
+							notifyPlayersGameFinished();
+							time.cancel(); // Arrêt de la partie
+						} else {
+							players.get(0).setPoints(players.get(0).getPoints() + 1);
+							ball.setPositionY(field.getHeight() / 2);
+							ball.setPositionX(field.getWidth() / 2);
+						}
 					}
 				}
 				
@@ -158,7 +172,6 @@ public class Game implements Runnable {
 	}
 	
 	public synchronized void updateFromClient(Player updatePlayer) {
-		System.out.println(updatePlayer.getRaquet().getPosition());
 		players.get(updatePlayer.getId()).update(updatePlayer); // TODO: Verifier que les joueurs sont trié par ID dans la linkedlist
 	}
 }

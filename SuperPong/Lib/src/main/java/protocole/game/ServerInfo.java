@@ -30,7 +30,7 @@ public class ServerInfo implements IData {
     }
 
 
-    @JsonProperty(value="isConnected")
+    @JsonProperty(value="isFinished")
     public Boolean isFinised() {
         return isFinised;
     }
