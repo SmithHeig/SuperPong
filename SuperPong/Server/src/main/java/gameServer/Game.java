@@ -1,4 +1,4 @@
-package Game;
+package gameServer;
 
 import game.Ball;
 import game.Field;

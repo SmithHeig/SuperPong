@@ -1,8 +1,9 @@
 package server;
 
-import Game.Game;
-import Game.Matchmaking;
-import Game.PlayerServer;
+import db.DB;
+import gameServer.Game;
+import gameServer.Matchmaking;
+import gameServer.PlayerServer;
 import game.Player;
 import protocole.Protocole;
 import protocole.SuperPongProtocole;
@@ -10,7 +11,6 @@ import protocole.data.Disconnection.Disconnection;
 import protocole.data.Disconnection.DisconnectionConfirmation;
 import protocole.data.connection.LoginConfirmation;
 import protocole.data.connection.Login;
-import protocole.data.matchmaking.GameJoin;
 import protocole.data.matchmaking.InscriptionMatchmaking;
 import protocole.game.ClientInfoMove;
 import protocole.mapper.JsonMapper;
@@ -28,6 +28,7 @@ public class ClientHandler implements IClientHandler{
     private PrintWriter writer;
     private boolean isConnected;
     private Game game;
+    boolean done;
 
     public void handleClientConnection(InputStream is, OutputStream os) throws IOException {
 
@@ -37,12 +38,12 @@ public class ClientHandler implements IClientHandler{
         isConnected = false;
 
         String json;
-        boolean done = false;
         boolean isConnected = false;
 
         LOG.log(Level.INFO, "Initialisation fo the handleClientConnection");
 
         Protocole msgReceived;
+        done = false;
 
         while (!done && ((msgReceived = readMsgFromClient()) != null)) {
 
@@ -55,10 +56,12 @@ public class ClientHandler implements IClientHandler{
                     LOG.log(Level.INFO, "The user " + user.getUsername() + " try to connect to the server");
 
                     // TODO: verification si utilisateur et mdp correct
-                    Protocole ConnectionMsg;
-                    ConnectionMsg = new Protocole(SuperPongProtocole.CMD_CONNECT, new LoginConfirmation(true));
+                    isConnected = DB.getInstance().checkPlayer(user.getUsername(), user.getPassword());
+
+                    Protocole ConnectionMsg = new Protocole(SuperPongProtocole.CMD_CONNECT, new LoginConfirmation(isConnected));
+
                     sendToClient(ConnectionMsg);
-                    isConnected = true;
+
                 } else {
                     LOG.log(Level.SEVERE, "User not connected");
                     // TODO: A gérer et renvoyé une réponse à l'utilisateur
@@ -133,13 +136,20 @@ public class ClientHandler implements IClientHandler{
 
     private Protocole readMsgFromClient(){
         try {
+            Protocole msg;
             String msgJson = reader.readLine();
             LOG.log(Level.INFO, "SERVER: Received msg : " + msgJson);
-            Protocole msg = JsonMapper.getInstance().convertToProtocole(msgJson);
+            if(msgJson == null){
+                LOG.log(Level.INFO, "User have been sudently disconnected");
+                done = true;
+                return null;
+            } else {
+                msg = JsonMapper.getInstance().convertToProtocole(msgJson);
+            }
             return msg;
         } catch(IOException e){
             LOG.log(Level.SEVERE, "Can not read client msg with excpetion: " + e.getMessage());
+            return null;
         }
-        return null;
     }
 }

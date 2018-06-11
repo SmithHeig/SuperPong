@@ -1,4 +1,4 @@
-package Game;
+package gameServer;
 
 import java.util.LinkedList;
 import java.util.logging.Logger;
