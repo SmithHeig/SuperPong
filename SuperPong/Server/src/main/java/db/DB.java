@@ -14,7 +14,7 @@ public class DB {
 
     /* ATTRIBUTS */
     // TODO: METTRE DANS un fichier de config
-    private static final String url = "jdbc:mysql://localhost:3306/SuperPong";
+    private static final String url = "jdbc:mysql://localhost:3306/SuperPong?useLegacyDatetimeCode=false&serverTimezone=UTC";
     private static final String DBusername = "root";
     private static final String DBpassword ="root";
     private Connection con;
@@ -29,9 +29,8 @@ public class DB {
 
     private void connection(){
         try{
-            Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(url,DBusername,DBpassword);
-        } catch (SQLException | ClassNotFoundException e){
+        } catch (SQLException e){
             LOG.log(Level.SEVERE, "Error with connection to sql server with excpetion: " + e.getMessage());
         }
     }
@@ -41,11 +40,18 @@ public class DB {
             PreparedStatement statement = con.prepareStatement("SELECT password FROM SuperPong.User WHERE username=?");
             statement.setString(1, username);
             ResultSet resultSet = statement.executeQuery();
-            System.out.println(resultSet);
+            /* Doit en avoir un seul vu que les username sont unique */
+            String UserPassword = "";
+            while(resultSet.next()){
+                 UserPassword = resultSet.getString("password");
+            }
+            if(UserPassword.equals(password)){
+                return true;
+            }
         } catch (SQLException e){
             LOG.log(Level.SEVERE, "Error getting password from user with excpetion : " + e.getMessage());
         }
-        return true; // TODO à changer
+        return false; // TODO à changer
     }
 
 }

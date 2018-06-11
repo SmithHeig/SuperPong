@@ -28,6 +28,7 @@ public class ClientHandler implements IClientHandler{
     private PrintWriter writer;
     private boolean isConnected;
     private Game game;
+    boolean done;
 
     public void handleClientConnection(InputStream is, OutputStream os) throws IOException {
 
@@ -37,12 +38,12 @@ public class ClientHandler implements IClientHandler{
         isConnected = false;
 
         String json;
-        boolean done = false;
         boolean isConnected = false;
 
         LOG.log(Level.INFO, "Initialisation fo the handleClientConnection");
 
         Protocole msgReceived;
+        done = false;
 
         while (!done && ((msgReceived = readMsgFromClient()) != null)) {
 
@@ -135,13 +136,20 @@ public class ClientHandler implements IClientHandler{
 
     private Protocole readMsgFromClient(){
         try {
+            Protocole msg;
             String msgJson = reader.readLine();
             LOG.log(Level.INFO, "SERVER: Received msg : " + msgJson);
-            Protocole msg = JsonMapper.getInstance().convertToProtocole(msgJson);
+            if(msgJson == null){
+                LOG.log(Level.INFO, "User have been sudently disconnected");
+                done = true;
+                return null;
+            } else {
+                msg = JsonMapper.getInstance().convertToProtocole(msgJson);
+            }
             return msg;
         } catch(IOException e){
             LOG.log(Level.SEVERE, "Can not read client msg with excpetion: " + e.getMessage());
+            return null;
         }
-        return null;
     }
 }
