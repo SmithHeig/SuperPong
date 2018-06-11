@@ -68,7 +68,6 @@ public class Ball {
 	 * @param ball la balle sur laquelle se mettre à jour
 	 */
 	public void update(Ball ball){
-		System.out.println("Velocity " + ball.velocityX);
 		setVelocity(ball.getVelocity());
 		setVelocityX(ball.getVelocityX());
 		setVelocityY(ball.getVelocityY());

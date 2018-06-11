@@ -1,6 +1,5 @@
 package game;
 
-import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -12,10 +11,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import main.Displayer;
 import model.Field;
-import network.ServerManager;
-import sun.net.NetworkServer;
 import view.BallView;
-import view.Item;
 import view.RandomItem;
 import view.RaquetView;
 
@@ -190,8 +186,8 @@ public class Game1v1 {
 		if (y <= 0 || y >= HEIGHT - 5) ball.setVelocityY(ball.getVelocityY() * (-1));
 		
 		// mise à jour de la position de la balle
-	//	ball.setPositionX(ball.getPositionX() + ball.getVelocity() * ball.getVelocityX());
-	//	ball.setPositionY(ball.getPositionY() + ball.getVelocity() * ball.getVelocityY());
+		ball.setPositionX(ball.getPositionX() + ball.getVelocity() * ball.getVelocityX());
+		ball.setPositionY(ball.getPositionY() + ball.getVelocity() * ball.getVelocityY());
 	
 		
 		// ia du bot

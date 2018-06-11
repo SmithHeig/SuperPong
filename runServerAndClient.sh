@@ -20,7 +20,7 @@ echo "built de l'image server"
 docker build -t superpong/server ./Docker/server-image/
 
 echo "run de l'image"
-docker run --name server-superpong -p 9090:9090 superpong/server
+docker run --name server-superpong -p 6666:6666 superpong/server
 
 # A décommenter si docker run -d
 #java -jar ./SuperPong/Client/target/Client-1.0-SNAPSHOT.jar

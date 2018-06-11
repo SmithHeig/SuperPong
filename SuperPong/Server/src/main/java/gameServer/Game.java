@@ -158,7 +158,6 @@ public class Game implements Runnable {
 	}
 	
 	public synchronized void updateFromClient(Player updatePlayer) {
-		System.out.println(updatePlayer.getRaquet().getPosition());
 		players.get(updatePlayer.getId()).update(updatePlayer); // TODO: Verifier que les joueurs sont trié par ID dans la linkedlist
 	}
 }

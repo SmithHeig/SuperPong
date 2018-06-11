@@ -1,7 +1,6 @@
 package view;
 
-import javafx.scene.paint.Color;
-import javafx.scene.paint.PhongMaterial;
+import game.Item;
 
 public class RandomItem {
 	
@@ -12,6 +11,7 @@ public class RandomItem {
 		FIRE_BALL
 	}
 	
+	/*
 	public Item generateItem(int width, int height) {
 		int rand = (int) ((4)*Math.random());
 		Items item = Items.values()[rand];
@@ -28,5 +28,5 @@ public class RandomItem {
 		}
 	}
 	
-	
+	*/
 }
