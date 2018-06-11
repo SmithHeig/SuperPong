@@ -1,5 +1,8 @@
 package game;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -9,12 +12,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import main.Displayer;
+import javafx.util.Duration;
 import model.Field;
 import network.ServerManager;
 import protocole.game.ServerInfo;
 import view.BallView;
-import view.Item;
 import view.RandomItem;
 import view.RaquetView;
 
@@ -100,35 +102,20 @@ public class Game1v1Network {
 		};
 		time.scheduleAtFixedRate(timerTask1, 20, 20);
 		
-		TimerTask timerTask2 = new TimerTask() {
-			@Override
-			public void run() {
-				ServerInfo serverInfo = ServerManager.getInstance().receivedGameInfos();
-				/* Test si le jeu est fini */
-				if (!serverInfo.isFinised()) {
-					ball.update(serverInfo.getBall());
-
-
-					other.update(serverInfo.getPlayers().get(1 - myselfID));
-					//player2Score.setText(Integer.toString(player2.getPoints()));
-					//player1Score.setText(Integer.toString(player1.getPoints()));
-					//ServerManager.getInstance().sendPlayerInfo(myself);
-					//other.getRaquet().setPosition(ServerManager.getInstance().receivedGameInfos().getPlayers().get(1 - myselfID).raquet.getPosition());
-
-				}
-				/* Le jeu est fini */
-				else {
-					time.cancel();
-					Displayer.getInstance().showNetworkMultiplayerOneVSOneMenu();
-				}
-			}
-		};
-		time.scheduleAtFixedRate(timerTask2, 100, 100);
+		Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100), ev -> {
+			ServerInfo serverInfo = ServerManager.getInstance().receivedGameInfos();
+			ball.update(serverInfo.getBall());
+			
+			other.update(serverInfo.getPlayers().get(1 - myselfID));
+			player1Score.setText(String.valueOf(serverInfo.getPlayers().get(0).getPoints()));
+			player2Score.setText(String.valueOf(serverInfo.getPlayers().get(1).getPoints()));
+		}));
+		timeline.setCycleCount(Animation.INDEFINITE);
+		timeline.play();
 		
 		TimerTask timerTask3 = new TimerTask() {
 			@Override
 			public void run() {
-				
 				ServerManager.getInstance().sendPlayerInfo(myself);
 			}
 		};

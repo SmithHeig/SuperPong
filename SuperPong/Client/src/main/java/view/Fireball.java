@@ -1,15 +1,17 @@
 package view;
 
 import game.Game1v1;
+import game.Item;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 
-public class Fireball extends Item {
+public class Fireball  {
 	
+	/*
 	public Fireball(int width, int height){
 		super(width,height);
 	}
-	
+	*/
 	public PhongMaterial color(){
 		final PhongMaterial color = new PhongMaterial();
 		color.setDiffuseColor(Color.BLUE);

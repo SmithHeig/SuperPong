@@ -1,20 +1,20 @@
 package view;
 
-import game.Game1v1;
-import javafx.scene.paint.Color;
+import game.Field;
+import game.Item;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 import javafx.scene.transform.Rotate;
 
-abstract public class Item {
+abstract public class ItemView extends Item {
 	
-	Box box;
+	private Box box;
 	
-	public Item(int width, int height) {
-		
+	public ItemView(Field field) {
+		super(field);
 		box = new Box(25, 25, 25);
-		box.setLayoutX(100 + (Math.random() * (width- 200)));
-		box.setLayoutY(25 + (Math.random() * (height- 25)));
+		box.setLayoutX(getPositionX());
+		box.setLayoutY(getPositionY());
 		Rotate rxBox = new Rotate(0, 0, 0, 0, Rotate.X_AXIS);
 		Rotate ryBox = new Rotate(0, 0, 0, 0, Rotate.Y_AXIS);
 		Rotate rzBox = new Rotate(0, 0, 0, 0, Rotate.Z_AXIS);
@@ -24,7 +24,6 @@ abstract public class Item {
 		box.setMaterial(color());
 		
 		box.getTransforms().addAll(rxBox, ryBox, rzBox);
-		
 	}
 	
 	public Box getBox() {
@@ -33,8 +32,8 @@ abstract public class Item {
 	
 	public abstract PhongMaterial color();
 	
-	abstract public void execute(Game1v1 game);
+	abstract public void execute();
 	
-	abstract public void desexecute(Game1v1 game);
+	abstract public void desexecute();
 	
 }
