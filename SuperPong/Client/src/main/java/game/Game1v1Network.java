@@ -157,6 +157,7 @@ public class Game1v1Network {
 	}
 
 	private void showWinner(Player winner){
+		Displayer.getInstance().showNetworkMultiplayerOneVSOneMenu();
 		Alert alert = new Alert(Alert.AlertType.NONE);
 		alert.setTitle("Fin de la partie");
 		alert.setHeaderText(winner.getUsername() + " a gagné!");
@@ -166,7 +167,5 @@ public class Game1v1Network {
 		ButtonType buttonTypeOne = new ButtonType("Retour au menu"); // ajoute un bouton "Rejouer" à la boite de dialogue
 		alert.getButtonTypes().add(buttonTypeOne);
 		alert.show();
-		Displayer.getInstance().showNetworkMultiplayerOneVSOneMenu();
-
 	}
 }

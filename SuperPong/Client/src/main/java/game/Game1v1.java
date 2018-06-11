@@ -46,6 +46,7 @@ public class Game1v1 {
 	private RandomItem randomItem = new RandomItem();
 	private long timerTime = 1;
 	private boolean estTouche = false;
+	Timeline timeline;
 	
 	public Game1v1(int myselfID) {
 		player1 = new Player("player1", 0, 0, new RaquetView(PLAYER_RAQUET_SIZE, HEIGHT / 2 - PLAYER_RAQUET_SIZE / 2, 0));
@@ -92,7 +93,7 @@ public class Game1v1 {
 		
 		root.getChildren().addAll(((RaquetView) player1.getRaquet()).getRaquet(), ((RaquetView) player2.getRaquet()).getRaquet(), ball.getBall(), player1Score, player2Score);
 		
-		Timeline timeline = new Timeline();
+		timeline = new Timeline();
 		KeyFrame keyFrame = new KeyFrame(Duration.millis(20), ev -> {
 			gameUptate();
 		});
@@ -194,6 +195,7 @@ public class Game1v1 {
 			ball.setPositionX(WIDTH / 2);
 			/* Player1 gagne */
 			if(player1.getPoints() >= 5){
+
 				showWinner(player1);
 			}
 		}
@@ -232,6 +234,8 @@ public class Game1v1 {
 	}
 
 	private void showWinner(Player winner){
+		timeline.stop();
+		Displayer.getInstance().showLocalMenu();
 		Alert alert = new Alert(Alert.AlertType.NONE);
 		alert.setTitle("Fin de la partie");
 		alert.setHeaderText(winner.getUsername() + " a gagné!");
@@ -240,10 +244,7 @@ public class Game1v1 {
 							 player2.getUsername() + ": " + player2.getPoints() + "\n");
 		ButtonType buttonTypeOne = new ButtonType("Retour au menu"); // ajoute un bouton "Rejouer" à la boite de dialogue
 		alert.getButtonTypes().add(buttonTypeOne);
-		Optional<ButtonType> result = alert.showAndWait();
-		if (result.get() == buttonTypeOne) {
-			Displayer.getInstance().showLocalMenu();
-		}
+		alert.show();
 
 	}
 }
