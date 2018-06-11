@@ -13,6 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import main.Displayer;
 import model.Field;
 import network.ServerManager;
 import protocole.game.ServerInfo;
@@ -101,15 +102,23 @@ public class Game1v1Network {
 			}
 		};
 		time.scheduleAtFixedRate(timerTask1, 20, 20);
-		
-		Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100), ev -> {
+		Timeline timeline = new Timeline();
+		KeyFrame keyFrame = new KeyFrame(Duration.millis(100), ev -> {
 			ServerInfo serverInfo = ServerManager.getInstance().receivedGameInfos();
-			ball.update(serverInfo.getBall());
-			
-			other.update(serverInfo.getPlayers().get(1 - myselfID));
-			player1Score.setText(String.valueOf(serverInfo.getPlayers().get(0).getPoints()));
-			player2Score.setText(String.valueOf(serverInfo.getPlayers().get(1).getPoints()));
-		}));
+			if(!serverInfo.isFinised()) {
+				ball.update(serverInfo.getBall());
+
+				other.update(serverInfo.getPlayers().get(1 - myselfID));
+				player1Score.setText(String.valueOf(serverInfo.getPlayers().get(0).getPoints()));
+				player2Score.setText(String.valueOf(serverInfo.getPlayers().get(1).getPoints()));
+			} else {
+				timeline.stop();
+				time.cancel();
+				// TODO winning screen
+				Displayer.getInstance().showNetworkMultiplayerOneVSOneMenu();
+			}
+		});
+		timeline.getKeyFrames().add(keyFrame);
 		timeline.setCycleCount(Animation.INDEFINITE);
 		timeline.play();
 		

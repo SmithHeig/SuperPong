@@ -75,14 +75,14 @@ public class Game implements Runnable {
 						ball.setVelocityY(Math.sin(rad));
 					} else {
 						/* GOAL */
-						if(players.get(1).getPoints() >= 5){
+						players.get(1).setPoints(players.get(1).getPoints() + 1);
+						ball.setPositionY(field.getHeight() / 2);
+						ball.setPositionX(field.getWidth() / 2);
+						/* Un gagnant */
+						if(players.get(1).getPoints() >= 5) {
 							LOG.log(Level.INFO, "Player 2 win!");
-							time.cancel(); // Arrêt de la partie
 							notifyPlayersGameFinished();
-						} else {
-							players.get(1).setPoints(players.get(1).getPoints() + 1);
-							ball.setPositionY(field.getHeight() / 2);
-							ball.setPositionX(field.getWidth() / 2);
+							time.cancel(); // Arrêt de la partie
 						}
 					}
 				}
@@ -102,14 +102,15 @@ public class Game implements Runnable {
 						ball.setVelocityY(Math.sin(rad));
 					} else {
 						/* GOAL */
-						if(players.get(1).getPoints() >= 5){
+						players.get(0).setPoints(players.get(0).getPoints() + 1);
+						ball.setPositionY(field.getHeight() / 2);
+						ball.setPositionX(field.getWidth() / 2);
+
+						/* Un gagnant */
+						if(players.get(0).getPoints() >= 4) {
 							LOG.log(Level.INFO, "Player 2 win!");
 							notifyPlayersGameFinished();
 							time.cancel(); // Arrêt de la partie
-						} else {
-							players.get(0).setPoints(players.get(0).getPoints() + 1);
-							ball.setPositionY(field.getHeight() / 2);
-							ball.setPositionX(field.getWidth() / 2);
 						}
 					}
 				}

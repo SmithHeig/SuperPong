@@ -172,6 +172,11 @@ public class Game1v1 {
 			player2Score.setText(Integer.toString(player2.getPoints()));
 			ball.setPositionY(HEIGHT / 2);
 			ball.setPositionX(WIDTH / 2);
+			/* Player2 gagne */
+			if(player2.getPoints() >= 5){
+				// TODO Winning screen
+				Displayer.getInstance().showLocalMenu();
+			}
 		}
 		
 		// le player 2 prend un goal
@@ -180,6 +185,11 @@ public class Game1v1 {
 			player1Score.setText(Integer.toString(player1.getPoints()));
 			ball.setPositionY(HEIGHT / 2);
 			ball.setPositionX(WIDTH / 2);
+			/* Player1 gagne */
+			if(player1.getPoints() >= 5){
+				// TODO Winning screen
+				Displayer.getInstance().showLocalMenu();
+			}
 		}
 		
 		// rebonds contre les murs haut et bas
