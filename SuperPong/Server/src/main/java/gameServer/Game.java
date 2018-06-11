@@ -107,7 +107,7 @@ public class Game implements Runnable {
 						ball.setPositionX(field.getWidth() / 2);
 
 						/* Un gagnant */
-						if(players.get(0).getPoints() >= 4) {
+						if(players.get(0).getPoints() >= 5) {
 							LOG.log(Level.INFO, "Player 2 win!");
 							notifyPlayersGameFinished();
 							time.cancel(); // Arrêt de la partie

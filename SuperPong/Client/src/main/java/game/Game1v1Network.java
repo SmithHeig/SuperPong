@@ -6,6 +6,8 @@ import javafx.animation.Timeline;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -22,6 +24,7 @@ import view.RandomItem;
 import view.RaquetView;
 
 import java.util.LinkedList;
+import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -114,8 +117,7 @@ public class Game1v1Network {
 			} else {
 				timeline.stop();
 				time.cancel();
-				// TODO winning screen
-				Displayer.getInstance().showNetworkMultiplayerOneVSOneMenu();
+				showWinner(player1.getPoints() == 5 ? player1 : player2);
 			}
 		});
 		timeline.getKeyFrames().add(keyFrame);
@@ -152,5 +154,21 @@ public class Game1v1Network {
 				myself.getRaquet().setPosition(myself.getRaquet().getPosition() + 5);
 			}
 		}
+	}
+
+	private void showWinner(Player winner){
+		Alert alert = new Alert(Alert.AlertType.NONE);
+		alert.setTitle("Fin de la partie");
+		alert.setHeaderText(winner.getUsername() + " a gagné!");
+		// TODO à rendre plus générique et peu etre déplacer (super classse?)
+		alert.setContentText(player1.getUsername() + ": " + player1.getPoints() + "\n" +
+				player2.getUsername() + ": " + player2.getPoints() + "\n");
+		ButtonType buttonTypeOne = new ButtonType("Retour au menu"); // ajoute un bouton "Rejouer" à la boite de dialogue
+		alert.getButtonTypes().add(buttonTypeOne);
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == buttonTypeOne) {
+			Displayer.getInstance().showLocalMenu();
+		}
+
 	}
 }
