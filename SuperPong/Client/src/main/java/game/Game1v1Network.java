@@ -165,10 +165,8 @@ public class Game1v1Network {
 				player2.getUsername() + ": " + player2.getPoints() + "\n");
 		ButtonType buttonTypeOne = new ButtonType("Retour au menu"); // ajoute un bouton "Rejouer" à la boite de dialogue
 		alert.getButtonTypes().add(buttonTypeOne);
-		Optional<ButtonType> result = alert.showAndWait();
-		if (result.get() == buttonTypeOne) {
-			Displayer.getInstance().showLocalMenu();
-		}
+		alert.show();
+		Displayer.getInstance().showNetworkMultiplayerOneVSOneMenu();
 
 	}
 }
