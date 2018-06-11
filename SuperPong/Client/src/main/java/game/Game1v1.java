@@ -10,6 +10,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import main.Displayer;
 import model.Field;
 import network.ServerManager;
 import sun.net.NetworkServer;
@@ -52,8 +53,8 @@ public class Game1v1 {
 	}
 	
 	public void run(Stage primaryStage) throws Exception {
-		primaryStage.setTitle("Game1v1");
-		primaryStage.setScene(new Scene(createContent()));
+		Displayer.getInstance().setTitle("Game1v1");
+		Displayer.getInstance().setScene(new Scene(createContent()));
 		
 		primaryStage.show();
 		root.setOnMouseMoved(new EventHandler<MouseEvent>() {

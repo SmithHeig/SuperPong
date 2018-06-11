@@ -55,14 +55,22 @@ public class Displayer {
 	private void changeMenu(String fxml){
 		try {
 			Parent root = FXMLLoader.load(getClass().getResource(fxml));
-			stage.setScene(new Scene(root, 600, 400));
-			stage.show();
+			setScene(new Scene(root, 600, 400));
 		} catch (IOException e){
 			e.printStackTrace();
 		}
 	}
+
+	public void setScene(Scene scene){
+		stage.setScene(scene);
+		stage.show();
+	}
 	
 	public Stage getStage(){
 		return stage;
+	}
+
+	public void setTitle(String title) {
+		stage.setTitle(title);
 	}
 }

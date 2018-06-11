@@ -153,6 +153,10 @@ public class ServerManager {
         return false;
     }
 
+    /**
+     * Envoie les informations de position du joueur
+     * @param player - Les infos à serialiser
+     */
     public synchronized void sendPlayerInfo(Player player){
         LOG.log(Level.INFO, "User send movement to server");
 

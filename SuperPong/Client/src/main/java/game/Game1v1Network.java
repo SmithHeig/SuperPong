@@ -1,6 +1,5 @@
 package game;
 
-import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -10,10 +9,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import main.Displayer;
 import model.Field;
 import network.ServerManager;
 import protocole.game.ServerInfo;
-import sun.net.NetworkServer;
 import view.BallView;
 import view.Item;
 import view.RandomItem;
@@ -60,10 +59,9 @@ public class Game1v1Network {
 	}
 	
 	public void run(Stage primaryStage) throws Exception {
-		primaryStage.setTitle("Game1v1");
-		primaryStage.setScene(new Scene(createContent()));
-		
-		primaryStage.show();
+		Displayer.getInstance().setTitle("Game1v1");
+		Displayer.getInstance().setScene(new Scene(createContent()));
+
 		root.setOnMouseMoved(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent me) {
 				yplayer = me.getY();
@@ -93,6 +91,7 @@ public class Game1v1Network {
 		root.getChildren().addAll(((RaquetView) player1.getRaquet()).getRaquet(), ((RaquetView) player2.getRaquet()).getRaquet(), ball.getBall(), player1Score, player2Score);
 		
 		Timer time = new Timer();
+
 		TimerTask timerTask1 = new TimerTask() {
 			@Override
 			public void run() {
@@ -101,22 +100,29 @@ public class Game1v1Network {
 		};
 		time.scheduleAtFixedRate(timerTask1, 20, 20);
 		
-		TimerTask timerTask = new TimerTask() {
+		TimerTask timerTask2 = new TimerTask() {
 			@Override
 			public void run() {
 				ServerInfo serverInfo = ServerManager.getInstance().receivedGameInfos();
-				ball.update(serverInfo.getBall());
-				
-				
-				
-				other.update(serverInfo.getPlayers().get(1 - myselfID));
-				//player2Score.setText(Integer.toString(player2.getPoints()));
-				//player1Score.setText(Integer.toString(player1.getPoints()));
-				//ServerManager.getInstance().sendPlayerInfo(myself);
-				//other.getRaquet().setPosition(ServerManager.getInstance().receivedGameInfos().getPlayers().get(1 - myselfID).raquet.getPosition());
+				/* Test si le jeu est fini */
+				if (!serverInfo.isFinised()) {
+					ball.update(serverInfo.getBall());
+
+
+					other.update(serverInfo.getPlayers().get(1 - myselfID));
+					//player2Score.setText(Integer.toString(player2.getPoints()));
+					//player1Score.setText(Integer.toString(player1.getPoints()));
+					//ServerManager.getInstance().sendPlayerInfo(myself);
+					//other.getRaquet().setPosition(ServerManager.getInstance().receivedGameInfos().getPlayers().get(1 - myselfID).raquet.getPosition());
+
+				}
+				/* Le jeu est fini */
+				else {
+					time.cancel();
+				}
 			}
 		};
-		time.scheduleAtFixedRate(timerTask, 100, 100);
+		time.scheduleAtFixedRate(timerTask2, 100, 100);
 		
 		TimerTask timerTask3 = new TimerTask() {
 			@Override

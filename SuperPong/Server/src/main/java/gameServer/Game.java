@@ -39,7 +39,7 @@ public class Game implements Runnable {
 	public Game(LinkedList<PlayerServer> players) {
 		// TODO : change id player
 		this.players = players;
-		notifyPlayerGameJoin();
+		notifyPlayersGameJoin();
 		field = new Field(players.size(), 1000, 600);
 		ball = new Ball(7, -1, 0, (int) field.getWidth() / 2, (int) field.getHeight() / 2);
 	}
@@ -119,7 +119,7 @@ public class Game implements Runnable {
 		
 	}
 	
-	private void notifyPlayerGameJoin() {
+	private void notifyPlayersGameJoin() {
 		for (int i = 0; i < players.size(); ++i) {
 			players.get(i).setId(i);
 			Protocole msg = new Protocole(SuperPongProtocole.CMD_INSCRIPTION_GAME, new GameJoin(true, i));
@@ -127,17 +127,24 @@ public class Game implements Runnable {
 			players.get(i).getClientHandler().setGame(this);
 		}
 	}
+
+	private void notifyPlayersGameFinished(){
+		for(int i = 0; i < players.size(); ++i){
+			Protocole msg = new Protocole(SuperPongProtocole.CMD_PLAY, new ServerInfo(null, null, true));
+			sendMessage(msg, players.get(i).getClientHandler().getWriter());
+		}
+	}
 	
 	/**
 	 * Méthode qui notifie aux joueurs: l'état de la balle et des autres joueurs
 	 */
 	private synchronized void notifyPlayers() {
-		LinkedList<Player> lol = new LinkedList<>();
+		LinkedList<Player> _players = new LinkedList<>();
 		for (Player p : players) {
-			lol.add(p);
+			_players.add(p);
 		}
 		for (PlayerServer player : players) {
-			ServerInfo playerInfos = new ServerInfo(lol, ball);
+			ServerInfo playerInfos = new ServerInfo(_players, ball,false);
 			Protocole msg = new Protocole(SuperPongProtocole.CMD_PLAY, playerInfos);
 			sendMessage(msg, player.getClientHandler().getWriter());
 		}
