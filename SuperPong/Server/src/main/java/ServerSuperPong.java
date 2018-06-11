@@ -1,3 +1,4 @@
+import db.DB;
 import server.Server;
 
 import java.io.IOException;
@@ -11,5 +12,6 @@ public class ServerSuperPong {
     public static void main(String[] argv) throws IOException{
         Server server = new Server();
         server.start();
+        DB.getInstance().checkPlayer("antoine","lol");
     }
 }

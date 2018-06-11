@@ -1,8 +1,9 @@
 package server;
 
-import Game.Game;
-import Game.Matchmaking;
-import Game.PlayerServer;
+import db.DB;
+import gameServer.Game;
+import gameServer.Matchmaking;
+import gameServer.PlayerServer;
 import game.Player;
 import protocole.Protocole;
 import protocole.SuperPongProtocole;
@@ -10,7 +11,6 @@ import protocole.data.Disconnection.Disconnection;
 import protocole.data.Disconnection.DisconnectionConfirmation;
 import protocole.data.connection.LoginConfirmation;
 import protocole.data.connection.Login;
-import protocole.data.matchmaking.GameJoin;
 import protocole.data.matchmaking.InscriptionMatchmaking;
 import protocole.game.ClientInfoMove;
 import protocole.mapper.JsonMapper;
@@ -55,10 +55,12 @@ public class ClientHandler implements IClientHandler{
                     LOG.log(Level.INFO, "The user " + user.getUsername() + " try to connect to the server");
 
                     // TODO: verification si utilisateur et mdp correct
-                    Protocole ConnectionMsg;
-                    ConnectionMsg = new Protocole(SuperPongProtocole.CMD_CONNECT, new LoginConfirmation(true));
+                    isConnected = DB.getInstance().checkPlayer(user.getUsername(), user.getPassword());
+
+                    Protocole ConnectionMsg = new Protocole(SuperPongProtocole.CMD_CONNECT, new LoginConfirmation(isConnected));
+
                     sendToClient(ConnectionMsg);
-                    isConnected = true;
+
                 } else {
                     LOG.log(Level.SEVERE, "User not connected");
                     // TODO: A gérer et renvoyé une réponse à l'utilisateur
