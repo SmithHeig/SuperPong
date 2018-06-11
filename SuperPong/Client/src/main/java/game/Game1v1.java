@@ -1,5 +1,8 @@
 package game;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -9,8 +12,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import main.Displayer;
 import model.Field;
+import network.ServerManager;
+import protocole.game.ServerInfo;
 import view.BallView;
 import view.RandomItem;
 import view.RaquetView;
@@ -43,7 +49,7 @@ public class Game1v1 {
 		
 		if (myselfID == 0) {
 			myself = player1;
-		} else{
+		} else {
 			myself = player2;
 		}
 	}
@@ -82,14 +88,13 @@ public class Game1v1 {
 		
 		root.getChildren().addAll(((RaquetView) player1.getRaquet()).getRaquet(), ((RaquetView) player2.getRaquet()).getRaquet(), ball.getBall(), player1Score, player2Score);
 		
-		Timer time = new Timer();
-		TimerTask timerTask1 = new TimerTask() {
-			@Override
-			public void run() {
-				gameUptate();
-			}
-		};
-		time.scheduleAtFixedRate(timerTask1, 20, 20);
+		Timeline timeline = new Timeline();
+		KeyFrame keyFrame = new KeyFrame(Duration.millis(20), ev -> {
+			gameUptate();
+		});
+		timeline.getKeyFrames().add(keyFrame);
+		timeline.setCycleCount(Animation.INDEFINITE);
+		timeline.play();
 		
 		return root;
 	}
@@ -97,7 +102,6 @@ public class Game1v1 {
 	private void gameUptate() {
 		double x = ball.getPositionX();
 		double y = ball.getPositionY();
-		
 		
 		
 		boolean PlayerlastTouchTheBall = true;
@@ -169,11 +173,11 @@ public class Game1v1 {
 		// le player 1 prend un goal
 		if (x < 0) {
 			player2.setPoints(player2.getPoints() + 1);
-			player2Score.setText(Integer.toString(player2.getPoints()));
+			player2Score.setText(String.valueOf(player2.getPoints()));
 			ball.setPositionY(HEIGHT / 2);
 			ball.setPositionX(WIDTH / 2);
 			/* Player2 gagne */
-			if(player2.getPoints() >= 5){
+			if (player2.getPoints() >= 5) {
 				// TODO Winning screen
 				Displayer.getInstance().showLocalMenu();
 			}
@@ -186,7 +190,7 @@ public class Game1v1 {
 			ball.setPositionY(HEIGHT / 2);
 			ball.setPositionX(WIDTH / 2);
 			/* Player1 gagne */
-			if(player1.getPoints() >= 5){
+			if (player1.getPoints() >= 5) {
 				// TODO Winning screen
 				Displayer.getInstance().showLocalMenu();
 			}
@@ -198,7 +202,7 @@ public class Game1v1 {
 		// mise à jour de la position de la balle
 		ball.setPositionX(ball.getPositionX() + ball.getVelocity() * ball.getVelocityX());
 		ball.setPositionY(ball.getPositionY() + ball.getVelocity() * ball.getVelocityY());
-	
+		
 		
 		// ia du bot
 		if (x > WIDTH / 2 && player2.getRaquet().getPosition() + 30 > y) {
@@ -211,7 +215,7 @@ public class Game1v1 {
 				player2.getRaquet().setPosition(player2.getRaquet().getPosition() + 5);
 			}
 		}
-		
+
 //player
 		if (myself.getRaquet().getPosition() + 30 > yplayer) {
 			if (myself.getRaquet().getPosition() > 0) {
