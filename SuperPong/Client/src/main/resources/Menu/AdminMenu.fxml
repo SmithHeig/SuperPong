@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Menu.AdminMenuController">
+   <children>
+      <Button fx:id="BackButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#goBackToNetworkMenu" text="Retour">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox prefWidth="200.0" spacing="100.0">
+               <children>
+                  <Label prefWidth="125.0" text="Username" />
+                  <TextField fx:id="textFieldUsername" />
+               </children>
+               <padding>
+                  <Insets bottom="10.0" />
+               </padding>
+            </HBox>
+            <Separator prefWidth="200.0">
+               <VBox.margin>
+                  <Insets right="115.0" />
+               </VBox.margin>
+            </Separator>
+            <HBox prefWidth="200.0" spacing="100.0">
+               <children>
+                  <Label prefWidth="125.0" text="NbWins" />
+                  <TextField fx:id="textFieldNbWins" />
+               </children>
+               <padding>
+                  <Insets bottom="10.0" top="10.0" />
+               </padding>
+            </HBox>
+            <HBox prefWidth="200.0" spacing="100.0">
+               <children>
+                  <Label prefWidth="125.0" text="NbPlays" />
+                  <TextField fx:id="textFieldNbPlays" />
+               </children>
+               <padding>
+                  <Insets bottom="10.0" />
+               </padding>
+            </HBox>
+            <AnchorPane prefWidth="200.0">
+               <children>
+                  <Button fx:id="buttonChangeStats" mnemonicParsing="false" onAction="#changeStats" text="Changer" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="115.0" />
+               </children>
+               <padding>
+                  <Insets bottom="10.0" />
+               </padding>
+            </AnchorPane>
+            <Separator prefWidth="200.0">
+               <padding>
+                  <Insets right="115.0" />
+               </padding>
+            </Separator>
+            <HBox prefWidth="200.0" spacing="100.0">
+               <children>
+                  <Label prefWidth="125.0" text="New password" />
+                  <TextField fx:id="textFieldPassword">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </HBox>
+            <AnchorPane prefWidth="200.0">
+               <children>
+                  <Button fx:id="buttonChangePassword" mnemonicParsing="false" onAction="#changePassword" text="Changer" AnchorPane.rightAnchor="115.0" />
+               </children>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </AnchorPane>
+         </children>
+      </VBox>
+   </children>
+   <padding>
+      <Insets left="100.0" top="100.0" />
+   </padding>
+</AnchorPane>

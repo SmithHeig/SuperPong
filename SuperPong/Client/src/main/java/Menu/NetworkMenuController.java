@@ -25,6 +25,18 @@ public class NetworkMenuController {
     private Button StatButton;
 
     @FXML
+    private Button buttonAdmin;
+
+    @FXML
+    private void initialize(){
+        if(ServerManager.getInstance().isAdmin()){
+            buttonAdmin.setVisible(true);
+        } else {
+            buttonAdmin.setVisible(false);
+        }
+    }
+
+    @FXML
     void disconnect(ActionEvent event) {
         /* Essaie de ce déconnecter */
         if(ServerManager.getInstance().disconnect()) {
@@ -35,6 +47,11 @@ public class NetworkMenuController {
     @FXML
     void goToFriendsMenu(ActionEvent event) {
 
+    }
+
+    @FXML
+    void goToAdminZone(ActionEvent event) {
+        Displayer.getInstance().showAdminZone();
     }
 
     @FXML

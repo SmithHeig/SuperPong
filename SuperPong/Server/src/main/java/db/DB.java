@@ -105,4 +105,56 @@ public class DB {
         return null;
     }
 
+    public boolean changePassword(String username, String password){
+        try {
+            LOG.log(Level.INFO, "Trying to change password for " + username);
+            PreparedStatement statement = con.prepareStatement("UPDATE User SET password=? WHERE username=?");
+            statement.setString(1, password);
+            statement.setString(2, username);
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException e){
+            LOG.log(Level.SEVERE, "Error changing password with exception : " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean isAdmin(String username){
+        try {
+            LOG.log(Level.INFO, "Is the user an admin: " + username);
+            PreparedStatement statement = con.prepareStatement("SELECT isAdmin FROM User WHERE username=?");
+            statement.setString(1, username);
+            ResultSet resultSet = statement.executeQuery();
+
+            /* DOit avoir un seul résultat car username unique */
+            boolean isAdmin = false;
+
+            while (resultSet.next()) {
+                isAdmin = resultSet.getBoolean("isAdmin");
+            }
+
+            return isAdmin;
+
+        } catch(SQLException e){
+            LOG.log(Level.SEVERE, "username incorrect ! Excpetion: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean changeStats(String username, int nbWins, int nbPlays){
+        try {
+            LOG.log(Level.INFO, "Try to change stats of user " + username);
+            PreparedStatement statement = con.prepareStatement("UPDATE User SET nbWins=?, nbPlays=? WHERE username=?");
+            statement.setInt(1, nbWins);
+            statement.setInt(2, nbPlays);
+            statement.setString(3, username);
+            int nbChanged = statement.executeUpdate();
+
+            return true;
+        } catch (SQLException e){
+            LOG.log(Level.SEVERE, "Impossible to edit stats with exception: " + e.getMessage());
+            return false;
+        }
+    }
+
 }

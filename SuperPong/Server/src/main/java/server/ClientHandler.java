@@ -9,6 +9,7 @@ import protocole.Protocole;
 import protocole.SuperPongProtocole;
 import protocole.data.Disconnection.Disconnection;
 import protocole.data.Disconnection.DisconnectionConfirmation;
+import protocole.data.admin.*;
 import protocole.data.connection.LoginConfirmation;
 import protocole.data.connection.Login;
 import protocole.data.matchmaking.InscriptionMatchmaking;
@@ -117,6 +118,33 @@ public class ClientHandler implements IClientHandler{
                         Protocole msg = new Protocole(SuperPongProtocole.CMD_SHOW_STATS, stats);
                         sendToClient(msg);
                         break;
+                    /* USER STATUS*/
+                    case SuperPongProtocole.CMD_USER_STATUS:
+                        boolean admin = DB.getInstance().isAdmin(username);
+
+                        Protocole userStatus = new Protocole(SuperPongProtocole.CMD_USER_STATUS, new UserStatus(admin));
+
+                        sendToClient(userStatus);
+                        break;
+                    /* CHANGE PASSWORD */
+                    case SuperPongProtocole.CMD_CHANGE_PASSWORD:
+                        ChangePassword changePassword = (ChangePassword) msgReceived.getData();
+
+                        boolean pwdHavedChanged = DB.getInstance().changePassword(changePassword.getUsername(), changePassword.getNewPassword());
+                        Protocole changePwdConfirmation = new Protocole(SuperPongProtocole.CMD_CHANGE_PASSWORD, new ChangePasswordConfirmation(pwdHavedChanged));
+
+                        sendToClient(changePwdConfirmation);
+                        break;
+                    /* CHANGE STATS */
+                    case SuperPongProtocole.CMD_CHANGE_STATS:
+                        ChangeStats changeStats= (ChangeStats)msgReceived.getData();
+
+                        boolean statHaveChanged = DB.getInstance().changeStats(changeStats.getUsername(), changeStats.getNbWins(), changeStats.getNbPlays());
+                        Protocole changeStatsConfirmation = new Protocole(SuperPongProtocole.CMD_CHANGE_STATS, new ChangeStatsConfirmation(statHaveChanged));
+
+                        sendToClient(changeStatsConfirmation);
+                        break;
+                    /* DEFAULT */
                     default:
                         LOG.log(Level.SEVERE, "Wrong Protocole");
                         break;

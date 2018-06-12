@@ -1,6 +1,7 @@
 package network;
 
 import game.Player;
+import protocole.data.admin.*;
 import protocole.data.matchmaking.GameJoin;
 import protocole.data.matchmaking.InscriptionMatchmaking;
 import protocole.data.stats.Stats;
@@ -180,6 +181,40 @@ public class ServerManager {
         sendMessageToServer(msg);
         Protocole response = readMsgFromServer();
         return (Stats)response.getData();
+    }
+
+    public boolean changePassword(String username, String newPassword){
+        ChangePassword data = new ChangePassword(username, newPassword);
+        Protocole msg = new Protocole(SuperPongProtocole.CMD_CHANGE_PASSWORD, data);
+
+        sendMessageToServer(msg);
+
+        Protocole responseReceived = readMsgFromServer();
+        ChangePasswordConfirmation changePasswordConfirmation = (ChangePasswordConfirmation)responseReceived.getData();
+        return changePasswordConfirmation.isPasswordHavedChanged();
+    }
+
+    public boolean isAdmin(){
+        Protocole msg = new Protocole(SuperPongProtocole.CMD_USER_STATUS, null);
+
+        sendMessageToServer(msg);
+
+        Protocole responseReceived = readMsgFromServer();
+        UserStatus userStatus = (UserStatus) responseReceived.getData();
+
+        return userStatus.isAdmin();
+    }
+
+    public boolean changeStats(String username, int nbWins, int nbPlays){
+        ChangeStats changeStats = new ChangeStats(username, nbWins, nbPlays);
+        Protocole msg = new Protocole(SuperPongProtocole.CMD_CHANGE_STATS, changeStats);
+
+        sendMessageToServer(msg);
+
+        Protocole responseReceived = readMsgFromServer();
+        ChangeStatsConfirmation changeStatsConfirmation = (ChangeStatsConfirmation) responseReceived.getData();
+
+        return changeStatsConfirmation.isStatsHavedChanged();
     }
 
     /**

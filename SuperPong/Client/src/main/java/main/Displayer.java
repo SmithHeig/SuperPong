@@ -53,6 +53,8 @@ public class Displayer {
 	}
 
 	public void showStatsMenu() {changeMenu("/Menu/StatsMenu.fxml");}
+
+	public void showAdminZone() {changeMenu("/Menu/AdminMenu.fxml");}
 	
 	private void changeMenu(String fxml){
 		try {
