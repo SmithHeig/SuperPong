@@ -51,6 +51,8 @@ public class Displayer {
 	public void showNetworkMenu() {
 		changeMenu("/Menu/NetworkMenu.fxml");
 	}
+
+	public void showStatsMenu() {changeMenu("/Menu/StatsMenu.fxml");}
 	
 	private void changeMenu(String fxml){
 		try {

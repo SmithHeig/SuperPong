@@ -44,7 +44,7 @@ public class NetworkMenuController {
 
     @FXML
     void goToStatMenu(ActionEvent event) {
-
+        Displayer.getInstance().showStatsMenu();
     }
 
 }

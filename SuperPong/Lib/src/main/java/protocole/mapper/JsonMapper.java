@@ -10,6 +10,7 @@ import protocole.data.connection.Login;
 import protocole.data.connection.LoginConfirmation;
 import protocole.data.matchmaking.GameJoin;
 import protocole.data.matchmaking.InscriptionMatchmaking;
+import protocole.data.stats.Stats;
 import protocole.game.ClientInfoMove;
 import protocole.game.ServerInfo;
 
@@ -41,6 +42,7 @@ public class JsonMapper {
         JSONobjectMapper.registerSubtypes(new NamedType(InscriptionMatchmaking.class, "InscriptionMatchmaking"));
         JSONobjectMapper.registerSubtypes(new NamedType(ClientInfoMove.class,"ClientInfoMove"));
         JSONobjectMapper.registerSubtypes(new NamedType(ServerInfo.class, "ServerInfo"));
+        JSONobjectMapper.registerSubtypes(new NamedType(Stats.class, "Stats"));
     }
 
     public static String convertToString(Protocole protocole){

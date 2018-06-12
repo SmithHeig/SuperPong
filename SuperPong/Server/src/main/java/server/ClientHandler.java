@@ -12,6 +12,7 @@ import protocole.data.Disconnection.DisconnectionConfirmation;
 import protocole.data.connection.LoginConfirmation;
 import protocole.data.connection.Login;
 import protocole.data.matchmaking.InscriptionMatchmaking;
+import protocole.data.stats.Stats;
 import protocole.game.ClientInfoMove;
 import protocole.mapper.JsonMapper;
 
@@ -27,6 +28,7 @@ public class ClientHandler implements IClientHandler{
     private BufferedReader reader;
     private PrintWriter writer;
     private boolean isConnected;
+    private String username; // TODO Choisir si on passe dans un protocole ou si on le stoque
     private Game game;
     boolean done;
 
@@ -58,6 +60,7 @@ public class ClientHandler implements IClientHandler{
                     // TODO: verification si utilisateur et mdp correct
                     isConnected = DB.getInstance().checkPlayer(user.getUsername(), user.getPassword());
 
+                    username = user.getUsername();
                     Protocole ConnectionMsg = new Protocole(SuperPongProtocole.CMD_CONNECT, new LoginConfirmation(isConnected));
 
                     sendToClient(ConnectionMsg);
@@ -90,8 +93,8 @@ public class ClientHandler implements IClientHandler{
 
                         LOG.log(Level.INFO, inscriptionMatchmaking.toString());
 
-                        String username = inscriptionMatchmaking.getUsername();
-                        PlayerServer playerServer = new PlayerServer(new Player(username), this);
+                        String _username = inscriptionMatchmaking.getUsername();
+                        PlayerServer playerServer = new PlayerServer(new Player(_username), this);
 
                         /* Donne la communication (écriture) au matchmaking puis au jeu */
                         Matchmaking.getInstance().inscriptionGame2players(playerServer);
@@ -107,6 +110,12 @@ public class ClientHandler implements IClientHandler{
                             game.updateFromClient(clientInfoMove.getPlayer());
                         }
 
+                        break;
+                    /* SHOW STATS */
+                    case SuperPongProtocole.CMD_SHOW_STATS:
+                        Stats stats = DB.getInstance().getStats(username);
+                        Protocole msg = new Protocole(SuperPongProtocole.CMD_SHOW_STATS, stats);
+                        sendToClient(msg);
                         break;
                     default:
                         LOG.log(Level.SEVERE, "Wrong Protocole");

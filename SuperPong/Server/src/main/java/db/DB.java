@@ -1,6 +1,7 @@
 package db;
 
-import java.io.IOException;
+import protocole.data.stats.Stats;
+
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -82,7 +83,7 @@ public class DB {
     public Stats getStats(String username){
         try{
             LOG.log(Level.INFO, "Getting the stats of " + username);
-            PreparedStatement statement = con.prepareStatement("SELECT nbWins, nbPlays WHERE username=?");
+            PreparedStatement statement = con.prepareStatement("SELECT nbWins, nbPlays FROM User WHERE username=?");
             statement.setString(1, username);
             ResultSet resultSet = statement.executeQuery();
 
