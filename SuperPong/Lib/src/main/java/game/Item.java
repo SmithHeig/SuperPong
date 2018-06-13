@@ -1,15 +1,20 @@
 package game;
 
+import com.fasterxml.jackson.annotation.*;
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY)
+@JsonSubTypes({
+	@JsonSubTypes.Type(value = GrowOwnRaquet.class, name = "GrowOnwRaquet"),
+	@JsonSubTypes.Type(value = IncreaseVelocity.class, name = "IncreaseVelocity"),
+	@JsonSubTypes.Type(value = ReduceOtherRaquet.class, name = "IncreaseOtherRaquet")
+})
 abstract public class Item {
-	
+
 	private double positionX;
 	private double positionY;
-	
-	public Item(Field field) {
-		
-		positionX = 200 + (Math.random() * (int) (field.getWidth() - 200));
-		positionY = 25 + (Math.random() * (int) (field.getHeight() - 25));
-		
+	private double duration;
+
+	public Item(){
 	}
 	
 	public double getPositionX() {
@@ -18,5 +23,21 @@ abstract public class Item {
 	
 	public double getPositionY() {
 		return positionY;
+	}
+
+	public double getDuration() {
+		return duration;
+	}
+
+	public void setPositionX(double positionX) {
+		this.positionX = positionX;
+	}
+
+	public void setPositionY(double positionY) {
+		this.positionY = positionY;
+	}
+
+	public void setDuration(double duration) {
+		this.duration = duration;
 	}
 }

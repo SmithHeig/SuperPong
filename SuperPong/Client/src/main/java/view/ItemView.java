@@ -6,12 +6,12 @@ import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 import javafx.scene.transform.Rotate;
 
-abstract public class ItemView extends Item {
+/*abstract public class ItemView extends Item {
 	
 	private Box box;
 	
 	public ItemView(Field field) {
-		super(field);
+		//super(field);
 		box = new Box(25, 25, 25);
 		box.setLayoutX(getPositionX());
 		box.setLayoutY(getPositionY());
@@ -36,4 +36,4 @@ abstract public class ItemView extends Item {
 	
 	abstract public void desexecute();
 	
-}
+}*/

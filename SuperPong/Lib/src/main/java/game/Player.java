@@ -17,7 +17,6 @@ public class Player {
      * Constructeur avec tous les paramètres
      * @param username - pseudo du joueur
      * @param points - nombre de point du joueur
-     * @param position - position de la raquette du joueur
      */
     @JsonCreator
     public Player(@JsonProperty("username") String username, @JsonProperty("points")int points, @JsonProperty("id")int id, @JsonProperty("raquet")Raquet raquet){

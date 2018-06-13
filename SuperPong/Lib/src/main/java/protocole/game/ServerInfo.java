@@ -1,24 +1,32 @@
 package protocole.game;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import game.Ball;
+import game.Item;
 import game.Player;
 import protocole.data.IData;
 
 import java.util.LinkedList;
 
 public class ServerInfo implements IData {
-    private LinkedList<Player> players;
-    private Ball ball;
-    private Boolean isFinised;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    Item item = null;
+    LinkedList<Player> players;
+    Ball ball;
+    Boolean isFinised;
 
-    @JsonCreator
-    public ServerInfo(@JsonProperty("players") LinkedList<Player> players, @JsonProperty("ball") Ball ball, @JsonProperty("isFinished") boolean isFinised){
+    public ServerInfo(){
+    }
+
+    /*public ServerInfo(@JsonProperty("players") LinkedList<Player> players, @JsonProperty("ball") Ball ball, @JsonProperty("isFinished")boolean isFinised){
         this.players = players;
         this.ball = ball;
         this.isFinised = isFinised;
-    }
+        this.item = null;
+    }*/
 
     /* GETTER */
     public LinkedList<Player> getPlayers() {
@@ -35,6 +43,8 @@ public class ServerInfo implements IData {
         return isFinised;
     }
 
+    public Item getItem(){return item;}
+
     /* GETTER */
     public void setPlayers(LinkedList<Player> players) {
         this.players = players;
@@ -45,6 +55,8 @@ public class ServerInfo implements IData {
     }
 
     public void setFinised(Boolean finised) {
-        isFinised = finised;
+        this.isFinised = finised;
     }
+
+    public void setItem(Item item){this.item = item;}
 }

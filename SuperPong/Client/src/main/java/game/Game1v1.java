@@ -17,18 +17,10 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import main.Displayer;
 import model.Field;
-import network.ServerManager;
-import protocole.game.ServerInfo;
 import view.BallView;
-import view.RandomItem;
 import view.RaquetView;
 
-import java.util.LinkedList;
-import java.util.Optional;
-import java.util.Timer;
-import java.util.TimerTask;
-
-public class Game1v1 {
+public class Game1v1 implements Game{
 	
 	private BallView ball;
 	private Player player1;
@@ -44,7 +36,6 @@ public class Game1v1 {
 	private final int WIDTH = 1000, HEIGHT = 600;
 	
 	private RandomItem randomItem = new RandomItem();
-	private long timerTime = 1;
 	private boolean estTouche = false;
 	Timeline timeline;
 	
@@ -91,7 +82,7 @@ public class Game1v1 {
 		player2Score.setLayoutY(50);
 		
 		
-		root.getChildren().addAll(((RaquetView) player1.getRaquet()).getRaquet(), ((RaquetView) player2.getRaquet()).getRaquet(), ball.getBall(), player1Score, player2Score);
+		root.getChildren().addAll(((RaquetView) player1.getRaquet()).getView(), ((RaquetView) player2.getRaquet()).getView(), ball.getBall(), player1Score, player2Score);
 		
 		timeline = new Timeline();
 		KeyFrame keyFrame = new KeyFrame(Duration.millis(20), ev -> {
@@ -140,8 +131,6 @@ public class Game1v1 {
 			}
 		}
 		*/
-		
-		timerTime++;
 		
 		double ANGLE_MIN = -45;
 		double ANGLE_MAX = 45;

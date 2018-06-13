@@ -1,4 +1,4 @@
-package view;
+package game;
 
 import game.Item;
 

@@ -20,48 +20,37 @@ import model.Field;
 import network.ServerManager;
 import protocole.game.ServerInfo;
 import view.BallView;
-import view.RandomItem;
 import view.RaquetView;
 
 import java.util.LinkedList;
-import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Game1v1Network {
+public class Game1v1Network implements Game{
 	
 	private BallView ball;
-	private Player player1;
-	private Player player2;
+	private LinkedList<Player> players;
 	private Label player1Score;
 	private Label player2Score;
-	private Player myself;
-	private Player other;
-	private  int myselfID;
+	private int myselfID;
 	private double yplayer;
-	
-	private final int PLAYER_RAQUET_SIZE = 100;
+
 	private Pane root;
 	private Item item = null;
-	private final int WIDTH = 1000, HEIGHT = 600;
+	private Field field = new Field(1000,600);
 	
 	private RandomItem randomItem = new RandomItem();
 	private long timerTime = 1;
 	private boolean estTouche = false;
 	
-	public Game1v1Network(LinkedList<Player> players, int myselfID) {
+	public Game1v1Network(LinkedList<Player> _players, int myselfID) {
 		this.myselfID = myselfID;
-		
-		player1 = new Player("player1", 0, 0, new RaquetView(PLAYER_RAQUET_SIZE, HEIGHT / 2 - PLAYER_RAQUET_SIZE / 2, 0));
-		player2 = new Player("player2", 0, 1, new RaquetView(PLAYER_RAQUET_SIZE, HEIGHT / 2 - PLAYER_RAQUET_SIZE / 2, WIDTH - 10));
-		
-		if (myselfID == 0) {
-			myself = player1;
-			other = player2;
-		} else {
-			myself = player2;
-			other = player1;
-		}
+
+		// TODO enregistrer les _players dans players avec une raquetteView
+		/*players.add(new Player("player1", 0, 0,
+				new RaquetView(0, field.getHeight() / 2 - RaquetView.getInitSize() / 2)));
+		players.add(new Player("player2", 0, 1,
+				new RaquetView(field.getWidth() - RaquetView.getInitThickness(), field.getHeight() / 2 - RaquetView.getInitSize() / 2)));*/
 	}
 	
 	public void run(Stage primaryStage) throws Exception {
@@ -77,10 +66,9 @@ public class Game1v1Network {
 	
 	
 	private Parent createContent() {
-		Field field = new Field(WIDTH, HEIGHT);
 		root = field.printField();
 		
-		ball = new BallView(7, -1, 0, WIDTH / 2, HEIGHT / 2);
+		ball = new BallView(7, -1, 0, field.getWidth() / 2, field.getHeight() / 2);
 		
 		player1Score = new Label("0");
 		player1Score.setTextFill(Color.WHITE);
@@ -91,10 +79,14 @@ public class Game1v1Network {
 		player2Score = new Label("0");
 		player2Score.setTextFill(Color.WHITE);
 		player2Score.setFont(new Font("Arial", 30));
-		player2Score.setLayoutX(WIDTH - 200);
+		player2Score.setLayoutX(field.getWidth() - 200);
 		player2Score.setLayoutY(50);
-		
-		root.getChildren().addAll(((RaquetView) player1.getRaquet()).getRaquet(), ((RaquetView) player2.getRaquet()).getRaquet(), ball.getBall(), player1Score, player2Score);
+
+		for(Player player: players) {
+			root.getChildren().add(((RaquetView) player.getRaquet()).getView());
+		}
+		// TODO faire que les scores soit générique pour plus que 2 joueurs
+		root.getChildren().addAll(ball.getBall(), player1Score, player2Score);
 		
 		Timer time = new Timer();
 
@@ -111,13 +103,13 @@ public class Game1v1Network {
 			if(!serverInfo.isFinised()) {
 				ball.update(serverInfo.getBall());
 
-				other.update(serverInfo.getPlayers().get(1 - myselfID));
+				players.get(1 - myselfID).update(serverInfo.getPlayers().get(1 - myselfID));
 				player1Score.setText(String.valueOf(serverInfo.getPlayers().get(0).getPoints()));
 				player2Score.setText(String.valueOf(serverInfo.getPlayers().get(1).getPoints()));
 			} else {
 				timeline.stop();
 				time.cancel();
-				showWinner(player1.getPoints() == 5 ? player1 : player2);
+				showWinner(players.get(0).getPoints() == 5 ? players.get(0) : players.get(1));
 			}
 		});
 		timeline.getKeyFrames().add(keyFrame);
@@ -127,7 +119,7 @@ public class Game1v1Network {
 		TimerTask timerTask3 = new TimerTask() {
 			@Override
 			public void run() {
-				ServerManager.getInstance().sendPlayerInfo(myself);
+				ServerManager.getInstance().sendPlayerInfo(players.get(myselfID));
 			}
 		};
 		time.scheduleAtFixedRate(timerTask3, 100, 100);
@@ -142,16 +134,15 @@ public class Game1v1Network {
 		ball.setPositionX(ball.getPositionX() + ball.getVelocity() * ball.getVelocityX());
 		ball.setPositionY(ball.getPositionY() + ball.getVelocity() * ball.getVelocityY());
 		
-		
-		// l'ia du bot, suit la hauteur de la balle quand elle est dans sa moitié de terrain
-		if (myself.getRaquet().getPosition() + 30 > yplayer) {
-			if (myself.getRaquet().getPosition() > 0) {
-				myself.getRaquet().setPosition(myself.getRaquet().getPosition() - 5);
+
+		if (players.get(myselfID).getRaquet().getPosition() + 30 > yplayer) {
+			if (players.get(myselfID).getRaquet().getPosition() > 0) {
+				players.get(myselfID).getRaquet().setPosition(players.get(myselfID).getRaquet().getPosition() - 5);
 			}
 		}
-		if (myself.getRaquet().getPosition() - 30 + myself.getRaquet().getSize() / 2 < yplayer) {
-			if (myself.getRaquet().getPosition() + myself.getRaquet().getSize() < HEIGHT) {
-				myself.getRaquet().setPosition(myself.getRaquet().getPosition() + 5);
+		if (players.get(myselfID).getRaquet().getPosition() - 30 + players.get(myselfID).getRaquet().getSize() / 2 < yplayer) {
+			if (players.get(myselfID).getRaquet().getPosition() + players.get(myselfID).getRaquet().getSize() < field.getHeight()) {
+				players.get(myselfID).getRaquet().setPosition(players.get(myselfID).getRaquet().getPosition() + 5);
 			}
 		}
 	}
@@ -162,8 +153,8 @@ public class Game1v1Network {
 		alert.setTitle("Fin de la partie");
 		alert.setHeaderText(winner.getUsername() + " a gagné!");
 		// TODO à rendre plus générique et peu etre déplacer (super classse?)
-		alert.setContentText(player1.getUsername() + ": " + player1.getPoints() + "\n" +
-				player2.getUsername() + ": " + player2.getPoints() + "\n");
+		alert.setContentText(players.get(0).getUsername() + ": " + players.get(0).getPoints() + "\n" +
+				players.get(1).getUsername() + ": " + players.get(1).getPoints() + "\n");
 		ButtonType buttonTypeOne = new ButtonType("Retour au menu"); // ajoute un bouton "Rejouer" à la boite de dialogue
 		alert.getButtonTypes().add(buttonTypeOne);
 		alert.show();

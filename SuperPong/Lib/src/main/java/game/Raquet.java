@@ -9,7 +9,8 @@ public class Raquet {
     
 
     /** CONSTANTE **/
-    private static final double INIT_SIZE = 100; // TODO Voir si ca pose pas de problème avec serialization
+    protected static final double INIT_SIZE = 100; // TODO Voir si ca pose pas de problème avec serialization
+    protected static final double INIT_THICKNESS = 10;
 
     /**
      * Constructeur avec tous les paramètres
@@ -59,5 +60,13 @@ public class Raquet {
 
     public void setPosition(double position) {
         this.position = position;
+    }
+
+    public static double getInitThickness(){
+        return INIT_THICKNESS;
+    }
+
+    public static double getInitSize(){
+        return INIT_SIZE;
     }
 }

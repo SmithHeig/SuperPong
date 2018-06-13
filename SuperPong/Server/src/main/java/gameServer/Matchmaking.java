@@ -23,7 +23,7 @@ public class Matchmaking {
     private LinkedList<PlayerServer> game7players; // liste d'attente pour les parties 1v1v1v1v1v1
     private LinkedList<PlayerServer> game8players; // liste d'attetne pour les parties 1v1v1v1v1v1v1
 
-    private LinkedList<Game> currentGames;
+    private LinkedList<GameServer> currentGames;
 
 
     /**
@@ -74,7 +74,7 @@ public class Matchmaking {
         for(int i = 0; i < nbPlayers; ++i){
             players.add(listPlayer.pop());
         }
-        Game game = new Game(players);
+        GameServer game = new GameServer(players);
         currentGames.add(game);
         game.run();
     }
@@ -83,7 +83,7 @@ public class Matchmaking {
      * Permet d'enlevé la partie de la liste des parties en cours. Doit être appelé à la fin des parties
      * @param game - partie à supprimer
      */
-    public synchronized void removeGame (Game game){
+    public synchronized void removeGame (GameServer game){
         currentGames.remove(game);
     }
 }

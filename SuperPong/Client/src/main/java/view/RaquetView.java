@@ -10,7 +10,7 @@ public class RaquetView extends Raquet {
 	
 	private Rectangle raquet;
 	
-	public RaquetView(double size, double positionY, double positionX) {
+	public RaquetView(double size, double positionX, double positionY) {
 		super(size, positionY);
 		
 		raquet = new Rectangle(10, size, Color.WHITE);
@@ -18,8 +18,15 @@ public class RaquetView extends Raquet {
 		raquet.setLayoutX(positionX);
 		raquet.setLayoutY(positionY);
 	}
+
+	public RaquetView(double positionX, double positionY){
+		super(positionY);
+		raquet = new Rectangle(INIT_THICKNESS, super.getSize(), Color.WHITE);
+		raquet.setLayoutX(positionX);
+		raquet.setLayoutY(positionY);
+	}
 	
-	public Rectangle getRaquet() {
+	public Rectangle getView() {
 		return raquet;
 	}
 	

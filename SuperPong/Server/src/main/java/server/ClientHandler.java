@@ -1,7 +1,7 @@
 package server;
 
 import db.DB;
-import gameServer.Game;
+import gameServer.GameServer;
 import gameServer.Matchmaking;
 import gameServer.PlayerServer;
 import game.Player;
@@ -30,7 +30,7 @@ public class ClientHandler implements IClientHandler{
     private PrintWriter writer;
     private boolean isConnected;
     private String username; // TODO Choisir si on passe dans un protocole ou si on le stoque
-    private Game game;
+    private GameServer game;
     boolean done;
 
     public void handleClientConnection(InputStream is, OutputStream os) throws IOException {
@@ -158,7 +158,7 @@ public class ClientHandler implements IClientHandler{
         return writer;
     }
 
-    public void setGame(Game game){
+    public void setGame(GameServer game){
         this.game = game;
     }
 
