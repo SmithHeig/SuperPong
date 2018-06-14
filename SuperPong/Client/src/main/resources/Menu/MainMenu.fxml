@@ -5,16 +5,16 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainMenu" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Menu.MainMenuController">
+<AnchorPane fx:id="mainMenu" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Menu.MainMenuController">
    <children>
-      <VBox spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="125.0">
+      <VBox alignment="CENTER" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Button fx:id="LocalMenuButton" mnemonicParsing="false" onAction="#goToLocalMenu" prefWidth="300.0" text="Jouer en local">
+            <Button fx:id="LocalMenuButton" mnemonicParsing="false" onAction="#goToLocalMenu" prefWidth="320.0" text="Jouer en local">
                <font>
                   <Font size="34.0" />
                </font>
             </Button>
-            <Button fx:id="NetworkMenuButton" mnemonicParsing="false" onAction="#goToNetworkMenu" prefWidth="300.0" text="Jouer en réseau">
+            <Button fx:id="NetworkMenuButton" mnemonicParsing="false" onAction="#goToNetworkMenu" prefWidth="320.0" text="Jouer en réseau">
                <font>
                   <Font size="34.0" />
                </font>

@@ -5,9 +5,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="localMenu" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Menu.LocalMenuController">
+<AnchorPane fx:id="localMenu" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Menu.LocalMenuController">
    <children>
-      <Button fx:id="BackButton" mnemonicParsing="false" onAction="#goBackToMainMenu" text="Retour" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+      <Button fx:id="BackButton" cancelButton="true" mnemonicParsing="false" onAction="#goBackToMainMenu" text="Retour" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
          <font>
             <Font size="20.0" />
          </font>
@@ -19,7 +19,7 @@
                   <Font size="28.0" />
                </font>
             </Button>
-            <Button fx:id="IAGameWithItemsButton" mnemonicParsing="false" onAction="#playIAGameWithItems" prefWidth="300.0" text="1 VS IS avec items">
+            <Button fx:id="IAGameWithItemsButton" mnemonicParsing="false" onAction="#playIAGameWithItems" prefWidth="300.0" text="1 VS IA avec items">
                <font>
                   <Font size="28.0" />
                </font>
