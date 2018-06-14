@@ -98,7 +98,11 @@ public class ClientHandler implements IClientHandler{
                         PlayerServer playerServer = new PlayerServer(new Player(_username), this);
 
                         /* Donne la communication (écriture) au matchmaking puis au jeu */
-                        Matchmaking.getInstance().inscriptionGame2players(playerServer);
+                        if(inscriptionMatchmaking.withItems()){
+                            Matchmaking.getInstance().inscriptionGame2playersWithItems(playerServer);
+                        } else {
+                            Matchmaking.getInstance().inscriptionGame2players(playerServer);
+                        }
 
                         break;
                     /* Play */

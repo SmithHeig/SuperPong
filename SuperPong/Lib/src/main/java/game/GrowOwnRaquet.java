@@ -1,11 +1,11 @@
 package game;
 
-import game.Item;
+import protocole.game.Item;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.PhongMaterial;
 import javafx.util.Duration;
+import protocole.game.ItemEffects;
 
 
 public class GrowOwnRaquet extends Item {
@@ -21,6 +21,7 @@ public class GrowOwnRaquet extends Item {
 		setDuration(duration);
 		timeline = new Timeline();
 		setColor(Color.RED);
+		name = ItemEffects.INCREASE_OWN_SIZE;
 	}
 
 	public synchronized void execute(Game game){
