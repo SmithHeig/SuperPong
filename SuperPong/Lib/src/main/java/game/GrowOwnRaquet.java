@@ -26,9 +26,7 @@ public class GrowOwnRaquet extends Item {
 
 	public synchronized void execute(Game game){
 		//EXECUTION
-		System.out.println("INCREASE SIZE: old size: " + game.getPlayerLastTouch().getRaquet().getSize());
 		game.getPlayerLastTouch().getRaquet().setSize(game.getPlayerLastTouch().getRaquet().getSize() + INCREASE_SIZE);
-		System.out.println("New size: " + game.getPlayerLastTouch().getRaquet().getSize());
 		playerActif = game.getPlayerLastTouch();
 
 		KeyFrame keyFrame = new KeyFrame(Duration.millis(duration), ev -> {

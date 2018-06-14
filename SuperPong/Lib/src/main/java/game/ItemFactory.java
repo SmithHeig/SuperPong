@@ -30,7 +30,6 @@ public class ItemFactory {
 			case REDUCE_OTHER_RAQUET:
 				return new ReduceOtherRaquet(positionX, positionY, 5000);
 			default:
-				System.out.println("NONE");
 				return null;
 		}
 	}
@@ -48,7 +47,6 @@ public class ItemFactory {
 			case ItemEffects.DECREASE_OTHER_SIZE:
 				return new ReduceOtherRaquet(posX, posY, duration);
 			default:
-				System.out.println("WRONG ITEM NAMEs");
 				return null;
 		}
 	}

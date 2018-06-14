@@ -36,6 +36,12 @@ public class GameServerItems extends GameServer {
         createItemTimer.scheduleAtFixedRate(timerTask1, 10000, 10000);
     }
 
+    @Override
+    public void endGame() {
+        super.endGame();
+        createItemTimer.cancel();
+    }
+
     public void gameUpdate(){
         super.gameUpdate();
         if(item != null) {

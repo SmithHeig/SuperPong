@@ -34,8 +34,7 @@ public class ItemView {
     }
 
 	public void start(){
-	    System.out.println(item.getPositionX() + " " + item.getPositionY());
-        box = new Box(25, 25, 25);
+	    box = new Box(25, 25, 25);
         box.setLayoutX(item.getPositionX());
         box.setLayoutY(item.getPositionY());
         Rotate rxBox = new Rotate(0, 0, 0, 0, Rotate.X_AXIS);
@@ -68,7 +67,6 @@ public class ItemView {
 
     // TODO PRIVATE ?
     public synchronized void deleteItem(){
-	    System.out.println(box);
         if(box != null) {
             root.getChildren().remove(box);
             box.setVisible(false);

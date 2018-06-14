@@ -102,7 +102,6 @@ public class GameServer implements Runnable, Game {
                 if (players.get(1).getPoints() >= 5) {
                     LOG.log(Level.INFO, "Player 2 win!");
                     notifyPlayersGameFinished();
-                    time.cancel(); // Arrêt de la partie
                     // Mise à jour des stats
                     DB.getInstance().addWin(players.get(1).getUsername());
                     DB.getInstance().addLoose(players.get(0).getUsername());
@@ -134,7 +133,6 @@ public class GameServer implements Runnable, Game {
                 if (players.get(0).getPoints() >= 5) {
                     LOG.log(Level.INFO, "Player 1 win!");
                     notifyPlayersGameFinished();
-                    time.cancel(); // Arrêt de la partie
 
                     // Mise à jourd des stats
                     DB.getInstance().addWin(players.get(0).getUsername());
@@ -146,6 +144,10 @@ public class GameServer implements Runnable, Game {
         // rebonds contre les murs haut et bas
         if (ball.getPositionY() <= 0 || ball.getPositionY() >= field.getHeight())
             ball.setVelocityY(ball.getVelocityY() * (-1));
+    }
+
+    public void endGame(){
+        time.cancel();
     }
 
     protected void notifyPlayersGameJoin() {
@@ -171,6 +173,7 @@ public class GameServer implements Runnable, Game {
 
             sendMessage(msg, players.get(i).getClientHandler().getWriter());
         }
+        endGame();
     }
 
     /**

@@ -26,11 +26,8 @@ public class IncreaseVelocity extends Item {
 
 	//TODO Devrait prendre des GameItems
 	public void execute(Game game){
-		System.out.println("INCREASE SPEED: old speed:" + game.getBall().getVelocity());
-
 		//EXECUTION
 		game.getBall().setVelocity(game.getBall().getVelocity() + INCREASE_VELOCITY);
-		System.out.println("New speed: " + "INCREASE SPEED: old speed:" + game.getBall().getVelocity());
 
 		KeyFrame keyFrame = new KeyFrame(Duration.millis(duration), ev -> {
 			restore(game);
