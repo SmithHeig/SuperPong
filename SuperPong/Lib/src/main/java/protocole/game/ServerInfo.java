@@ -1,11 +1,8 @@
 package protocole.game;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import game.Ball;
-import game.Item;
 import game.Player;
 import protocole.data.IData;
 
@@ -13,7 +10,7 @@ import java.util.LinkedList;
 
 public class ServerInfo implements IData {
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    Item item = null;
+    ItemProtocole item = null;
     LinkedList<Player> players;
     Ball ball;
     Boolean isFinised;
@@ -43,7 +40,7 @@ public class ServerInfo implements IData {
         return isFinised;
     }
 
-    public Item getItem(){return item;}
+    public ItemProtocole getItem(){return item;}
 
     /* GETTER */
     public void setPlayers(LinkedList<Player> players) {
@@ -58,5 +55,5 @@ public class ServerInfo implements IData {
         this.isFinised = finised;
     }
 
-    public void setItem(Item item){this.item = item;}
+    public void setItem(ItemProtocole item){this.item = item;}
 }

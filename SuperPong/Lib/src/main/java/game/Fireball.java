@@ -1,8 +1,7 @@
 package game;
 
-import game.Item;
+import protocole.game.Item;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.PhongMaterial;
 
 public class Fireball extends Item {
 

@@ -1,12 +1,12 @@
 package game;
 
 
-import game.Item;
+import protocole.game.Item;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.PhongMaterial;
 import javafx.util.Duration;
+import protocole.game.ItemEffects;
 
 public class ReduceOtherRaquet extends Item{
 	private Timeline timeline;
@@ -20,6 +20,7 @@ public class ReduceOtherRaquet extends Item{
 		setDuration(duration);
 		timeline = new Timeline();
 		setColor(Color.YELLOW);
+		name = ItemEffects.DECREASE_OTHER_SIZE;
 	}
 	
 	/*

@@ -1,20 +1,16 @@
-package game;
+package protocole.game;
 
 import com.fasterxml.jackson.annotation.*;
+import game.*;
 import javafx.scene.paint.Color;
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY)
-@JsonSubTypes({
-	@JsonSubTypes.Type(value = GrowOwnRaquet.class, name = "GrowOnwRaquet"),
-	@JsonSubTypes.Type(value = IncreaseVelocity.class, name = "IncreaseVelocity"),
-	@JsonSubTypes.Type(value = ReduceOtherRaquet.class, name = "IncreaseOtherRaquet")
-})
 abstract public class Item {
 
 	protected double positionX;
 	protected double positionY;
 	protected double duration;
 	private Color color;
+	protected String name;
 
 	public Item(){
 	}
@@ -47,7 +43,22 @@ abstract public class Item {
 
 	public void setColor(Color color){this.color = color;}
 
+	public synchronized boolean isTouch(Ball ball){
+		if(ball != null) {
+			if (ball.getPositionX() >= positionX- 25 && ball.getPositionX() <= positionX + 50 &&
+					ball.getPositionY() >= positionY - 25 && ball.getPositionY() <= positionY + 50) {
+				System.out.println("TOUCH");
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public abstract void execute(Game game);
 
 	public abstract void restore(Game game);
+
+	public String getName(){return name;}
+
+	public void setName(String name){this.name = name;}
 }

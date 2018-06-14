@@ -1,5 +1,7 @@
 package gameServer;
 
+import game.Game;
+
 import java.util.LinkedList;
 import java.util.logging.Logger;
 
@@ -23,6 +25,14 @@ public class Matchmaking {
     private LinkedList<PlayerServer> game7players; // liste d'attente pour les parties 1v1v1v1v1v1
     private LinkedList<PlayerServer> game8players; // liste d'attetne pour les parties 1v1v1v1v1v1v1
 
+    private LinkedList<PlayerServer> game2playersWithItem; // liste d'attente pour les partie 1v1
+    private LinkedList<PlayerServer> game3playersWithItem; // liste d'attente pour les partie 1v1v1
+    private LinkedList<PlayerServer> game4playersWithItem; // liste d'attente pour les partie 1v1v1
+    private LinkedList<PlayerServer> game5playersWithItem; // liste d'attente pour les parties 1v1v1v1
+    private LinkedList<PlayerServer> game6playersWithItem; // liste d'attente pour les parties 1v1v1v1v1
+    private LinkedList<PlayerServer> game7playersWithItem; // liste d'attente pour les parties 1v1v1v1v1v1
+    private LinkedList<PlayerServer> game8playersWithItem; // liste d'attetne pour les parties 1v1v1v1v1v1v1
+
     private LinkedList<GameServer> currentGames;
 
 
@@ -37,6 +47,14 @@ public class Matchmaking {
         game6players = new LinkedList<>();
         game7players = new LinkedList<>();
         game8players = new LinkedList<>();
+
+        game2playersWithItem = new LinkedList<>();
+        game3playersWithItem = new LinkedList<>();
+        game4playersWithItem = new LinkedList<>();
+        game5playersWithItem = new LinkedList<>();
+        game6playersWithItem = new LinkedList<>();
+        game7playersWithItem = new LinkedList<>();
+        game8playersWithItem = new LinkedList<>();
 
         currentGames = new LinkedList<>();
     }
@@ -54,6 +72,11 @@ public class Matchmaking {
         tryCreateGame2players();
     }
 
+    public synchronized void inscriptionGame2playersWithItems(PlayerServer player){
+        game2playersWithItem.push(player);
+        tryCreateGame2playersWithItems();
+    }
+
     /**
      * Essaie de créer une partie 1v1 avec les joueurs de la liste d'attente
      * Peut être appelé lorsqu'un joueur rejoint la liste d'attente ou à la fin d'une partie (place qui se libère)
@@ -61,6 +84,12 @@ public class Matchmaking {
     public synchronized void  tryCreateGame2players() {
         if(game2players.size() >= 2){
             createGame(2,game2players);
+        }
+    }
+
+    public synchronized void tryCreateGame2playersWithItems(){
+        if(game2playersWithItem.size() >= 2){
+            createGameWithItems(2,game2playersWithItem);
         }
     }
 
@@ -79,11 +108,21 @@ public class Matchmaking {
         game.run();
     }
 
+    private synchronized void createGameWithItems(int nbPlayers, LinkedList<PlayerServer> listPlayer){
+        LinkedList<PlayerServer> players = new LinkedList<>();
+        for(int i = 0; i < nbPlayers; ++i){
+            players.add(listPlayer.pop());
+        }
+        GameServerItems game = new GameServerItems(players);
+        currentGames.add(game);
+        game.run();
+    }
+
     /**
      * Permet d'enlevé la partie de la liste des parties en cours. Doit être appelé à la fin des parties
      * @param game - partie à supprimer
      */
-    public synchronized void removeGame (GameServer game){
+    public synchronized void removeGame (Game game){
         currentGames.remove(game);
     }
 }

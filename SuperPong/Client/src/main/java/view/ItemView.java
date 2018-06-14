@@ -2,7 +2,6 @@ package view;
 
 import game.Ball;
 import game.Field;
-import game.Item;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -17,6 +16,7 @@ import javafx.scene.shape.Box;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 import main.Displayer;
+import protocole.game.Item;
 
 public class ItemView {
     private Item item;
@@ -78,25 +78,15 @@ public class ItemView {
 	    System.out.println(box);
         if(box != null) {
             root.getChildren().remove(box);
+            box.setVisible(false);
             box = null;
         }
     }
 
-    private void rotate(){
-	    box.setRotate(box.getRotate() + 1);
-    }
-
-    public synchronized boolean isTouch(Ball ball){
-	    if(box != null && ball != null) {
-            if (ball.getPositionX() >= box.getLayoutX() - 25 && ball.getPositionX() <= box.getLayoutX() + 50 &&
-                    ball.getPositionY() >= box.getLayoutY() - 25 && ball.getPositionY() <= box.getLayoutY() + 50) {
-                System.out.println("TOUCH");
-
-               box.setVisible(false);
-                return true;
-            }
+    private synchronized void rotate(){
+	    if(box != null) {
+            box.setRotate(box.getRotate() + 1);
         }
-        return false;
     }
 
     public Item getItem(){
