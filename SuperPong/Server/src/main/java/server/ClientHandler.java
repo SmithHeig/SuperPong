@@ -1,17 +1,17 @@
 package server;
 
 import db.DB;
+import game.Player;
 import gameServer.GameServer;
 import gameServer.Matchmaking;
 import gameServer.PlayerServer;
-import game.Player;
 import protocole.Protocole;
 import protocole.SuperPongProtocole;
 import protocole.data.Disconnection.Disconnection;
 import protocole.data.Disconnection.DisconnectionConfirmation;
 import protocole.data.admin.*;
-import protocole.data.connection.LoginConfirmation;
 import protocole.data.connection.Login;
+import protocole.data.connection.LoginConfirmation;
 import protocole.data.matchmaking.InscriptionMatchmaking;
 import protocole.data.stats.Stats;
 import protocole.game.ClientInfoMove;

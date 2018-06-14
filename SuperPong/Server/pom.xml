@@ -19,6 +19,12 @@
 			<version>1.0-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>5.2.0</version>
+			<scope>test</scope>
+		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
 		<dependency>
@@ -46,15 +52,6 @@
 							<mainClass>ServerSuperPong</mainClass>
 						</manifest>
 					</archive>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>com.zenjava</groupId>
-				<artifactId>javafx-maven-plugin</artifactId>
-				<version>8.8.3</version>
-				<configuration>
-					<!-- executable JAR file is built by default (not optional at this stage) -->
-					<mainClass>com.zenjava.examples.hellojfxmaven.HelloJavaFxAndMavenApp</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>
