@@ -96,20 +96,21 @@ public class Game1v1Network implements Game{
 		Timeline timeline = new Timeline();
 		KeyFrame keyFrame = new KeyFrame(Duration.millis(100), ev -> {
 			ServerInfo serverInfo = ServerManager.getInstance().receivedGameInfos();
-			if(!serverInfo.isFinised()) {
-				ball.update(serverInfo.getBall());
 
-				for(int i = 0 ; i < serverInfo.getPlayers().size(); ++i){
-					if(i != myselfID) {
-						players.get(i).update(serverInfo.getPlayers().get(i));
-						raquetViews.get(i).update();
-					} else {
-						players.get(i).softUpdate(serverInfo.getPlayers().get(i));
-					}
-				}
-				player1Score.setText(String.valueOf(serverInfo.getPlayers().get(0).getPoints()));
-				player2Score.setText(String.valueOf(serverInfo.getPlayers().get(1).getPoints()));
-			} else {
+            ball.update(serverInfo.getBall());
+
+            for(int i = 0 ; i < serverInfo.getPlayers().size(); ++i){
+                if(i != myselfID) {
+                    players.get(i).update(serverInfo.getPlayers().get(i));
+                    raquetViews.get(i).update();
+                } else {
+                    players.get(i).softUpdate(serverInfo.getPlayers().get(i));
+                }
+            }
+            player1Score.setText(String.valueOf(serverInfo.getPlayers().get(0).getPoints()));
+            player2Score.setText(String.valueOf(serverInfo.getPlayers().get(1).getPoints()));
+            if(serverInfo.isFinised()) {
+
 				timeline.stop();
 				time.cancel();
 				showWinner(players.get(0).getPoints() == 5 ? players.get(0) : players.get(1));

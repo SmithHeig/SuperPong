@@ -15,7 +15,7 @@ import java.util.TimerTask;
 public class GameServerItems extends GameServer {
     private Item item;
     private Timer createItemTimer;
-    private boolean newItems; //TODO mettre dans item
+    private boolean isNewItems; //TODO mettre dans item
     /**
      * Contructeur
      *
@@ -23,14 +23,14 @@ public class GameServerItems extends GameServer {
      */
     public GameServerItems(LinkedList<PlayerServer> players) {
         super(players);
-        newItems = false;
+        isNewItems = false;
         createItemTimer = new Timer();
         TimerTask timerTask1 = new TimerTask() {
             @Override
             public void run() {
                 item = ItemFactory.generateItem((int) field.getWidth(), (int) field.getHeight());
                 System.out.println("item " + item);
-                newItems = true;
+                isNewItems = true;
             }
         };
         createItemTimer.scheduleAtFixedRate(timerTask1, 10000, 10000);
@@ -43,7 +43,6 @@ public class GameServerItems extends GameServer {
                 item.execute(this);
             }
         }
-
     }
 
     protected synchronized void notifyPlayers() {
@@ -56,10 +55,11 @@ public class GameServerItems extends GameServer {
             playerInfos.setPlayers(_players);
             playerInfos.setBall(ball);
             playerInfos.setFinised(false);
-            if(item != null && newItems){
+            playerInfos.setNewItem(isNewItems);
+            if(item != null){
                 ItemProtocole itemProtocole = new ItemProtocole(item.getPositionX(),item.getPositionY(), item.getDuration(), item.getName());
                 playerInfos.setItem(itemProtocole);
-                newItems = false;
+                isNewItems = false;
             }
 
             System.out.println(playerInfos.getItem() + " " + item);
