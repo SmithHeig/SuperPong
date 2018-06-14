@@ -137,7 +137,7 @@ public class ServerManager {
      * @param nbPlayer - nombre de joueur dans la partie à rejoindre
      */
     public boolean inscriptionGame(int nbPlayer, boolean item){
-        LOG.log(Level.INFO, "User inscrit in a matchmaking");
+        LOG.log(Level.INFO, "User subscribed in matchmaking");
         /* INSCRIPTION */
         Protocole msg = new Protocole(SuperPongProtocole.CMD_INSCRIPTION_GAME, new InscriptionMatchmaking(username,nbPlayer, item));
 
@@ -168,7 +168,7 @@ public class ServerManager {
     }
 
     /**
-     * Methode pour récupéré les infos des autres joueurs et de la balle
+     * Methode pour récupérer les infos des autres joueurs et de la balle
      * @return
      */
     public synchronized ServerInfo receivedGameInfos(){
@@ -232,7 +232,7 @@ public class ServerManager {
      * @param msg - msg à envoyé sous forme de protocole
      */
     private void sendMessageToServer(Protocole msg){
-        String jsonMsg = JsonMapper.getInstance().convertToString(msg);
+        String jsonMsg = JsonMapper.convertToString(msg);
         LOG.log(Level.INFO,"CLIENT: Sending msg : " + jsonMsg);
         writer.print(jsonMsg + "\n");
         writer.flush();
@@ -247,8 +247,7 @@ public class ServerManager {
             String msgJson;
             while((msgJson = reader.readLine()) == null || msgJson.equals("")); // TODO: Comprendre pourquoi le serveur envoie des "" de temps en temps
             LOG.log(Level.INFO, "CLIENT: Received msg : " + msgJson);
-            Protocole msg = JsonMapper.getInstance().convertToProtocole(msgJson);
-            return msg;
+            return JsonMapper.convertToProtocole(msgJson);
         } catch(IOException e){
             LOG.log(Level.SEVERE, "Can not read server msg with excpetion : " + e.getMessage());
         }
