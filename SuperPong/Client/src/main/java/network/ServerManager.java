@@ -87,7 +87,7 @@ public class ServerManager {
             /* Attente de la réponse du serveur */
             Protocole responseServer = readMsgFromServer();
 
-            if(responseServer.getName().equals(SuperPongProtocole.CMD_CONNECT)){
+            if(responseServer != null && responseServer.getName().equals(SuperPongProtocole.CMD_CONNECT)){
                 /* Test si la connexion à été accepté */
                 LoginConfirmation data = (LoginConfirmation) responseServer.getData();
                 if(data.isConnected()){
@@ -146,7 +146,7 @@ public class ServerManager {
         /* Reponse du server */
         Protocole responseServer = readMsgFromServer();
 
-        if(responseServer != null & responseServer.getName().equals(SuperPongProtocole.CMD_INSCRIPTION_GAME)){
+        if(responseServer != null && responseServer.getName().equals(SuperPongProtocole.CMD_INSCRIPTION_GAME)){
             GameJoin data = (GameJoin) responseServer.getData();
             LOG.log(Level.INFO, "User ");
             idUser = data.getId();
