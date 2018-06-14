@@ -12,7 +12,6 @@
 
 	<artifactId>lib</artifactId>
 	<version>1.0-SNAPSHOT</version>
-	<packaging>jar</packaging>
 	<name>lib</name>
 
 	<properties>
@@ -35,7 +34,6 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-
 
 	<dependencies>
 		<dependency>
