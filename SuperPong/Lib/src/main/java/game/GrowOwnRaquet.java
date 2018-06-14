@@ -10,7 +10,8 @@ import javafx.util.Duration;
 
 public class GrowOwnRaquet extends Item {
 	private Timeline timeline;
-	private static final double INCREASE_SIZE = 200;
+	private static final double INCREASE_SIZE = 100;
+	private Player playerActif;
 
 
 	public GrowOwnRaquet(double positionX, double positionY, double duration) {
@@ -22,9 +23,13 @@ public class GrowOwnRaquet extends Item {
 		setColor(Color.RED);
 	}
 
-	public void execute(Game game){
+	public synchronized void execute(Game game){
 		//EXECUTION
+		System.out.println("INCREASE SIZE: old size: " + game.getPlayerLastTouch().getRaquet().getSize());
 		game.getPlayerLastTouch().getRaquet().setSize(game.getPlayerLastTouch().getRaquet().getSize() + INCREASE_SIZE);
+		System.out.println("New size: " + game.getPlayerLastTouch().getRaquet().getSize());
+		playerActif = game.getPlayerLastTouch();
+
 		KeyFrame keyFrame = new KeyFrame(Duration.millis(duration), ev -> {
 			restore(game);
 		});
@@ -34,6 +39,6 @@ public class GrowOwnRaquet extends Item {
 	}
 
 	public void restore(Game game){
-		game.getPlayerLastTouch().getRaquet().setSize(game.getPlayerLastTouch().getRaquet().getSize() - INCREASE_SIZE);
+		playerActif.getRaquet().setSize(playerActif.getRaquet().getSize() - INCREASE_SIZE);
 	}
 }

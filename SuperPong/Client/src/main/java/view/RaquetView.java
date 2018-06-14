@@ -24,6 +24,7 @@ public class RaquetView {
 
 	public void update(){
 		view.setLayoutY(raquet.getPosition());
+		view.setHeight(raquet.getSize());
 	}
 
 	public Rectangle getView(){ return view;}
