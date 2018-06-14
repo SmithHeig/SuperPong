@@ -87,7 +87,6 @@ public class Game1v1NetworkItems extends Game1v1Network {
             if(serverInfo.getItem() != null && serverInfo.isNewItem()) {
                 ItemProtocole itemProtocole = serverInfo.getItem();
                 item = ItemFactory.getItem(itemProtocole);
-                System.out.println(item);
                 itemView = new ItemView(item, root);
             } else {
                 item = null;

@@ -32,7 +32,6 @@ public class ReduceOtherRaquet extends Item{
 	public void execute(Game game) {
 		//EXECUTION
 		playerActif = game.getPlayers().get(1 - game.getPlayerLastTouch().getId()); // TODO Fonction que pour 1v1
-		System.out.println("REDUCE OTHER RAQUET: player: " + playerActif.getUsername() + " ");
 		playerActif.getRaquet().setSize(playerActif.getRaquet().getSize() - DECREASE_SIZE);
 
 

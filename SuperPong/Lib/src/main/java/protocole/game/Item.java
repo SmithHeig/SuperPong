@@ -47,7 +47,6 @@ abstract public class Item {
 		if(ball != null) {
 			if (ball.getPositionX() >= positionX- 25 && ball.getPositionX() <= positionX + 50 &&
 					ball.getPositionY() >= positionY - 25 && ball.getPositionY() <= positionY + 50) {
-				System.out.println("TOUCH");
 				return true;
 			}
 		}
