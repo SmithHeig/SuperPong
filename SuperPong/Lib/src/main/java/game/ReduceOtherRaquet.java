@@ -10,7 +10,8 @@ import javafx.util.Duration;
 
 public class ReduceOtherRaquet extends Item{
 	private Timeline timeline;
-	private static final double DECREASE_SIZE = 200;
+	private static final double DECREASE_SIZE = 50;
+	private Player playerActif;
 
 	public ReduceOtherRaquet(double positionX, double positionY, double duration) {
 		super();
@@ -29,8 +30,10 @@ public class ReduceOtherRaquet extends Item{
 	
 	public void execute(Game game) {
 		//EXECUTION
-		Player otherPlayer = game.getPlayers().get(1 - game.getPlayerLastTouch().getId()); // TODO Fonction que pour 1v1
-		otherPlayer.getRaquet().setSize(otherPlayer.getRaquet().getSize() + DECREASE_SIZE);
+		playerActif = game.getPlayers().get(1 - game.getPlayerLastTouch().getId()); // TODO Fonction que pour 1v1
+		System.out.println("REDUCE OTHER RAQUET: player: " + playerActif.getUsername() + " ");
+		playerActif.getRaquet().setSize(playerActif.getRaquet().getSize() - DECREASE_SIZE);
+
 
 		KeyFrame keyFrame = new KeyFrame(Duration.millis(duration), ev -> {
 			restore(game);
@@ -41,7 +44,6 @@ public class ReduceOtherRaquet extends Item{
 	}
 	
 	public void restore(Game game) {
-		Player otherPlayer = game.getPlayers().get(1 - game.getPlayerLastTouch().getId()); // TODO Fonction que pour 1v1
-		otherPlayer.getRaquet().setSize(otherPlayer.getRaquet().getSize() - DECREASE_SIZE);
+		playerActif.getRaquet().setSize(playerActif.getRaquet().getSize() + DECREASE_SIZE);
 	}
 }

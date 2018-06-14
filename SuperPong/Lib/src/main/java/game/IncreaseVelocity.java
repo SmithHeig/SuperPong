@@ -10,7 +10,7 @@ import javafx.util.Duration;
 
 public class IncreaseVelocity extends Item {
 	private Timeline timeline;
-	private static final double INCREASE_VELOCITY = 7;
+	private static final double INCREASE_VELOCITY = 3;
 
 	public IncreaseVelocity(double positionX, double positionY, double duration) {
 		super();
@@ -23,8 +23,11 @@ public class IncreaseVelocity extends Item {
 
 	//TODO Devrait prendre des GameItems
 	public void execute(Game game){
+		System.out.println("INCREASE SPEED: old speed:" + game.getBall().getVelocity());
+
 		//EXECUTION
-		game.getBall().setVelocity(game.getBall().getVelocityX() + INCREASE_VELOCITY);
+		game.getBall().setVelocity(game.getBall().getVelocity() + INCREASE_VELOCITY);
+		System.out.println("New speed: " + "INCREASE SPEED: old speed:" + game.getBall().getVelocity());
 
 		KeyFrame keyFrame = new KeyFrame(Duration.millis(duration), ev -> {
 			restore(game);
@@ -38,6 +41,6 @@ public class IncreaseVelocity extends Item {
 	}
 	
 	public void restore(Game game){
-		game.getBall().setVelocity(game.getBall().getVelocityX() - INCREASE_VELOCITY);
+		game.getBall().setVelocity(game.getBall().getVelocity() - INCREASE_VELOCITY);
 	}
 }
