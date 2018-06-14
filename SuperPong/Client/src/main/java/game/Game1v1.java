@@ -16,33 +16,40 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import main.Displayer;
-import model.Field;
 import view.BallView;
+import view.FieldView;
+import view.GameView;
 import view.RaquetView;
+
+import java.util.LinkedList;
 
 public class Game1v1 implements Game{
 	
-	private BallView ball;
+	protected BallView ball;
 	private Player player1;
 	private Player player2;
+	private Player playerLastTouch; // Derner joueur à avoir touché la ball
 	private Label player1Score;
 	private Label player2Score;
 	private RaquetView raquetView1;
 	private RaquetView raquetView2;
-	private double yplayer;
-	private Field field = new Field(1000,600);
+	protected LinkedList<RaquetView> raquetViews;
+	protected double yplayer;
+	protected FieldView field = new FieldView(1000,600);
+	private Item item;
 
-	private Pane root;
-	//private Item item = null;
-	
-	//private RandomItem randomItem = new RandomItem();
-	Timeline timeline;
+	protected Pane root;
+
+	protected Timeline timeline;
 	
 	public Game1v1() {
 		player1 = new Player("player1", 0, 0, new Raquet(field.getHeight()/ 2 - Raquet.getInitSize() / 2));
 		player2 = new Player("player2", 0, 1, new Raquet(field.getHeight()/ 2 - Raquet.getInitSize() / 2));
 		raquetView1 = new RaquetView(player1.getRaquet(),0);
 		raquetView2 = new RaquetView(player2.getRaquet(), field.getWidth() - Raquet.getInitThickness());
+		raquetViews = new LinkedList<>();
+		raquetViews.add(raquetView1);
+		raquetViews.add(raquetView2);
 	}
 
 	public void run(Stage primaryStage) throws Exception {
@@ -55,10 +62,18 @@ public class Game1v1 implements Game{
 				yplayer = me.getY();
 			}
 		});
+
+		timeline = new Timeline();
+		KeyFrame keyFrame = new KeyFrame(Duration.millis(20), ev -> {
+			gameUpdate();
+		});
+		timeline.getKeyFrames().add(keyFrame);
+		timeline.setCycleCount(Animation.INDEFINITE);
+		timeline.play();
 	}
 
 
-	private Parent createContent() {
+	protected Parent createContent() {
 		root = field.printField();
 
 		ball = new BallView(7, -1, 0, field.getWidth() / 2, field.getHeight() / 2);
@@ -78,53 +93,12 @@ public class Game1v1 implements Game{
 
 		root.getChildren().addAll(raquetView1.getView(), raquetView2.getView(), ball.getBall(), player1Score, player2Score);
 
-		timeline = new Timeline();
-		KeyFrame keyFrame = new KeyFrame(Duration.millis(20), ev -> {
-			gameUptate();
-		});
-		timeline.getKeyFrames().add(keyFrame);
-		timeline.setCycleCount(Animation.INDEFINITE);
-		timeline.play();
-
 		return root;
 	}
 
-	private void gameUptate() {
+	protected void gameUpdate() {
 		double x = ball.getPositionX();
 		double y = ball.getPositionY();
-
-
-		boolean PlayerlastTouchTheBall = true;
-
-		// items
-		/*
-		if (item != null) {
-			item.getBox().setRotate(item.getBox().getRotate() + 1);
-
-			// un joueur touche l'objet
-			if (!estTouche && x >= item.getBox().getLayoutX() - 25 && x <= item.getBox().getLayoutX() + 50 && y >= item.getBox().getLayoutY() - 25 && y <= item.getBox().getLayoutY() + 50) {
-				root.getChildren().remove(item.getBox());
-				item.execute(this);
-				estTouche = true;
-			}
-		}
-
-		if (timerTime % 1000 == 0) {
-			item = randomItem.generateItem(field.getWidth(), HEIGHT);
-			root.getChildren().add(item.getBox());
-		}
-
-
-		if ((timerTime + 1) % 1000 == 0) {
-			if (item != null) {
-				root.getChildren().remove(item.getBox());
-				if (estTouche) {
-					item.desexecute(this);
-					estTouche = false;
-				}
-			}
-		}
-		*/
 
 		double ANGLE_MIN = -45;
 		double ANGLE_MAX = 45;
@@ -132,7 +106,7 @@ public class Game1v1 implements Game{
 
 		// si le joueur touche la balle
 		if (x <= 15 && y > player1.getRaquet().getPosition() && y < player1.getRaquet().getPosition() + player1.getRaquet().getSize()) {
-			PlayerlastTouchTheBall = true;
+			playerLastTouch = player1;
 			double perCent = (y - player1.getRaquet().getPosition()) / player1.getRaquet().getSize();
 
 			double alpha = ANGLE_DELTA * perCent + ANGLE_MIN;
@@ -147,7 +121,7 @@ public class Game1v1 implements Game{
 		ANGLE_DELTA = 90;
 		if (x >= field.getWidth() - 10 && y > player2.getRaquet().getPosition() && y < player2.getRaquet().getPosition() + player2.getRaquet().getSize()) {
 
-			PlayerlastTouchTheBall = false;
+			playerLastTouch = player2;
 			double perCent = (y - player2.getRaquet().getPosition()) / player2.getRaquet().getSize();
 
 			double alpha = -ANGLE_DELTA * perCent + ANGLE_MIN;
@@ -220,7 +194,7 @@ public class Game1v1 implements Game{
 		}
 	}
 
-	private void showWinner(Player winner){
+	protected void showWinner(Player winner){
 		timeline.stop();
 		Displayer.getInstance().showLocalMenu();
 		Alert alert = new Alert(Alert.AlertType.NONE);
@@ -234,4 +208,20 @@ public class Game1v1 implements Game{
 		alert.show();
 
 	}
+
+	public Player getPlayerLastTouch(){
+		return playerLastTouch;
+	}
+
+	public Ball getBall(){
+		return ball;
+	}
+
+	public LinkedList<Player> getPlayers(){
+		LinkedList<Player> players = new LinkedList<>();
+		players.add(player1);
+		players.add(player2);
+		return players;
+	}
+
 }

@@ -29,5 +29,4 @@ public class BallView extends Ball{
 		ball.setLayoutY(getPositionY());
 	}
 	
-	
 }

@@ -192,4 +192,20 @@ public class GameServer implements Runnable, Game {
     public synchronized void updateFromClient(Player updatePlayer) {
         players.get(updatePlayer.getId()).update(updatePlayer); // TODO: Verifier que les joueurs sont trié par ID dans la linkedlist
     }
+
+    // TODO A ENLEVER LORSQU'ON aura mieux géré les interfaces
+    @Override
+    public Ball getBall() {
+        return null;
+    }
+
+    @Override
+    public Player getPlayerLastTouch() {
+        return null;
+    }
+
+    @Override
+    public LinkedList<Player> getPlayers() {
+        return null;
+    }
 }

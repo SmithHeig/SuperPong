@@ -16,10 +16,10 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import main.Displayer;
-import model.Field;
 import network.ServerManager;
 import protocole.game.ServerInfo;
 import view.BallView;
+import view.FieldView;
 import view.RaquetView;
 
 import java.util.LinkedList;
@@ -37,12 +37,8 @@ public class Game1v1Network implements Game{
 	private double yplayer;
 
 	private Pane root;
-	private Item item = null;
-	private Field field = new Field(1000,600);
-	
-	private RandomItem randomItem = new RandomItem();
-	private long timerTime = 1;
-	private boolean estTouche = false;
+	private FieldView field = new FieldView(1000,600);
+
 	
 	public Game1v1Network(LinkedList<Player> _players, int myselfID) {
 		this.myselfID = myselfID;
@@ -138,7 +134,6 @@ public class Game1v1Network implements Game{
 	}
 	
 	private void gameUptate() {
-		
 		// mise à jour de la position de la balle
 		ball.setPositionX(ball.getPositionX() + ball.getVelocity() * ball.getVelocityX());
 		ball.setPositionY(ball.getPositionY() + ball.getVelocity() * ball.getVelocityY());
@@ -170,4 +165,18 @@ public class Game1v1Network implements Game{
 		alert.getButtonTypes().add(buttonTypeOne);
 		alert.show();
 	}
+
+    @Override
+    public Ball getBall() {
+        return null;
+    }
+
+    @Override
+    public Player getPlayerLastTouch() {
+        return null;
+    }
+
+    public LinkedList<Player> getPlayers(){
+        return players;
+    }
 }

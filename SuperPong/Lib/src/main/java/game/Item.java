@@ -1,6 +1,7 @@
 package game;
 
 import com.fasterxml.jackson.annotation.*;
+import javafx.scene.paint.Color;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY)
 @JsonSubTypes({
@@ -10,9 +11,10 @@ import com.fasterxml.jackson.annotation.*;
 })
 abstract public class Item {
 
-	private double positionX;
-	private double positionY;
-	private double duration;
+	protected double positionX;
+	protected double positionY;
+	protected double duration;
+	private Color color;
 
 	public Item(){
 	}
@@ -29,6 +31,8 @@ abstract public class Item {
 		return duration;
 	}
 
+	public Color getColor(){return color;}
+
 	public void setPositionX(double positionX) {
 		this.positionX = positionX;
 	}
@@ -40,4 +44,10 @@ abstract public class Item {
 	public void setDuration(double duration) {
 		this.duration = duration;
 	}
+
+	public void setColor(Color color){this.color = color;}
+
+	public abstract void execute(Game game);
+
+	public abstract void restore(Game game);
 }

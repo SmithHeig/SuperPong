@@ -1,6 +1,7 @@
 package Menu;
 
 import game.Game1v1;
+import game.Game1v1Items;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -40,7 +41,12 @@ public class LocalMenuController {
 
     @FXML
     void playIAGameWithItems(ActionEvent event) {
-        // Play ia game with itmes
+        try {
+            Game1v1Items game = new Game1v1Items();
+            game.run(Displayer.getInstance().getStage());
+        } catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
 }

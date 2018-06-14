@@ -11,19 +11,15 @@ public class Fireball extends Item {
 		setPositionX(positionX);
 		setPositionY(positionY);
 		setDuration(duration);
+		setColor(Color.BLUE);
 	}
 
-	public PhongMaterial color(){
-		final PhongMaterial color = new PhongMaterial();
-		color.setDiffuseColor(Color.BLUE);
-		return color;
-	}
-	
-	/*public void execute(Game game){
+
+	public void execute(Game game){
 	
 	}
 	
-	public void desexecute(Game1v1 game){
+	public void restore(Game game){
 	
-	}*/
+	}
 }
