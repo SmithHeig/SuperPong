@@ -24,12 +24,12 @@
                   <Font size="28.0" />
                </font>
             </Button>
-            <Button fx:id="OneVOneFriendButton" mnemonicParsing="false" onAction="#playOneVOneFriend" prefWidth="350.0" text="1 VS Ami classique">
+            <Button fx:id="OneVOneFriendButton" disable="true" mnemonicParsing="false" onAction="#playOneVOneFriend" prefWidth="350.0" text="1 VS Ami classique">
                <font>
                   <Font size="28.0" />
                </font>
             </Button>
-            <Button fx:id="OneVOneFriendWithItemsButton" mnemonicParsing="false" onAction="#playOneVOneFriendWithItems" prefWidth="350.0" text="1 VS Ami avec items">
+            <Button fx:id="OneVOneFriendWithItemsButton" disable="true" mnemonicParsing="false" onAction="#playOneVOneFriendWithItems" prefWidth="350.0" text="1 VS Ami avec items">
                <font>
                   <Font size="28.0" />
                </font>

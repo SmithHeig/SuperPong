@@ -27,12 +27,12 @@
                   <Spinner fx:id="nbJoueurSpinner" prefWidth="80.0" />
                </children>
             </HBox>
-            <Button fx:id="MultiplayerButton" mnemonicParsing="false" onAction="#playMultiplayerClassique" prefWidth="300.0" text="Multijoueur classique">
+            <Button fx:id="MultiplayerButton" disable="true" mnemonicParsing="false" onAction="#playMultiplayerClassique" prefWidth="300.0" text="Multijoueur classique">
                <font>
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button fx:id="MultiplayerWithItemsButton" mnemonicParsing="false" onAction="#playMulitplayerWithItems" prefWidth="300.0" text="Multijoueur avec items">
+            <Button fx:id="MultiplayerWithItemsButton" disable="true" mnemonicParsing="false" onAction="#playMulitplayerWithItems" prefWidth="300.0" text="Multijoueur avec items">
                <font>
                   <Font size="20.0" />
                </font>

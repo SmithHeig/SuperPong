@@ -24,7 +24,7 @@
                   <Font size="28.0" />
                </font>
             </Button>
-            <Button fx:id="FriendsButton" mnemonicParsing="false" onAction="#goToFriendsMenu" prefWidth="300.0" text="Amis">
+            <Button fx:id="FriendsButton" disable="true" mnemonicParsing="false" onAction="#goToFriendsMenu" prefWidth="300.0" text="Amis">
                <font>
                   <Font size="28.0" />
                </font>
