@@ -32,7 +32,7 @@ public class DB {
         try{
             con = DriverManager.getConnection(url,DBusername,DBpassword);
         } catch (SQLException e){
-            LOG.log(Level.SEVERE, "Error with connection to sql server with excpetion: " + e.getMessage());
+            LOG.log(Level.SEVERE, "Error with connection to sql server with exception: " + e.getMessage());
         }
     }
 
@@ -53,7 +53,7 @@ public class DB {
                 return true;
             }
         } catch (SQLException e){
-            LOG.log(Level.SEVERE, "Error getting password from user with excpetion : " + e.getMessage());
+            LOG.log(Level.SEVERE, "Error getting password from user with exception : " + e.getMessage());
         }
         return false;
     }
@@ -65,7 +65,7 @@ public class DB {
             statement.setString(1, username);
             statement.executeUpdate();
         } catch (SQLException e){
-            LOG.log(Level.SEVERE, "Error getting password from user with excpetion : " + e.getMessage());
+            LOG.log(Level.SEVERE, "Error getting password from user with exception : " + e.getMessage());
         }
     }
 
@@ -76,7 +76,7 @@ public class DB {
             statement.setString(1, username);
             statement.executeUpdate();
         } catch (SQLException e){
-            LOG.log(Level.SEVERE, "Error getting password from user with excpetion : " + e.getMessage());
+            LOG.log(Level.SEVERE, "Error getting password from user with exception : " + e.getMessage());
         }
     }
 
@@ -100,7 +100,7 @@ public class DB {
             return stats;
 
         } catch (SQLException e){
-            LOG.log(Level.SEVERE, "Error getting password from user with excpetion : " + e.getMessage());
+            LOG.log(Level.SEVERE, "Error getting password from user with exception : " + e.getMessage());
         }
         return null;
     }
@@ -136,7 +136,7 @@ public class DB {
             return isAdmin;
 
         } catch(SQLException e){
-            LOG.log(Level.SEVERE, "username incorrect ! Excpetion: " + e.getMessage());
+            LOG.log(Level.SEVERE, "username incorrect ! exception: " + e.getMessage());
             return false;
         }
     }
