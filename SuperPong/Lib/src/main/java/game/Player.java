@@ -47,6 +47,11 @@ public class Player {
      */
     public void update(Player player){
         raquet.setPosition(player.getRaquet().getPosition());
+        this.points = player.getPoints();
+    }
+
+    public void softUpdate(Player player){
+        this.points = player.getPoints();
     }
 
     /* GETTER */
@@ -79,4 +84,6 @@ public class Player {
     public void setId(int id) {
         this.id = id;
     }
+
+    public void setRaquet(Raquet raquet) {this.raquet = raquet;}
 }

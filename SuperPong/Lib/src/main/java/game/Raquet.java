@@ -1,8 +1,11 @@
 package game;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Classe représentant une raquette
  */
+@JsonIgnoreProperties({"raquet"})
 public class Raquet {
     private double size; // Taille de la raquette
     private double position; // Position de la raquette (Vertical)

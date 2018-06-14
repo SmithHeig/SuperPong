@@ -1,42 +1,30 @@
 package view;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import game.Raquet;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-@JsonIgnoreProperties({"raquet"})
-public class RaquetView extends Raquet {
-	
-	private Rectangle raquet;
-	
-	public RaquetView(double size, double positionX, double positionY) {
-		super(size, positionY);
+
+public class RaquetView {
+	@JsonIgnore
+	private Raquet raquet;
+	private Rectangle view;
+
+	public RaquetView(Raquet raquet , double positionX) {
+		this.raquet = raquet;
+		view = new Rectangle(10, raquet.getSize(), Color.WHITE);
 		
-		raquet = new Rectangle(10, size, Color.WHITE);
-		
-		raquet.setLayoutX(positionX);
-		raquet.setLayoutY(positionY);
+		view.setLayoutX(positionX);
+		view.setLayoutY(raquet.getPosition());
 	}
 
-	public RaquetView(double positionX, double positionY){
-		super(positionY);
-		raquet = new Rectangle(INIT_THICKNESS, super.getSize(), Color.WHITE);
-		raquet.setLayoutX(positionX);
-		raquet.setLayoutY(positionY);
+	public void update(){
+		view.setLayoutY(raquet.getPosition());
 	}
-	
-	public Rectangle getView() {
-		return raquet;
-	}
-	
-	public void setSize(double size) {
-		super.setSize(size);
-		raquet.setHeight(size);
-	}
-	
-	public void setPosition(double position) {
-		super.setPosition(position);
-		raquet.setLayoutY(position);
-	}
+
+	public Rectangle getView(){ return view;}
 }

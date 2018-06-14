@@ -30,6 +30,7 @@ public class Game1v1Network implements Game{
 	
 	private BallView ball;
 	private LinkedList<Player> players;
+	private LinkedList<RaquetView> raquetViews;
 	private Label player1Score;
 	private Label player2Score;
 	private int myselfID;
@@ -45,12 +46,10 @@ public class Game1v1Network implements Game{
 	
 	public Game1v1Network(LinkedList<Player> _players, int myselfID) {
 		this.myselfID = myselfID;
-
-		// TODO enregistrer les _players dans players avec une raquetteView
-		/*players.add(new Player("player1", 0, 0,
-				new RaquetView(0, field.getHeight() / 2 - RaquetView.getInitSize() / 2)));
-		players.add(new Player("player2", 0, 1,
-				new RaquetView(field.getWidth() - RaquetView.getInitThickness(), field.getHeight() / 2 - RaquetView.getInitSize() / 2)));*/
+		players = _players;
+		raquetViews = new LinkedList<>();
+		raquetViews.add(new RaquetView(players.get(0).getRaquet(),0));
+		raquetViews.add(new RaquetView(players.get(1).getRaquet(),field.getWidth() - players.get(1).getRaquet().getInitThickness()));
 	}
 	
 	public void run(Stage primaryStage) throws Exception {
@@ -82,9 +81,10 @@ public class Game1v1Network implements Game{
 		player2Score.setLayoutX(field.getWidth() - 200);
 		player2Score.setLayoutY(50);
 
-		for(Player player: players) {
-			root.getChildren().add(((RaquetView) player.getRaquet()).getView());
+		for(RaquetView raquetView: raquetViews) {
+			root.getChildren().add(raquetView.getView());
 		}
+
 		// TODO faire que les scores soit générique pour plus que 2 joueurs
 		root.getChildren().addAll(ball.getBall(), player1Score, player2Score);
 		
@@ -103,7 +103,16 @@ public class Game1v1Network implements Game{
 			if(!serverInfo.isFinised()) {
 				ball.update(serverInfo.getBall());
 
-				players.get(1 - myselfID).update(serverInfo.getPlayers().get(1 - myselfID));
+				for(int i = 0 ; i < serverInfo.getPlayers().size(); ++i){
+					if(i != myselfID) {
+						players.get(i).update(serverInfo.getPlayers().get(i));
+						raquetViews.get(i).update();
+					} else {
+						players.get(i).softUpdate(serverInfo.getPlayers().get(i));
+					}
+				}
+
+
 				player1Score.setText(String.valueOf(serverInfo.getPlayers().get(0).getPoints()));
 				player2Score.setText(String.valueOf(serverInfo.getPlayers().get(1).getPoints()));
 			} else {
@@ -138,11 +147,13 @@ public class Game1v1Network implements Game{
 		if (players.get(myselfID).getRaquet().getPosition() + 30 > yplayer) {
 			if (players.get(myselfID).getRaquet().getPosition() > 0) {
 				players.get(myselfID).getRaquet().setPosition(players.get(myselfID).getRaquet().getPosition() - 5);
+				raquetViews.get(myselfID).update();
 			}
 		}
 		if (players.get(myselfID).getRaquet().getPosition() - 30 + players.get(myselfID).getRaquet().getSize() / 2 < yplayer) {
 			if (players.get(myselfID).getRaquet().getPosition() + players.get(myselfID).getRaquet().getSize() < field.getHeight()) {
 				players.get(myselfID).getRaquet().setPosition(players.get(myselfID).getRaquet().getPosition() + 5);
+				raquetViews.get(myselfID).update();
 			}
 		}
 	}

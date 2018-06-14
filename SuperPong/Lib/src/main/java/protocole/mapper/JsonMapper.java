@@ -2,6 +2,7 @@ package protocole.mapper;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.jsontype.NamedType;
 import protocole.Protocole;
 import protocole.data.Disconnection.Disconnection;
