@@ -136,10 +136,10 @@ public class ServerManager {
      * Inscrit le joueur à une partie (matchmaking)
      * @param nbPlayer - nombre de joueur dans la partie à rejoindre
      */
-    public boolean inscriptionGame(int nbPlayer){
+    public boolean inscriptionGame(int nbPlayer, boolean item){
         LOG.log(Level.INFO, "User inscrit in a matchmaking");
         /* INSCRIPTION */
-        Protocole msg = new Protocole(SuperPongProtocole.CMD_INSCRIPTION_GAME, new InscriptionMatchmaking(username,nbPlayer));
+        Protocole msg = new Protocole(SuperPongProtocole.CMD_INSCRIPTION_GAME, new InscriptionMatchmaking(username,nbPlayer, item));
 
         sendMessageToServer(msg);
 

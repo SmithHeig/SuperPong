@@ -16,6 +16,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import main.Displayer;
+import protocole.game.Item;
 import view.BallView;
 import view.FieldView;
 import view.GameView;
@@ -194,6 +195,7 @@ public class Game1v1 implements Game{
 		}
 	}
 
+	// TODO WRONG WINNER
 	protected void showWinner(Player winner){
 		timeline.stop();
 		Displayer.getInstance().showLocalMenu();

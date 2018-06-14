@@ -26,10 +26,11 @@ public class GameServer implements Runnable, Game {
     private final static Logger LOG = Logger.getLogger(GameServer.class.getName());
 
     /* ATTRIBUTS */
-    private LinkedList<PlayerServer> players;
-    private Ball ball;
-    private Field field;
-    private Timer time;
+    protected LinkedList<PlayerServer> players;
+    protected Ball ball;
+    protected Field field;
+    protected Timer time;
+    protected Player playerLastTouch;
 
     private final static int TIME = 100;
 
@@ -71,7 +72,7 @@ public class GameServer implements Runnable, Game {
         time.scheduleAtFixedRate(timerTask, TIME, TIME);
     }
 
-    private void gameUpdate(){
+    protected void gameUpdate(){
         // mise à jour de la position de la balle
         ball.setPositionX(ball.getPositionX() + ball.getVelocity() * ball.getVelocityX());
         ball.setPositionY(ball.getPositionY() + ball.getVelocity() * ball.getVelocityY());
@@ -91,6 +92,7 @@ public class GameServer implements Runnable, Game {
 
                 ball.setVelocityX(Math.cos(rad));
                 ball.setVelocityY(Math.sin(rad));
+                playerLastTouch = players.get(0);
             } else {
                 /* GOAL */
                 players.get(1).setPoints(players.get(1).getPoints() + 1);
@@ -121,6 +123,7 @@ public class GameServer implements Runnable, Game {
 
                 ball.setVelocityX(Math.cos(rad));
                 ball.setVelocityY(Math.sin(rad));
+                playerLastTouch = players.get(1);
             } else {
                 /* GOAL */
                 players.get(0).setPoints(players.get(0).getPoints() + 1);
@@ -145,7 +148,7 @@ public class GameServer implements Runnable, Game {
             ball.setVelocityY(ball.getVelocityY() * (-1));
     }
 
-    private void notifyPlayersGameJoin() {
+    protected void notifyPlayersGameJoin() {
         for (int i = 0; i < players.size(); ++i) {
             players.get(i).setId(i);
             Protocole msg = new Protocole(SuperPongProtocole.CMD_INSCRIPTION_GAME, new GameJoin(true, i));
@@ -154,7 +157,7 @@ public class GameServer implements Runnable, Game {
         }
     }
 
-    private void notifyPlayersGameFinished() {
+    protected void notifyPlayersGameFinished() {
         for (int i = 0; i < players.size(); ++i) {
             ServerInfo serverInfo = new ServerInfo();
             serverInfo.setFinised(true);
@@ -167,7 +170,7 @@ public class GameServer implements Runnable, Game {
     /**
      * Méthode qui notifie aux joueurs: l'état de la balle et des autres joueurs
      */
-    private synchronized void notifyPlayers() {
+    protected synchronized void notifyPlayers() {
         LinkedList<Player> _players = new LinkedList<>();
         for (Player p : players) {
             _players.add(p);
@@ -182,7 +185,7 @@ public class GameServer implements Runnable, Game {
         }
     }
 
-    private synchronized void sendMessage(Protocole msg, PrintWriter writer) {
+    protected synchronized void sendMessage(Protocole msg, PrintWriter writer) {
         String msgJson = JsonMapper.getInstance().convertToString(msg);
         LOG.log(Level.INFO, "SERVER: Send msg : " + msgJson);
         writer.println(msgJson + "\n");
@@ -196,16 +199,20 @@ public class GameServer implements Runnable, Game {
     // TODO A ENLEVER LORSQU'ON aura mieux géré les interfaces
     @Override
     public Ball getBall() {
-        return null;
+        return ball;
     }
 
     @Override
     public Player getPlayerLastTouch() {
-        return null;
+        return playerLastTouch;
     }
 
     @Override
     public LinkedList<Player> getPlayers() {
-        return null;
+        LinkedList<Player> _players = new LinkedList<>();
+        for (Player p : players) {
+            _players.add(p);
+        }
+        return _players;
     }
 }

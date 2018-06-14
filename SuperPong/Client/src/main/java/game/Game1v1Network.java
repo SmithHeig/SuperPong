@@ -28,16 +28,16 @@ import java.util.TimerTask;
 
 public class Game1v1Network implements Game{
 	
-	private BallView ball;
-	private LinkedList<Player> players;
-	private LinkedList<RaquetView> raquetViews;
-	private Label player1Score;
-	private Label player2Score;
-	private int myselfID;
-	private double yplayer;
+	protected BallView ball;
+	protected LinkedList<Player> players;
+	protected LinkedList<RaquetView> raquetViews;
+	protected Label player1Score;
+	protected Label player2Score;
+	protected int myselfID;
+	protected double yplayer;
 
-	private Pane root;
-	private FieldView field = new FieldView(1000,600);
+	protected Pane root;
+	protected FieldView field = new FieldView(1000,600);
 
 	
 	public Game1v1Network(LinkedList<Player> _players, int myselfID) {
@@ -107,8 +107,6 @@ public class Game1v1Network implements Game{
 						players.get(i).softUpdate(serverInfo.getPlayers().get(i));
 					}
 				}
-
-
 				player1Score.setText(String.valueOf(serverInfo.getPlayers().get(0).getPoints()));
 				player2Score.setText(String.valueOf(serverInfo.getPlayers().get(1).getPoints()));
 			} else {
@@ -159,8 +157,8 @@ public class Game1v1Network implements Game{
 		alert.setTitle("Fin de la partie");
 		alert.setHeaderText(winner.getUsername() + " a gagné!");
 		// TODO à rendre plus générique et peu etre déplacer (super classse?)
-		alert.setContentText(players.get(0).getUsername() + ": " + players.get(0).getPoints() + "\n" +
-				players.get(1).getUsername() + ": " + players.get(1).getPoints() + "\n");
+		alert.setContentText(players.get(winner.getId()).getUsername() + ": " + players.get(winner.getId()).getPoints() + "\n" +
+				players.get(1-winner.getId()).getUsername() + ": " + players.get(1-winner.getId()).getPoints() + "\n");
 		ButtonType buttonTypeOne = new ButtonType("Retour au menu"); // ajoute un bouton "Rejouer" à la boite de dialogue
 		alert.getButtonTypes().add(buttonTypeOne);
 		alert.show();
