@@ -11,6 +11,7 @@ import java.util.LinkedList;
 public class ServerInfo implements IData {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     ItemProtocole item = null;
+    boolean isNewItem = false;
     LinkedList<Player> players;
     Ball ball;
     Boolean isFinised;
@@ -34,6 +35,10 @@ public class ServerInfo implements IData {
         return ball;
     }
 
+    @JsonProperty("isNewItem")
+    public boolean isNewItem() {
+        return isNewItem;
+    }
 
     @JsonProperty(value="isFinished")
     public Boolean isFinised() {
@@ -56,4 +61,8 @@ public class ServerInfo implements IData {
     }
 
     public void setItem(ItemProtocole item){this.item = item;}
+
+    public void setNewItem(boolean newItem) {
+        isNewItem = newItem;
+    }
 }

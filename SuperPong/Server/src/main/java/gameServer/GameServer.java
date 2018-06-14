@@ -158,8 +158,14 @@ public class GameServer implements Runnable, Game {
     }
 
     protected void notifyPlayersGameFinished() {
+        LinkedList<Player> _players = new LinkedList<>();
+        for (Player p : players) {
+            _players.add(p);
+        }
         for (int i = 0; i < players.size(); ++i) {
             ServerInfo serverInfo = new ServerInfo();
+            serverInfo.setPlayers(_players);
+            serverInfo.setBall(ball);
             serverInfo.setFinised(true);
             Protocole msg = new Protocole(SuperPongProtocole.CMD_PLAY, serverInfo);
 
