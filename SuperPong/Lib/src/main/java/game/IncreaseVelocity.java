@@ -10,7 +10,7 @@ import javafx.util.Duration;
 
 public class IncreaseVelocity extends Item {
 	private Timeline timeline;
-	private static final double INCREASE_VELOCITY = 2;
+	private static final double INCREASE_VELOCITY = 3;
 
 	public IncreaseVelocity(double positionX, double positionY, double duration) {
 		super();
