@@ -27,7 +27,7 @@ public class Raquet {
     }
 
     public Raquet(){
-        this(100,0);
+        this(100,300);
     }
 
     /**
