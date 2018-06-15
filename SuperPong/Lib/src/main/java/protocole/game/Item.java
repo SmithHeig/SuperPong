@@ -1,6 +1,7 @@
 package protocole.game;
 
-import game.*;
+import game.Ball;
+import game.Game;
 import javafx.scene.paint.Color;
 
 abstract public class Item {

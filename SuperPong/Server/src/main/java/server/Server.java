@@ -23,7 +23,7 @@ public class Server {
     private int serverPort;
     private boolean shouldRun;
 
-    private ServerSocket serverSocket;
+    public ServerSocket serverSocket;
 
     /*
      * The server maintains a list of client workers, so that they can be notified

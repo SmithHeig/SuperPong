@@ -1,10 +1,10 @@
 package game;
 
-import protocole.game.Item;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
+import protocole.game.Item;
 import protocole.game.ItemEffects;
 
 
