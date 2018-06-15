@@ -25,36 +25,36 @@ public class Displayer {
 	}
 	
 	public void showMainMenu(){
-		changeMenu("/Menu/MainMenu.fxml");
+		changeMenu("/menu/MainMenu.fxml");
 	}
 	
 	public void showLocalMenu() {
-		changeMenu("/Menu/LocalMenu.fxml");
+		changeMenu("/menu/LocalMenu.fxml");
 	}
 	
 	public void showLoginMenu() {
-		changeMenu("/Menu/LoginMenu.fxml");
+		changeMenu("/menu/LoginMenu.fxml");
 	}
 	
 	public void showNetworkGameMenu(){
-		changeMenu("/Menu/NetworkGameMenu.fxml");
+		changeMenu("/menu/NetworkGameMenu.fxml");
 	}
 	
 	public void showNetworkGameMultiplayerMenu(){
-		changeMenu("/Menu/NetworkGameMultiplayerMenu.fxml");
+		changeMenu("/menu/NetworkGameMultiplayerMenu.fxml");
 	}
 	
 	public void showNetworkMultiplayerOneVSOneMenu(){
-		changeMenu("/Menu/NetworkGameOneVSOneMenu.fxml");
+		changeMenu("/menu/NetworkGameOneVSOneMenu.fxml");
 	}
 	
 	public void showNetworkMenu() {
-		changeMenu("/Menu/NetworkMenu.fxml");
+		changeMenu("/menu/NetworkMenu.fxml");
 	}
 
-	public void showStatsMenu() {changeMenu("/Menu/StatsMenu.fxml");}
+	public void showStatsMenu() {changeMenu("/menu/StatsMenu.fxml");}
 
-	public void showAdminZone() {changeMenu("/Menu/AdminMenu.fxml");}
+	public void showAdminZone() {changeMenu("/menu/AdminMenu.fxml");}
 	
 	private void changeMenu(String fxml){
 		try {
