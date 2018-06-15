@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<AnchorPane fx:id="networkGameOneVSOneMenu" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="menu.NetworkGameOneVSOneMenuController">
+   <children>
+      <Button fx:id="BackButton" cancelButton="true" mnemonicParsing="false" onAction="#goBackToMainMenu" text="Retour" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <VBox alignment="CENTER" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="120.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Button fx:id="OneVOneButton" mnemonicParsing="false" onAction="#playOneVOneClassique" prefWidth="350.0" text="1 VS 1 classique">
+               <font>
+                  <Font size="28.0" />
+               </font>
+            </Button>
+            <Button fx:id="OneVOneWithItemsButton" mnemonicParsing="false" onAction="#playOneVOneWithItems" prefWidth="350.0" text="1 VS 1 avec items">
+               <font>
+                  <Font size="28.0" />
+               </font>
+            </Button>
+            <Button fx:id="OneVOneFriendButton" disable="true" mnemonicParsing="false" onAction="#playOneVOneFriend" prefWidth="350.0" text="1 VS Ami classique">
+               <font>
+                  <Font size="28.0" />
+               </font>
+            </Button>
+            <Button fx:id="OneVOneFriendWithItemsButton" disable="true" mnemonicParsing="false" onAction="#playOneVOneFriendWithItems" prefWidth="350.0" text="1 VS Ami avec items">
+               <font>
+                  <Font size="28.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

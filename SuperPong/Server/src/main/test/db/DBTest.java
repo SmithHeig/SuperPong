@@ -78,7 +78,7 @@ class DBTest {
 	@Test
 	void isAdmin() {
 		assertTrue(DB.getInstance().isAdmin("james"));
-		assertFalse(DB.getInstance().isAdmin("antoine"));
+		assertFalse(DB.getInstance().isAdmin("eric"));
 	}
 	
 	@Test

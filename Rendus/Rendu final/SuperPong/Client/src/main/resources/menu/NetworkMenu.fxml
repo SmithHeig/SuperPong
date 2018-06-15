@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<AnchorPane fx:id="networkMenu" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="menu.NetworkMenuController">
+   <children>
+      <Button fx:id="DisconnectButton" cancelButton="true" mnemonicParsing="false" onAction="#disconnect" prefWidth="150.0" text="Déconnecter" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Button fx:id="buttonAdmin" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#goToAdminZone" prefWidth="150.0" text="Admin" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <VBox alignment="CENTER" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Button fx:id="GameNetworkMenuButton" mnemonicParsing="false" onAction="#goToGameNetworkMenu" prefWidth="300.0" text="Lancer une partie">
+               <font>
+                  <Font size="28.0" />
+               </font>
+            </Button>
+            <Button fx:id="FriendsButton" disable="true" mnemonicParsing="false" onAction="#goToFriendsMenu" prefWidth="300.0" text="Amis">
+               <font>
+                  <Font size="28.0" />
+               </font>
+            </Button>
+            <Button fx:id="StatButton" mnemonicParsing="false" onAction="#goToStatMenu" prefWidth="300.0" text="Statistiques">
+               <font>
+                  <Font size="28.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
