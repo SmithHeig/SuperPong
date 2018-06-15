@@ -2,8 +2,6 @@ package view;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
@@ -49,21 +47,13 @@ public class ItemView {
         root.getChildren().addAll(box);
         
         timeline = new Timeline();
-        KeyFrame keyFrame = new KeyFrame(Duration.millis(20), ev -> {
-            rotate();
-        });
+        KeyFrame keyFrame = new KeyFrame(Duration.millis(20), ev -> rotate());
         timeline.getKeyFrames().add(keyFrame);
 		timeline.setCycleCount(10000 / 20); // stop after 10 seconds
         timeline.play();
-        timeline.setOnFinished(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                deleteItem();
-            }
-        });
+        timeline.setOnFinished(event -> deleteItem());
     }
 
-    // TODO PRIVATE ?
     public synchronized void deleteItem(){
         if(box != null) {
             root.getChildren().remove(box);

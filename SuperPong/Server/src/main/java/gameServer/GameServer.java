@@ -41,7 +41,6 @@ public class GameServer implements Runnable, Game {
 	 * 		liste de joueur participant à cette partie.
 	 */
 	public GameServer(LinkedList<PlayerServer> players) {
-		// TODO : change id player
 		this.players = players;
 		notifyPlayersGameJoin();
 		field = new Field(players.size(), 1000, 600);
@@ -167,17 +166,15 @@ public class GameServer implements Runnable, Game {
 	
 	protected void notifyPlayersGameFinished() {
 		LinkedList<Player> _players = new LinkedList<>();
-		for (Player p : players) {
-			_players.add(p);
-		}
-		for (int i = 0; i < players.size(); ++i) {
+		_players.addAll(players);
+		for (PlayerServer player : players) {
 			ServerInfo serverInfo = new ServerInfo();
 			serverInfo.setPlayers(_players);
 			serverInfo.setBall(ball);
 			serverInfo.setFinised(true);
 			Protocole msg = new Protocole(SuperPongProtocole.CMD_PLAY, serverInfo);
 			
-			sendMessage(msg, players.get(i).getClientHandler().getWriter());
+			sendMessage(msg, player.getClientHandler().getWriter());
 		}
 		endGame();
 	}
@@ -187,9 +184,7 @@ public class GameServer implements Runnable, Game {
 	 */
 	protected synchronized void notifyPlayers() {
 		LinkedList<Player> _players = new LinkedList<>();
-		for (Player p : players) {
-			_players.add(p);
-		}
+		_players.addAll(players);
 		for (PlayerServer player : players) {
 			ServerInfo playerInfos = new ServerInfo();
 			playerInfos.setPlayers(_players);
@@ -201,17 +196,16 @@ public class GameServer implements Runnable, Game {
 	}
 	
 	protected synchronized void sendMessage(Protocole msg, PrintWriter writer) {
-		String msgJson = JsonMapper.getInstance().convertToString(msg);
+		String msgJson = JsonMapper.convertToString(msg);
 		LOG.log(Level.INFO, "SERVER: Send msg : " + msgJson);
 		writer.println(msgJson + "\n");
 		writer.flush();
 	}
 	
 	public synchronized void updateFromClient(Player updatePlayer) {
-		players.get(updatePlayer.getId()).update(updatePlayer); // TODO: Verifier que les joueurs sont trié par ID dans la linkedlist
+		players.get(updatePlayer.getId()).update(updatePlayer);
 	}
 	
-	// TODO A ENLEVER LORSQU'ON aura mieux géré les interfaces
 	@Override
 	public Ball getBall() {
 		return ball;
@@ -225,9 +219,7 @@ public class GameServer implements Runnable, Game {
 	@Override
 	public LinkedList<Player> getPlayers() {
 		LinkedList<Player> _players = new LinkedList<>();
-		for (Player p : players) {
-			_players.add(p);
-		}
+		_players.addAll(players);
 		return _players;
 	}
 }

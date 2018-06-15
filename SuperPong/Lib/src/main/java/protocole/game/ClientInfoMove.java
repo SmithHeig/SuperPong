@@ -2,9 +2,7 @@ package protocole.game;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import game.Ball;
 import game.Player;
-import game.Raquet;
 import protocole.data.IData;
 
 public class ClientInfoMove implements IData {

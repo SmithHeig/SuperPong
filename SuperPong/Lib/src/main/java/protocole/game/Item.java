@@ -1,6 +1,5 @@
 package protocole.game;
 
-import com.fasterxml.jackson.annotation.*;
 import game.*;
 import javafx.scene.paint.Color;
 
@@ -45,10 +44,8 @@ abstract public class Item {
 
 	public synchronized boolean isTouch(Ball ball){
 		if(ball != null) {
-			if (ball.getPositionX() >= positionX- 25 && ball.getPositionX() <= positionX + 50 &&
-					ball.getPositionY() >= positionY - 25 && ball.getPositionY() <= positionY + 50) {
-				return true;
-			}
+			return ball.getPositionX() >= positionX - 25 && ball.getPositionX() <= positionX + 50 &&
+					ball.getPositionY() >= positionY - 25 && ball.getPositionY() <= positionY + 50;
 		}
 		return false;
 	}

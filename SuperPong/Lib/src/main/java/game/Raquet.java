@@ -12,7 +12,7 @@ public class Raquet {
     
 
     /** CONSTANTE **/
-    protected static final double INIT_SIZE = 100; // TODO Voir si ca pose pas de problème avec serialization
+    protected static final double INIT_SIZE = 100;
     protected static final double INIT_THICKNESS = 10;
 
     /**

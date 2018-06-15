@@ -1,9 +1,7 @@
 package protocole.data.matchmaking;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import game.Player;
 import protocole.data.IData;
 
 public class InscriptionMatchmaking implements IData {

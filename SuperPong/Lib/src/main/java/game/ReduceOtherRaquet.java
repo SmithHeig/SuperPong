@@ -31,13 +31,11 @@ public class ReduceOtherRaquet extends Item{
 	
 	public void execute(Game game) {
 		//EXECUTION
-		playerActif = game.getPlayers().get(1 - game.getPlayerLastTouch().getId()); // TODO Fonction que pour 1v1
+		playerActif = game.getPlayers().get(1 - game.getPlayerLastTouch().getId());
 		playerActif.getRaquet().setSize(playerActif.getRaquet().getSize() - DECREASE_SIZE);
 
 
-		KeyFrame keyFrame = new KeyFrame(Duration.millis(duration), ev -> {
-			restore(game);
-		});
+		KeyFrame keyFrame = new KeyFrame(Duration.millis(duration), ev -> restore(game));
 		timeline.getKeyFrames().add(keyFrame);
 		timeline.setCycleCount(1);
 		timeline.play();

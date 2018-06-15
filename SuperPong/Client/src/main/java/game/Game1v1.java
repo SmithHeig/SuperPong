@@ -3,20 +3,17 @@ package game;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import main.Displayer;
-import protocole.game.Item;
 import view.BallView;
 import view.FieldView;
 import view.RaquetView;
@@ -36,8 +33,6 @@ public class Game1v1 implements Game {
 	protected LinkedList<RaquetView> raquetViews;
 	protected double yplayer;
 	protected FieldView field = new FieldView(1000, 600);
-	private Item item;
-	
 	protected Pane root;
 	
 	protected Timeline timeline;
@@ -52,26 +47,19 @@ public class Game1v1 implements Game {
 		raquetViews.add(raquetView2);
 	}
 	
-	public void run(Stage primaryStage) throws Exception {
+	public void run(Stage primaryStage) {
 		Displayer.getInstance().setTitle("Game1v1");
 		Displayer.getInstance().setScene(new Scene(createContent()));
 		
 		primaryStage.show();
-		root.setOnMouseMoved(new EventHandler<MouseEvent>() {
-			public void handle(MouseEvent me) {
-				yplayer = me.getY();
-			}
-		});
+		root.setOnMouseMoved(me -> yplayer = me.getY());
 		
 		timeline = new Timeline();
-		KeyFrame keyFrame = new KeyFrame(Duration.millis(20), ev -> {
-			gameUpdate();
-		});
+		KeyFrame keyFrame = new KeyFrame(Duration.millis(20), ev -> gameUpdate());
 		timeline.getKeyFrames().add(keyFrame);
 		timeline.setCycleCount(Animation.INDEFINITE);
 		timeline.play();
 	}
-	
 	
 	protected Parent createContent() {
 		root = field.printField();
@@ -183,7 +171,7 @@ public class Game1v1 implements Game {
 				raquetView2.update();
 			}
 		}
-
+		
 		//player
 		if (player1.getRaquet().getPosition() + 30 > yplayer) {
 			if (player1.getRaquet().getPosition() > 0) {
@@ -199,14 +187,12 @@ public class Game1v1 implements Game {
 		}
 	}
 	
-	// TODO WRONG WINNER
 	protected void showWinner(Player winner) {
 		timeline.stop();
 		Displayer.getInstance().showLocalMenu();
 		Alert alert = new Alert(Alert.AlertType.NONE);
 		alert.setTitle("Fin de la partie");
 		alert.setHeaderText(winner.getUsername() + " a gagné!");
-		// TODO à rendre plus générique et peu etre déplacer (super classse?)
 		alert.setContentText(player1.getUsername() + ": " + player1.getPoints() + "\n" +
 				player2.getUsername() + ": " + player2.getPoints() + "\n");
 		ButtonType buttonTypeOne = new ButtonType("Retour au menu"); // ajoute un bouton "Rejouer" à la boite de dialogue

@@ -8,12 +8,6 @@ import server.ClientHandler;
 public class PlayerServer extends Player {
     private ClientHandler clientHandler;
 
-    // TODO a changé Po Bo
-    public PlayerServer(String username, int points, double position, ClientHandler clientHandler) {
-        super(username);
-        this.clientHandler = clientHandler;
-    }
-
     public PlayerServer(Player player, ClientHandler clientHandler){
         super(player);
         this.clientHandler = clientHandler;

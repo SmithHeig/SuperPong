@@ -3,13 +3,11 @@ package game;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -26,7 +24,7 @@ import java.util.LinkedList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Game1v1Network implements Game{
+public class Game1v1Network implements Game {
 	
 	protected BallView ball;
 	protected LinkedList<Player> players;
@@ -37,26 +35,22 @@ public class Game1v1Network implements Game{
 	protected double yplayer;
 
 	protected Pane root;
-	protected FieldView field = new FieldView(1000,600);
+	protected FieldView field = new FieldView(1000, 600);
 
 	
 	public Game1v1Network(LinkedList<Player> _players, int myselfID) {
 		this.myselfID = myselfID;
 		players = _players;
 		raquetViews = new LinkedList<>();
-		raquetViews.add(new RaquetView(players.get(0).getRaquet(),0));
-		raquetViews.add(new RaquetView(players.get(1).getRaquet(),field.getWidth() - players.get(1).getRaquet().getInitThickness()));
+		raquetViews.add(new RaquetView(players.get(0).getRaquet(), 0));
+		raquetViews.add(new RaquetView(players.get(1).getRaquet(), field.getWidth() - Raquet.getInitThickness()));
 	}
 	
-	public void run(Stage primaryStage) throws Exception {
+	public void run(Stage primaryStage) {
 		Displayer.getInstance().setTitle("Game1v1");
 		Displayer.getInstance().setScene(new Scene(createContent()));
 
-		root.setOnMouseMoved(new EventHandler<MouseEvent>() {
-			public void handle(MouseEvent me) {
-				yplayer = me.getY();
-			}
-		});
+		root.setOnMouseMoved(me -> yplayer = me.getY());
 	}
 	
 	
@@ -77,11 +71,10 @@ public class Game1v1Network implements Game{
 		player2Score.setLayoutX(field.getWidth() - 200);
 		player2Score.setLayoutY(50);
 
-		for(RaquetView raquetView: raquetViews) {
+		for (RaquetView raquetView : raquetViews) {
 			root.getChildren().add(raquetView.getView());
 		}
 
-		// TODO faire que les scores soit générique pour plus que 2 joueurs
 		root.getChildren().addAll(ball.getBall(), player1Score, player2Score);
 		
 		Timer time = new Timer();
@@ -97,19 +90,19 @@ public class Game1v1Network implements Game{
 		KeyFrame keyFrame = new KeyFrame(Duration.millis(100), ev -> {
 			ServerInfo serverInfo = ServerManager.getInstance().receivedGameInfos();
 
-            ball.update(serverInfo.getBall());
+			ball.update(serverInfo.getBall());
 
-            for(int i = 0 ; i < serverInfo.getPlayers().size(); ++i){
-                if(i != myselfID) {
-                    players.get(i).update(serverInfo.getPlayers().get(i));
-                    raquetViews.get(i).update();
-                } else {
-                    players.get(i).softUpdate(serverInfo.getPlayers().get(i));
-                }
-            }
-            player1Score.setText(String.valueOf(serverInfo.getPlayers().get(0).getPoints()));
-            player2Score.setText(String.valueOf(serverInfo.getPlayers().get(1).getPoints()));
-            if(serverInfo.isFinised()) {
+			for (int i = 0; i < serverInfo.getPlayers().size(); ++i) {
+				if (i != myselfID) {
+					players.get(i).update(serverInfo.getPlayers().get(i));
+					raquetViews.get(i).update();
+				} else {
+					players.get(i).softUpdate(serverInfo.getPlayers().get(i));
+				}
+			}
+			player1Score.setText(String.valueOf(serverInfo.getPlayers().get(0).getPoints()));
+			player2Score.setText(String.valueOf(serverInfo.getPlayers().get(1).getPoints()));
+			if (serverInfo.isFinised()) {
 
 				timeline.stop();
 				time.cancel();
@@ -152,30 +145,29 @@ public class Game1v1Network implements Game{
 		}
 	}
 
-	private void showWinner(Player winner){
+	private void showWinner(Player winner) {
 		Displayer.getInstance().showNetworkMultiplayerOneVSOneMenu();
 		Alert alert = new Alert(Alert.AlertType.NONE);
 		alert.setTitle("Fin de la partie");
 		alert.setHeaderText(winner.getUsername() + " a gagné!");
-		// TODO à rendre plus générique et peu etre déplacer (super classse?)
 		alert.setContentText(players.get(winner.getId()).getUsername() + ": " + players.get(winner.getId()).getPoints() + "\n" +
-				players.get(1-winner.getId()).getUsername() + ": " + players.get(1-winner.getId()).getPoints() + "\n");
+				players.get(1 - winner.getId()).getUsername() + ": " + players.get(1 - winner.getId()).getPoints() + "\n");
 		ButtonType buttonTypeOne = new ButtonType("Retour au menu"); // ajoute un bouton "Rejouer" à la boite de dialogue
 		alert.getButtonTypes().add(buttonTypeOne);
 		alert.show();
 	}
 
-    @Override
-    public Ball getBall() {
-        return null;
-    }
+	@Override
+	public Ball getBall() {
+		return null;
+	}
 
-    @Override
-    public Player getPlayerLastTouch() {
-        return null;
-    }
+	@Override
+	public Player getPlayerLastTouch() {
+		return null;
+	}
 
-    public LinkedList<Player> getPlayers(){
-        return players;
-    }
+	public LinkedList<Player> getPlayers() {
+		return players;
+	}
 }

@@ -2,8 +2,6 @@ package protocole.game;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import javafx.scene.paint.Color;
-import protocole.game.ItemEffects;
 
 public class ItemProtocole{
     protected double positionX;

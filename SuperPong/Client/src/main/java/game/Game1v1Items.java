@@ -5,7 +5,6 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 import protocole.game.Item;
-import view.GameView;
 import view.ItemView;
 import view.RaquetView;
 

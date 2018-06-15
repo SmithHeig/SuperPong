@@ -15,7 +15,7 @@ import java.util.TimerTask;
 public class GameServerItems extends GameServer {
     private Item item;
     private Timer createItemTimer;
-    private boolean isNewItems; //TODO mettre dans item
+    private boolean isNewItems;
     private boolean isTouch;
     /**
      * Contructeur
@@ -57,9 +57,7 @@ public class GameServerItems extends GameServer {
 
     protected synchronized void notifyPlayers() {
         LinkedList<Player> _players = new LinkedList<>();
-        for (Player p : players) {
-            _players.add(p);
-        }
+        _players.addAll(players);
         for (PlayerServer player : players) {
             ServerInfo playerInfos = new ServerInfo();
             playerInfos.setPlayers(_players);

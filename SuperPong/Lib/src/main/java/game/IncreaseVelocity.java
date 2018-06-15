@@ -24,14 +24,11 @@ public class IncreaseVelocity extends Item {
 		name = ItemEffects.INCREASE_SPEED_BALL;
 	}
 
-	//TODO Devrait prendre des GameItems
 	public void execute(Game game){
 		//EXECUTION
 		game.getBall().setVelocity(game.getBall().getVelocity() + INCREASE_VELOCITY);
 
-		KeyFrame keyFrame = new KeyFrame(Duration.millis(duration), ev -> {
-			restore(game);
-		});
+		KeyFrame keyFrame = new KeyFrame(Duration.millis(duration), ev -> restore(game));
 		timeline.getKeyFrames().add(keyFrame);
 		timeline.setCycleCount(1);
 		timeline.play();

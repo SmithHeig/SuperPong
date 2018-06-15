@@ -8,8 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import main.Displayer;
 
-import java.io.IOException;
-
 public class LocalMenuController {
 
     @FXML

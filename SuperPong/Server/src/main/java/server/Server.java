@@ -29,7 +29,7 @@ public class Server {
      * The server maintains a list of client workers, so that they can be notified
      * when the server shuts down
      */
-    List<ClientWorker> clientWorkers = new CopyOnWriteArrayList();
+    private List<ClientWorker> clientWorkers = new CopyOnWriteArrayList();
 
     public Server() {
         initServer();
@@ -37,7 +37,7 @@ public class Server {
 
     private void initServer(){
         try {
-            /** Récupération du fichier contenant les configuration server **/
+            // Récupération du fichier contenant les configuration server
             InputStream inputStream = getClass().getClassLoader().getResourceAsStream("config/configServer.properties");
 
             Properties properties = new Properties();
@@ -55,7 +55,7 @@ public class Server {
 
     public void start(){
         try {
-            if (serverSocket == null|| serverSocket.isBound() == false) {
+            if (serverSocket == null|| !serverSocket.isBound()) {
                 serverSocket = new ServerSocket();
                 serverSocket.bind(new InetSocketAddress(serverPort));
             } else {
@@ -64,25 +64,22 @@ public class Server {
 
             LOG.log(Level.INFO, "Starting Server on port " + serverPort);
 
-            Thread serverThread = new Thread(new Runnable() {
+            Thread serverThread = new Thread(() -> {
+                shouldRun = true;
+                while (shouldRun) {
+                    try {
+                        Socket clientSocket = serverSocket.accept();
 
-                public void run() {
-                    shouldRun = true;
-                    while (shouldRun) {
-                        try {
-                            Socket clientSocket = serverSocket.accept();
+                        LOG.info("New client has arrived...");
+                        ClientWorker worker = new ClientWorker(clientSocket, getClientHandler(), Server.this);
+                        clientWorkers.add(worker);
 
-                            LOG.info("New client has arrived...");
-                            ClientWorker worker = new ClientWorker(clientSocket, getClientHandler(), Server.this);
-                            clientWorkers.add(worker);
-
-                            LOG.info("Delegating work to client worker...");
-                            Thread clientThread = new Thread(worker);
-                            clientThread.start();
-                        } catch (IOException ex) {
-                            LOG.log(Level.SEVERE, "IOException in main server thread, exit: {0}", ex.getMessage());
-                            shouldRun = false;
-                        }
+                        LOG.info("Delegating work to client worker...");
+                        Thread clientThread = new Thread(worker);
+                        clientThread.start();
+                    } catch (IOException ex) {
+                        LOG.log(Level.SEVERE, "IOException in main server thread, exit: {0}", ex.getMessage());
+                        shouldRun = false;
                     }
                 }
             });
