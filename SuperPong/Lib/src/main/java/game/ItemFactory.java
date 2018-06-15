@@ -18,7 +18,7 @@ public class ItemFactory {
 	
 
 	public static Item generateItem(int fieldWidht, int fieldHeight) {
-		int rand = random.nextInt(3) ; // TODO changer le 3 par le nombre d'item (constante ?)
+		int rand = random.nextInt(3) ;
 		Items item = Items.values()[rand];
 		int positionX = random.nextInt(fieldWidht);
 		int positionY = random.nextInt(fieldHeight);
