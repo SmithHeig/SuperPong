@@ -22,3 +22,7 @@ SuperPong/Client/src/main/resources/config/configServer\.properties
 ~\$nuelUtilisateur\.docx
 
 SuperPong/\.idea/
+
+SuperPong/Client/Client \(1\)\.iml
+
+SuperPong/Server/Server \(1\)\.iml

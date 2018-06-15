@@ -47,9 +47,7 @@ public class ItemView {
         box.getTransforms().addAll(rxBox, ryBox, rzBox);
 
         root.getChildren().addAll(box);
-
-
-
+        
         timeline = new Timeline();
         KeyFrame keyFrame = new KeyFrame(Duration.millis(20), ev -> {
             rotate();
