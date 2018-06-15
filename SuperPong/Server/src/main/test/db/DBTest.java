@@ -18,30 +18,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class DBTest {
 	static int count = 0;
 	
-	private static String url;
-	private static String DBusername;
-	private static String DBpassword;
+	private static String url =  "jdbc:mysql://localhost:3306/SuperPong?useLegacyDatetimeCode=false&serverTimezone=UTC";
+	private static String DBusername = "root";
+	private static String DBpassword = "root";
 	private static Connection con;
-	
-	@BeforeAll
-	static void configure() {
-		try {
-			Properties properties = new Properties();
-			/* ATTRIBUTS */
-			InputStream in = DBTest.class.getClassLoader().getResourceAsStream("/resources/config/configServer.properties");
-			properties.load(in);
-			url = "jdbc:mysql://localhost:3306/" + properties.getProperty("DBName") ;
-			DBusername = properties.getProperty("DBusername");
-			DBpassword = properties.getProperty("DBpassword");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		try {
-			con = DriverManager.getConnection(url, DBusername, DBpassword);
-		} catch (SQLException e) {
-			System.out.println("Error with connection to sql server with exception: " + e.getMessage());
-		}
-	}
 	
 	
 	@BeforeEach

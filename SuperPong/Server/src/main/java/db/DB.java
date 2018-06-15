@@ -16,23 +16,13 @@ public class DB {
 	/* INSTANCE */
 	private final static DB instance = new DB();
 	
-	private String url;
-	private String DBusername;
-	private String DBpassword;
+	private String url = "jdbc:mysql://localhost:3306/SuperPong?useLegacyDatetimeCode=false&serverTimezone=UTC";
+	private String DBusername = "root";
+	private String DBpassword = "root";
 	private Connection con;
 	
 	private DB() {
-		try {
-			Properties properties = new Properties();
-			/* ATTRIBUTS */
-			InputStream in = getClass().getClassLoader().getResourceAsStream("config/configServer.properties");
-			properties.load(in);
-			url = "jdbc:mysql://localhost:3306/" + properties.getProperty("DBName") + "?useLegacyDatetimeCode=false&serverTimezone=UTC";
-			DBusername = properties.getProperty("DBusername");
-			DBpassword = properties.getProperty("DBpassword");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		
 		connection();
 	}
 	
