@@ -19,6 +19,7 @@ Docker/server-image/src/
 
 SuperPong/Client/src/main/resources/config/configServer\.properties
 
+<<<<<<< testMaven
 ~\$nuelUtilisateur\.docx
 
 SuperPong/\.idea/
@@ -26,3 +27,6 @@ SuperPong/\.idea/
 SuperPong/Client/Client \(1\)\.iml
 
 SuperPong/Server/Server \(1\)\.iml
+=======
+SuperPong/\.idea/
+>>>>>>> Merge remote-tracking branch 'origin/master' into testMaven
