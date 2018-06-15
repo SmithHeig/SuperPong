@@ -1,4 +1,4 @@
-package Menu;
+package menu;
 
 import game.Game1v1;
 import game.Game1v1Items;

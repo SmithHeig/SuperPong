@@ -1,4 +1,4 @@
-package Menu;
+package menu;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

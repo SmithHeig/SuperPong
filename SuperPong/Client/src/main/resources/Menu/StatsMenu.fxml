@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxWidth="600.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Menu.StatsMenuController">
+<AnchorPane maxWidth="600.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="menu.StatsMenuController">
    <children>
       <Button fx:id="BackButton" cancelButton="true" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#goBackToNetworkMenu" text="Retour">
          <font>

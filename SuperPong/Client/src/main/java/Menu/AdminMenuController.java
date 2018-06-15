@@ -1,4 +1,4 @@
-package Menu;
+package menu;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

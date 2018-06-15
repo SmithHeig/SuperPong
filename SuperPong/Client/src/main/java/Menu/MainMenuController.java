@@ -1,4 +1,4 @@
-package Menu;
+package menu;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

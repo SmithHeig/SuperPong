@@ -91,7 +91,7 @@ public class Server {
         }
     }
 
-    private IClientHandler getClientHandler(){
+    public IClientHandler getClientHandler(){
         return new ClientHandler();
     }
 

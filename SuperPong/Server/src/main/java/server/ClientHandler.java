@@ -161,7 +161,7 @@ public class ClientHandler implements IClientHandler {
 		this.game = game;
 	}
 	
-	private void sendToClient(Protocole msg) {
+	public void sendToClient(Protocole msg) {
 		String msgJson = JsonMapper.convertToString(msg);
 		LOG.log(Level.INFO, "SERVER: Send msg : " + msgJson);
 		writer.println(msgJson + "\n");
