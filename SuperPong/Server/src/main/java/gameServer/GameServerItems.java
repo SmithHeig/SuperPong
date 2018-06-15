@@ -66,19 +66,18 @@ public class GameServerItems extends GameServer {
             playerInfos.setBall(ball);
             playerInfos.setFinised(false);
             System.out.println(isNewItems);
-            playerInfos.setNewItem(isNewItems);
             if(item != null){
                 ItemProtocole itemProtocole = new ItemProtocole(item.getPositionX(),item.getPositionY(), item.getDuration(), item.getName());
                 playerInfos.setItem(itemProtocole);
-                isNewItems = false;
             }
 
             playerInfos.setTouch(isTouch);
-            isTouch = false;
 
             System.out.println(playerInfos.getItem() + " " + item);
             Protocole msg = new Protocole(SuperPongProtocole.CMD_PLAY, playerInfos);
             sendMessage(msg, player.getClientHandler().getWriter());
         }
+        isTouch = false;
+        isNewItems = false;
     }
 }
