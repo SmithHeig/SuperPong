@@ -16,6 +16,7 @@ public class GameServerItems extends GameServer {
     private Item item;
     private Timer createItemTimer;
     private boolean isNewItems; //TODO mettre dans item
+    private boolean isTouch;
     /**
      * Contructeur
      *
@@ -28,9 +29,10 @@ public class GameServerItems extends GameServer {
         TimerTask timerTask1 = new TimerTask() {
             @Override
             public void run() {
+                isNewItems = true;
+                isTouch = false;
                 item = ItemFactory.generateItem((int) field.getWidth(), (int) field.getHeight());
                 System.out.println("item " + item);
-                isNewItems = true;
             }
         };
         createItemTimer.scheduleAtFixedRate(timerTask1, 10000, 10000);
@@ -47,6 +49,8 @@ public class GameServerItems extends GameServer {
         if(item != null) {
             if (item.isTouch(ball)) {
                 item.execute(this);
+                item = null;
+                isTouch = true;
             }
         }
     }
@@ -61,12 +65,16 @@ public class GameServerItems extends GameServer {
             playerInfos.setPlayers(_players);
             playerInfos.setBall(ball);
             playerInfos.setFinised(false);
+            System.out.println(isNewItems);
             playerInfos.setNewItem(isNewItems);
             if(item != null){
                 ItemProtocole itemProtocole = new ItemProtocole(item.getPositionX(),item.getPositionY(), item.getDuration(), item.getName());
                 playerInfos.setItem(itemProtocole);
                 isNewItems = false;
             }
+
+            playerInfos.setTouch(isTouch);
+            isTouch = false;
 
             System.out.println(playerInfos.getItem() + " " + item);
             Protocole msg = new Protocole(SuperPongProtocole.CMD_PLAY, playerInfos);

@@ -89,8 +89,10 @@ public class Game1v1NetworkItems extends Game1v1Network {
                 item = ItemFactory.getItem(itemProtocole);
                 itemView = new ItemView(item, root);
             } else {
-                item = null;
-                itemView = null;
+                if(serverInfo.isTouch() && itemView != null) {
+                    itemView.deleteItem();
+                    itemView = null;
+                }
             }
             for(int i = 0 ; i < serverInfo.getPlayers().size(); ++i){
                 if(i != myselfID) {
@@ -98,6 +100,7 @@ public class Game1v1NetworkItems extends Game1v1Network {
                     raquetViews.get(i).update();
                 } else {
                     players.get(i).softUpdate(serverInfo.getPlayers().get(i));
+                    raquetViews.get(i);
                 }
             }
             player1Score.setText(String.valueOf(serverInfo.getPlayers().get(0).getPoints()));

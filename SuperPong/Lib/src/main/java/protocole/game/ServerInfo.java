@@ -12,6 +12,7 @@ public class ServerInfo implements IData {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     ItemProtocole item = null;
     boolean isNewItem = false;
+    boolean isTouch = false;
     LinkedList<Player> players;
     Ball ball;
     Boolean isFinised;
@@ -40,6 +41,9 @@ public class ServerInfo implements IData {
         return isNewItem;
     }
 
+    @JsonProperty("isTouch")
+    public boolean isTouch(){return isTouch;}
+
     @JsonProperty(value="isFinished")
     public Boolean isFinised() {
         return isFinised;
@@ -61,6 +65,8 @@ public class ServerInfo implements IData {
     }
 
     public void setItem(ItemProtocole item){this.item = item;}
+
+    public void setTouch(boolean isTouch){this.isTouch = isTouch;}
 
     public void setNewItem(boolean newItem) {
         isNewItem = newItem;
